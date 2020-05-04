@@ -1,5 +1,6 @@
 package com.example.weatherbyvolkoks;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView clickingOnCityView;
     private TextView temperatureView;
     private ImageButton buttonToSetting;
+
+
     private final static int REQUEST_CODE = 1;
 
     @Override
@@ -87,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     private void clickToButtonSetting() {
-
             buttonToSetting.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -106,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE) {
             Parcel parcel = (Parcel) data.getSerializableExtra("parcel");
             clickingOnCityView.setText(parcel.cityName);
-            temperatureView.setText(parcel.temperatureValue);
         }
 
     }

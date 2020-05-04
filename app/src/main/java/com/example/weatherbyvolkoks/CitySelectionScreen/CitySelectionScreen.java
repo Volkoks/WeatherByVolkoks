@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toolbar;
+
 import com.example.weatherbyvolkoks.Constants;
 import com.example.weatherbyvolkoks.Parcel;
 import com.example.weatherbyvolkoks.R;
@@ -22,7 +24,9 @@ public class CitySelectionScreen extends AppCompatActivity implements Constants 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.city_selection_screen);
 
-        btnChooseCityAndTemperature = findViewById(R.id.button_choose_a_city_and_temperature);
+
+
+        btnChooseCityAndTemperature = findViewById(R.id.floatingActionButtonAddCity);
         enterCitySelection = findViewById(R.id.enter_city_selection);
         enterTemperatureSelection = findViewById(R.id.enter_temperature_selection);
         clickToBtnBack();
@@ -30,10 +34,10 @@ public class CitySelectionScreen extends AppCompatActivity implements Constants 
 
     }
 
+
     private Parcel createParcel(){
         Parcel parcel = new Parcel();
         parcel.cityName = enterCitySelection.getText().toString();
-        parcel.temperatureValue = enterTemperatureSelection.getText().toString();
         return parcel;
     }
 
