@@ -19,6 +19,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".CitySelectionScreen.CitySelectionScreen">
+
+        </activity>
+        <activity android:name=".SettingScreen.ScreenSetting">
+
+        </activity>
     </application>
 
 </manifest>

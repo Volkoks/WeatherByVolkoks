@@ -1,13 +1,28 @@
 package com.example.weatherbyvolkoks;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
+import com.example.weatherbyvolkoks.CitySelectionScreen.CitySelectionScreen;
+import com.example.weatherbyvolkoks.SettingScreen.ScreenSetting;
+import com.example.weatherbyvolkoks.SocSourceBuilder.SocSourceBuilder;
+import com.example.weatherbyvolkoks.SocSourceBuilder.SocialDataSource;
 
 public class MainActivity extends AppCompatActivity {
+    private TextView clickingOnCityView;
+    private TextView temperatureView;
+    private ImageButton buttonToSetting;
+    private final static int REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +31,15 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        SocialDataSource sourceData = new SocSourceBuilder().setResources(getResources()).build();
+
+        clickingOnCityView = findViewById(R.id.City);
+        temperatureView = findViewById(R.id.Temperature);
+        buttonToSetting = findViewById(R.id.button_to_setting);
+
+        clickToButtonSetting();
+        clickToTextCity();
+        initRecyclerView(sourceData);
 
     }
 
@@ -39,5 +63,51 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    private void initRecyclerView(SocialDataSource data) {
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+
+        WeatherAdapter adapter = new WeatherAdapter(data);
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void clickToTextCity() {
+            clickingOnCityView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), CitySelectionScreen.class);
+                    startActivityForResult(intent, REQUEST_CODE);
+                }
+            });
+        }
+
+    private void clickToButtonSetting() {
+
+            buttonToSetting.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), ScreenSetting.class);
+                    startActivity(intent);
+                }
+            });
+        }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null || requestCode != REQUEST_CODE) {
+            return;
+        }
+        if (requestCode == REQUEST_CODE) {
+            Parcel parcel = (Parcel) data.getSerializableExtra("parcel");
+            clickingOnCityView.setText(parcel.cityName);
+            temperatureView.setText(parcel.temperatureValue);
+        }
+
     }
 }
