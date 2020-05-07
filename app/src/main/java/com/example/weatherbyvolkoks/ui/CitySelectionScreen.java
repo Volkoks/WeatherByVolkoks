@@ -28,16 +28,12 @@ public class CitySelectionScreen extends AppCompatActivity implements Constants 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.city_selection_screen);
 
-
-        textInputLayout = findViewById(R.id.textInputLayout);
+        textInputLayout = findViewById(R.id.textInputCitySelection);
         btnChooseCityAndTemperature = findViewById(R.id.button_choose_a_city_and_temperature);
         enterCitySelection = findViewById(R.id.enter_city_selection);
         validateCity();
         clickToBtnBack();
         clickToBtnChooseCityAndTemperature();
-
-
-
 
     }
 
