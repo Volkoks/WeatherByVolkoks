@@ -22,7 +22,7 @@
         <activity android:name=".ui.CitySelectionScreen">
 
         </activity>
-        <activity android:name=".SettingScreen.ScreenSetting">
+        <activity android:name=".ui.ScreenSetting">
 
         </activity>
     </application>

@@ -21,7 +21,6 @@ import com.example.weatherbyvolkoks.data.SocialDataSource;
 public class MainActivity extends AppCompatActivity {
     private TextView clickingOnCityView;
     private TextView temperatureView;
-    private ImageButton buttonToSetting;
 
 
     private final static int REQUEST_CODE = 1;
@@ -37,9 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         clickingOnCityView = findViewById(R.id.City);
         temperatureView = findViewById(R.id.Temperature);
-        buttonToSetting = findViewById(R.id.button_to_setting);
 
-        clickToButtonSetting();
         clickToTextCity();
         initRecyclerView(sourceData);
 
@@ -61,7 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            Intent intent = new Intent(getApplicationContext(), ScreenSetting.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -84,16 +82,6 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), CitySelectionScreen.class);
                     startActivityForResult(intent, REQUEST_CODE);
-                }
-            });
-        }
-
-    private void clickToButtonSetting() {
-            buttonToSetting.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), ScreenSetting.class);
-                    startActivity(intent);
                 }
             });
         }
