@@ -1,4 +1,4 @@
-package com.example.weatherbyvolkoks.CitySelectionScreen;
+package com.example.weatherbyvolkoks.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toolbar;
 
 import com.example.weatherbyvolkoks.Constants;
 import com.example.weatherbyvolkoks.Parcel;
@@ -16,7 +15,6 @@ import com.example.weatherbyvolkoks.R;
 public class CitySelectionScreen extends AppCompatActivity implements Constants {
 
     private EditText enterCitySelection;
-    private EditText enterTemperatureSelection;
     private Button btnChooseCityAndTemperature;
 
     @Override
@@ -26,9 +24,8 @@ public class CitySelectionScreen extends AppCompatActivity implements Constants 
 
 
 
-        btnChooseCityAndTemperature = findViewById(R.id.floatingActionButtonAddCity);
+        btnChooseCityAndTemperature = findViewById(R.id.button_choose_a_city_and_temperature);
         enterCitySelection = findViewById(R.id.enter_city_selection);
-        enterTemperatureSelection = findViewById(R.id.enter_temperature_selection);
         clickToBtnBack();
         clickToBtnChooseCityAndTemperature();
 

@@ -1,9 +1,10 @@
-package com.example.weatherbyvolkoks.SettingScreen;
+package com.example.weatherbyvolkoks.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
+
 import com.example.weatherbyvolkoks.R;
 
 public class ScreenSetting extends AppCompatActivity {

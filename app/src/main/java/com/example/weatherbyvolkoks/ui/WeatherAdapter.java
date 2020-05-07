@@ -1,4 +1,4 @@
-package com.example.weatherbyvolkoks;
+package com.example.weatherbyvolkoks.ui;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,8 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.example.weatherbyvolkoks.SocSourceBuilder.Soc;
-import com.example.weatherbyvolkoks.SocSourceBuilder.SocialDataSource;
+import com.example.weatherbyvolkoks.R;
+import com.example.weatherbyvolkoks.data.Soc;
+import com.example.weatherbyvolkoks.data.SocialDataSource;
 
 public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHolder> {
     private SocialDataSource dataSource;

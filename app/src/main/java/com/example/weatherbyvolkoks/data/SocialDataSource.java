@@ -1,4 +1,4 @@
-package com.example.weatherbyvolkoks.SocSourceBuilder;
+package com.example.weatherbyvolkoks.data;
 
 public interface SocialDataSource {
     Soc getSoc(int position);

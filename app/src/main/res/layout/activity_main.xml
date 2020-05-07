@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -76,7 +76,7 @@
             android:id="@+id/imageView"
             android:layout_width="190dp"
             android:layout_height="177dp"
-            android:layout_marginStart="110dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="150dp"
             android:layout_marginEnd="111dp"
             android:layout_marginBottom="144dp"
@@ -84,7 +84,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_wb_sunny_black_24dp" />
+            app:srcCompat="@drawable/fewclouds" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"

@@ -1,6 +1,5 @@
-package com.example.weatherbyvolkoks;
+package com.example.weatherbyvolkoks.ui;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,10 +13,10 @@ import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.weatherbyvolkoks.CitySelectionScreen.CitySelectionScreen;
-import com.example.weatherbyvolkoks.SettingScreen.ScreenSetting;
-import com.example.weatherbyvolkoks.SocSourceBuilder.SocSourceBuilder;
-import com.example.weatherbyvolkoks.SocSourceBuilder.SocialDataSource;
+import com.example.weatherbyvolkoks.Parcel;
+import com.example.weatherbyvolkoks.R;
+import com.example.weatherbyvolkoks.data.SocSourceBuilder;
+import com.example.weatherbyvolkoks.data.SocialDataSource;
 
 public class MainActivity extends AppCompatActivity {
     private TextView clickingOnCityView;

@@ -1,4 +1,4 @@
-package com.example.weatherbyvolkoks.SocSourceBuilder;
+package com.example.weatherbyvolkoks.data;
 
 import android.content.res.Resources;
 import android.content.res.TypedArray;
