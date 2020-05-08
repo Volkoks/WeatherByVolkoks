@@ -13,7 +13,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (isDarkTheme()){
-            setTheme(R.style.DarkTheme);
+            setTheme(R.style.AppDarkTheme);
         }else {
             setTheme(R.style.AppTheme);
         }
