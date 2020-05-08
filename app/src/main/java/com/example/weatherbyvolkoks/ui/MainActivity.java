@@ -60,9 +60,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:
                 Intent intent = new Intent(getApplicationContext(), ScreenSetting.class);
                 startActivity(intent);
+                break;
             case R.id.enter_city_selection2:
                 Intent intent2 = new Intent(getApplicationContext(), CitySelectionScreen.class);
                 startActivityForResult(intent2, REQUEST_CODE);
+                break;
         }
 
         return super.onOptionsItemSelected(item);
