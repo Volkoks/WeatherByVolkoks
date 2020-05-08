@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         clickingOnCityView = findViewById(R.id.City);
         temperatureView = findViewById(R.id.Temperature);
 
-        clickToTextCity();
         initRecyclerView(sourceData);
 
     }
@@ -57,9 +56,13 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(getApplicationContext(), ScreenSetting.class);
-            startActivity(intent);
+        switch (id){
+            case R.id.action_settings:
+                Intent intent = new Intent(getApplicationContext(), ScreenSetting.class);
+                startActivity(intent);
+            case R.id.enter_city_selection2:
+                Intent intent2 = new Intent(getApplicationContext(), CitySelectionScreen.class);
+                startActivityForResult(intent2, REQUEST_CODE);
         }
 
         return super.onOptionsItemSelected(item);
@@ -75,16 +78,6 @@ public class MainActivity extends AppCompatActivity {
         WeatherAdapter adapter = new WeatherAdapter(data);
         recyclerView.setAdapter(adapter);
     }
-
-    private void clickToTextCity() {
-            clickingOnCityView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), CitySelectionScreen.class);
-                    startActivityForResult(intent, REQUEST_CODE);
-                }
-            });
-        }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

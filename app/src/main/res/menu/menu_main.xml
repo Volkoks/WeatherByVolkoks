@@ -7,4 +7,10 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+    <item
+        android:icon="@drawable/ic_location_city_black_24dp"
+        android:id="@+id/enter_city_selection2"
+        android:orderInCategory="100"
+        android:title="@string/choose_a_city_tool_bar"
+        app:showAsAction="ifRoom"/>
 </menu>
