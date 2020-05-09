@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
@@ -22,8 +20,6 @@ import com.example.weatherbyvolkoks.data.SocialDataSource;
 
 public class MainActivity extends BaseActivity {
     private TextView clickingOnCityView;
-    private TextView temperatureView;
-
 
     private final static int REQUEST_CODE = 1;
     private final static int SETTING_CODE = 2;
@@ -39,7 +35,6 @@ public class MainActivity extends BaseActivity {
         SocialDataSource sourceData = new SocSourceBuilder().setResources(getResources()).build();
 
         clickingOnCityView = findViewById(R.id.City);
-        temperatureView = findViewById(R.id.Temperature);
 
         initRecyclerView(sourceData);
 
@@ -70,7 +65,6 @@ public class MainActivity extends BaseActivity {
                 startActivityForResult(intent2, REQUEST_CODE);
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
