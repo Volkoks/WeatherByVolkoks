@@ -2,12 +2,14 @@ package com.example.weatherbyvolkoks.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -18,17 +20,19 @@ import com.example.weatherbyvolkoks.R;
 import com.example.weatherbyvolkoks.data.SocSourceBuilder;
 import com.example.weatherbyvolkoks.data.SocialDataSource;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private TextView clickingOnCityView;
     private TextView temperatureView;
 
 
     private final static int REQUEST_CODE = 1;
+    private final static int SETTING_CODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -56,10 +60,10 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        switch (id){
+        switch (id) {
             case R.id.action_settings:
                 Intent intent = new Intent(getApplicationContext(), ScreenSetting.class);
-                startActivity(intent);
+                startActivityForResult(intent, SETTING_CODE);
                 break;
             case R.id.enter_city_selection2:
                 Intent intent2 = new Intent(getApplicationContext(), CitySelectionScreen.class);
@@ -69,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     private void initRecyclerView(SocialDataSource data) {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
@@ -84,12 +89,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data == null || requestCode != REQUEST_CODE) {
-            return;
-        }
-        if (requestCode == REQUEST_CODE) {
-            Parcel parcel = (Parcel) data.getSerializableExtra("parcel");
-            clickingOnCityView.setText(parcel.cityName);
+        switch (requestCode) {
+            case REQUEST_CODE:
+                Parcel parcel = (Parcel) data.getSerializableExtra("parcel");
+                clickingOnCityView.setText(parcel.cityName);
+                break;
+            case SETTING_CODE:
+                recreate();
+                break;
         }
 
     }

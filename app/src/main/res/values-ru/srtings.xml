@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">WeatherByVolkoks</string>
+    <string name="choose_a_city_tool_bar">choose_a_city_tool_bar</string>
     <string name="action_settings">Настройки</string>strings.xml
     <string name="country">Страна</string>
-    <string name="city">Город</string>
+    <string name="city">Москва</string>
     <string name="temp">20</string>
     <string name="w_icon">Иконка</string>
     <string name="update_time">Время_обновления</string>
