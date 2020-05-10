@@ -83,6 +83,9 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (data == null || requestCode != REQUEST_CODE) {
+            return;
+        }
         switch (requestCode) {
             case REQUEST_CODE:
                 Parcel parcel = (Parcel) data.getSerializableExtra("parcel");
