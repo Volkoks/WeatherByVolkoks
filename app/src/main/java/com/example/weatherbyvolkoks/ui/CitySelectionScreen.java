@@ -2,9 +2,10 @@ package com.example.weatherbyvolkoks.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.example.weatherbyvolkoks.BaseActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -16,7 +17,7 @@ import com.example.weatherbyvolkoks.R;
 
 import java.util.regex.Pattern;
 
-public class CitySelectionScreen extends AppCompatActivity implements Constants {
+public class CitySelectionScreen extends BaseActivity implements Constants {
 
     private TextInputLayout textInputLayout;
     private TextInputEditText enterCitySelection;

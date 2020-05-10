@@ -86,14 +86,12 @@ public class MainActivity extends BaseActivity {
         if (data == null || requestCode != REQUEST_CODE) {
             return;
         }
-        switch (requestCode) {
-            case REQUEST_CODE:
-                Parcel parcel = (Parcel) data.getSerializableExtra("parcel");
-                clickingOnCityView.setText(parcel.cityName);
-                break;
-            case SETTING_CODE:
-                recreate();
-                break;
+        if (requestCode == REQUEST_CODE) {
+            Parcel parcel = (Parcel) data.getSerializableExtra("parcel");
+            clickingOnCityView.setText(parcel.cityName);
+        }
+        if (requestCode == SETTING_CODE) {
+            recreate();
         }
 
     }

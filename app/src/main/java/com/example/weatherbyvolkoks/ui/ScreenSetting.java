@@ -18,9 +18,9 @@ public class ScreenSetting extends BaseActivity {
 
         clickToBtnBack();
 
-        SwitchCompat switchNigthMode = findViewById(R.id.switch_night_mode);
-        switchNigthMode.setChecked(isDarkTheme());
-        switchNigthMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        SwitchCompat switchNightMode = findViewById(R.id.switch_night_mode);
+        switchNightMode.setChecked(isDarkTheme());
+        switchNightMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 setIsDarkTheme(isChecked);
