@@ -28,5 +28,5 @@
     <string name="_15">15</string>
     <string name="sunny">Солнечно</string>
     <string name="choose_temperature">Выберете температуру:</string>
-    <string name="choose_city_and_temperature">Выбрать город и температуру</string>
+    <string name="choose_city">Выбрать город</string>
 </resources>

@@ -28,7 +28,6 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -83,16 +82,16 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data == null || requestCode != REQUEST_CODE) {
-            return;
-        }
-        if (requestCode == REQUEST_CODE) {
-            Parcel parcel = (Parcel) data.getSerializableExtra("parcel");
-            clickingOnCityView.setText(parcel.cityName);
-        }
         if (requestCode == SETTING_CODE) {
             recreate();
         }
+        if (requestCode == REQUEST_CODE && data != null) {
+            if (resultCode == RESULT_OK) {
+                Parcel parcel = (Parcel) data.getSerializableExtra("parcel");
+                clickingOnCityView.setText(parcel.cityName);
+            }
+        }
+
 
     }
 }

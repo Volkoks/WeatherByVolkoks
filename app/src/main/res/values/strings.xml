@@ -26,6 +26,6 @@
     <string name="_15">15</string>
     <string name="sunny">Sunny</string>
     <string name="choose_temperature">Choose temperature:</string>
-    <string name="choose_city_and_temperature">Choose city and temperature</string>
+    <string name="choose_city">Choose city</string>
     <string name="choose_a_city_tool_bar">choose_a_city_tool_bar</string>
 </resources>

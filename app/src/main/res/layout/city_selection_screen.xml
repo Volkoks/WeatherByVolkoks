@@ -34,13 +34,14 @@
                 app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_choose_a_city_and_temperature"
-                android:layout_width="150dp"
-                android:layout_height="55dp"
+                android:layout_width="209dp"
+                android:layout_height="118dp"
                 android:layout_marginStart="130dp"
                 android:layout_marginEnd="131dp"
-                android:text="@string/choose_city_and_temperature"
+                android:text="@string/choose_city"
+                app:cornerRadius="100dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
