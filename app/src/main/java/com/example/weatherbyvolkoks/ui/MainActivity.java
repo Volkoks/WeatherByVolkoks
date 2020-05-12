@@ -11,7 +11,6 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-
 import com.example.weatherbyvolkoks.BaseActivity;
 import com.example.weatherbyvolkoks.Parcel;
 import com.example.weatherbyvolkoks.R;
