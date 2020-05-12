@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WeatherByVolkoks</string>
+    <string name="choose_a_city_tool_bar">choose_a_city_tool_bar</string>
+    <string name="action_settings">Настройки</string>strings.xml
+    <string name="country">Страна</string>
+    <string name="city">Москва</string>
+    <string name="temp">20</string>
+    <string name="w_icon">Иконка</string>
+    <string name="update_time">Время_обновления</string>
+    <string name="button">Button</string>
+    <string name="menu">МЕНЮ</string>
+    <string name="choose_a_city">Выберете город:</string>
+    <string name="celsius">\u2103</string>
+    <string name="mainly_cloudy">Пасмурно</string>
+    <string name="setting_label">Настройки:</string>
+    <string name="night_mode">Ночной режим</string>
+    <string name="monday">Понедельник</string>
+    <string name="tuesday">Вторник</string>
+    <string name="wednesday">Среда</string>
+    <string name="thursday">Четверг</string>
+    <string name="friday">Пятница</string>
+    <string name="saturday">Суббота</string>
+    <string name="extreme_weather_alert">Оповещение о экстримальных погодных условиях</string>
+    <string name="moscow">Москва</string>
+    <string name="saint_petersburg">Санкт Петербург</string>
+    <string name="_20">20</string>
+    <string name="_15">15</string>
+    <string name="sunny">Солнечно</string>
+    <string name="choose_temperature">Выберете температуру:</string>
+    <string name="choose_city">Выбрать город</string>
+</resources>

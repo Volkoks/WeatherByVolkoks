@@ -1,12 +1,31 @@
 <resources>
     <string name="app_name">WeatherByVolkoks</string>
     <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="country">Country</string>
+    <string name="city">Moscow</string>
+    <string name="temp">16</string>
+    <string name="w_icon">W_icon</string>
+    <string name="update_time">Update_time</string>
+    <string name="button">Button</string>
+    <string name="menu">MENU</string>
+    <string name="choose_a_city">Choose a city:</string>
+    <string name="celsius">\u2103</string>
+    <string name="mainly_cloudy">Mainly cloudy</string>
+    <string name="setting_label">Setting:</string>
+    <string name="night_mode">Night Mode</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="extreme_weather_alert">Extreme Weather Alert</string>
+    <string name="moscow">Moscow</string>
+    <string name="saint_petersburg">Saint Petersburg</string>
+    <string name="_20">20</string>
+    <string name="_15">15</string>
+    <string name="sunny">Sunny</string>
+    <string name="choose_temperature">Choose temperature:</string>
+    <string name="choose_city">Choose city</string>
+    <string name="choose_a_city_tool_bar">choose_a_city_tool_bar</string>
 </resources>

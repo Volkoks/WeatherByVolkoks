@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="dayOfWeek">
+        <item>Пн</item>
+        <item>Вт</item>
+        <item>Ср</item>
+        <item>Чт</item>
+        <item>Пт</item>
+        <item>Сб</item>
+        <item>Вс</item>
+    </string-array>
+    <string-array name="dateAndMonth">
+        <item>Апрель, 4</item>
+        <item>Апрель, 5</item>
+        <item>Апрель, 6</item>
+        <item>Апрель, 7</item>
+        <item>Апрель, 8</item>
+        <item>Апрель, 9</item>
+        <item>Апрель, 10</item>
+    </string-array>
+    <array name="iconWeather">
+        <item>@drawable/cloudy</item>
+        <item>@drawable/cloudy2</item>
+        <item>@drawable/rain</item>
+        <item>@drawable/snow</item>
+        <item>@drawable/storm</item>
+        <item>@drawable/sun</item>
+        <item>@drawable/rain</item>
+    </array>
+</resources>

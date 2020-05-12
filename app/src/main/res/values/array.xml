@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string-array name="dayOfWeek">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
+    <string-array name="dateAndMonth">
+        <item>April, 4</item>
+        <item>April, 5</item>
+        <item>April, 6</item>
+        <item>April, 7</item>
+        <item>April, 8</item>
+        <item>April, 9</item>
+        <item>April, 10</item>
+    </string-array>
+    <array name="iconWeather">
+        <item>@drawable/cloudy</item>
+        <item>@drawable/cloudy2</item>
+        <item>@drawable/rain</item>
+        <item>@drawable/snow</item>
+        <item>@drawable/storm</item>
+        <item>@drawable/sun</item>
+        <item>@drawable/rain</item>
+    </array>
+</resources>
+
