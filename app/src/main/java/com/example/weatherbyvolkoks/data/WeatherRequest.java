@@ -1,16 +1,16 @@
 package com.example.weatherbyvolkoks.data;
 
 public class WeatherRequest {
-    private Weather[] weathers;
+    private Weather[] weather;
     private Main main;
     private String name;
 
     public Weather[] getWeathers() {
-        return weathers;
+        return weather;
     }
 
     public void setWeathers(Weather[] weathers) {
-        this.weathers = weathers;
+        this.weather = weathers;
     }
 
     public Main getMain() {

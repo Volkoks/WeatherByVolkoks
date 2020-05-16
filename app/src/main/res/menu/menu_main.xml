@@ -9,7 +9,7 @@
         app:showAsAction="never" />
     <item
         android:icon="@drawable/ic_refresh_black_24dp"
-        android:id="@+id/update_the_weather"
+        android:id="@+id/refresh_the_weather"
         android:orderInCategory="100"
         android:title="@string/choose_a_city_tool_bar"
         app:showAsAction="ifRoom"/>

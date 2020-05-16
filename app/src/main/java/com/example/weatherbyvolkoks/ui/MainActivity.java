@@ -1,27 +1,51 @@
 package com.example.weatherbyvolkoks.ui;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
+import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+
 import com.example.weatherbyvolkoks.BaseActivity;
 import com.example.weatherbyvolkoks.Parcel;
 import com.example.weatherbyvolkoks.R;
 import com.example.weatherbyvolkoks.data.SocSourceBuilder;
 import com.example.weatherbyvolkoks.data.SocialDataSource;
+import com.example.weatherbyvolkoks.data.WeatherRequest;
+import com.google.gson.Gson;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.stream.Collectors;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends BaseActivity {
-    private TextView clickingOnCityView;
 
+    private static final String WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather?q=moscow&units=metric&lang=ru&appid=";
+    private static final String WEATHER_API_KEY = "KEY";
     private final static int REQUEST_CODE = 1;
     private final static int SETTING_CODE = 2;
+    private static final String TAG = "WEATHER_MY";
+
+    private TextView city;
+    private TextView temperature;
+    private TextView description;
+    private Button buttonRefresh;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +55,15 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(toolbar);
 
         SocialDataSource sourceData = new SocSourceBuilder().setResources(getResources()).build();
-
-        clickingOnCityView = findViewById(R.id.City);
-
+        init();
         initRecyclerView(sourceData);
 
+    }
+
+    private void init() {
+        city = findViewById(R.id.City);
+        temperature = findViewById(R.id.Temperature);
+        description = findViewById(R.id.weather_description);
     }
 
     @Override
@@ -62,8 +90,49 @@ public class MainActivity extends BaseActivity {
                 Intent intent2 = new Intent(getApplicationContext(), CitySelectionScreen.class);
                 startActivityForResult(intent2, REQUEST_CODE);
                 break;
+            case R.id.refresh_the_weather:
+                refreshWeather();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void refreshWeather() {
+        try {
+            final URL uri = new URL(WEATHER_URL + WEATHER_API_KEY);
+            final Handler handler = new Handler();
+            new Thread(new Runnable() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
+                @Override
+                public void run() {
+                    HttpsURLConnection urlConnection = null;
+                    try {
+                        urlConnection = (HttpsURLConnection) uri.openConnection();
+                        urlConnection.setRequestMethod("GET");
+                        urlConnection.setReadTimeout(10000);
+                        BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                        String result = getLines(in);
+                        Gson gson = new Gson();
+                        final WeatherRequest weatherRequest = gson.fromJson(result, WeatherRequest.class);
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                displayWeather(weatherRequest);
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @RequiresApi(api = Build.VERSION_CODES.N)
+                private String getLines(BufferedReader in) {
+                    return in.lines().collect(Collectors.joining("\n"));
+                }
+            }).start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initRecyclerView(SocialDataSource data) {
@@ -87,10 +156,14 @@ public class MainActivity extends BaseActivity {
         if (requestCode == REQUEST_CODE && data != null) {
             if (resultCode == RESULT_OK) {
                 Parcel parcel = (Parcel) data.getSerializableExtra("parcel");
-                clickingOnCityView.setText(parcel.cityName);
+                city.setText(parcel.cityName);
             }
         }
-
+    }
+    private void displayWeather(WeatherRequest weatherRequest){
+        city.setText(weatherRequest.getName());
+        temperature.setText(String.format(String.valueOf(weatherRequest.getMain().getTemp())));
+        description.setText(weatherRequest.getWeathers()[0].getDescription());
 
     }
 }
