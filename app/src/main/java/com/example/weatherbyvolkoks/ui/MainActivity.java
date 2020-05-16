@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.weatherbyvolkoks.BaseActivity;
+import com.example.weatherbyvolkoks.BuildConfig;
 import com.example.weatherbyvolkoks.Parcel;
 import com.example.weatherbyvolkoks.R;
 import com.example.weatherbyvolkoks.data.SocSourceBuilder;
@@ -36,7 +37,6 @@ import javax.net.ssl.HttpsURLConnection;
 public class MainActivity extends BaseActivity {
 
     private static final String WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather?q=moscow&units=metric&lang=ru&appid=";
-    private static final String WEATHER_API_KEY = "KEY";
     private final static int REQUEST_CODE = 1;
     private final static int SETTING_CODE = 2;
     private static final String TAG = "WEATHER_MY";
@@ -44,7 +44,6 @@ public class MainActivity extends BaseActivity {
     private TextView city;
     private TextView temperature;
     private TextView description;
-    private Button buttonRefresh;
 
 
     @Override
@@ -99,7 +98,7 @@ public class MainActivity extends BaseActivity {
 
     private void refreshWeather() {
         try {
-            final URL uri = new URL(WEATHER_URL + WEATHER_API_KEY);
+            final URL uri = new URL(WEATHER_URL + BuildConfig.WEATHER_API_KEY);
             final Handler handler = new Handler();
             new Thread(new Runnable() {
                 @RequiresApi(api = Build.VERSION_CODES.N)
