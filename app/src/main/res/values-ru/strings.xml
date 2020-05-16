@@ -29,4 +29,5 @@
     <string name="sunny">Солнечно</string>
     <string name="choose_temperature">Выберете температуру:</string>
     <string name="choose_city">Выбрать город</string>
+    <string name="description">описание</string>
 </resources>

@@ -28,4 +28,5 @@
     <string name="choose_temperature">Choose temperature:</string>
     <string name="choose_city">Choose city</string>
     <string name="choose_a_city_tool_bar">choose_a_city_tool_bar</string>
+    <string name="description">description</string>
 </resources>
