@@ -39,7 +39,7 @@ public class CitySelectionScreen extends BaseActivity implements Constants {
         enterCitySelection = findViewById(R.id.enter_city_selection);
         validateCity();
         clickToBtnBack();
-        clickToBtnChooseCityAndTemperature();
+        clickToBtnChooseCity();
 
         enterCitySelection.setOnKeyListener(selectCityListenerMK);
 
@@ -83,7 +83,7 @@ public class CitySelectionScreen extends BaseActivity implements Constants {
         });
     }
 
-    public void clickToBtnChooseCityAndTemperature() {
+    public void clickToBtnChooseCity() {
 
         btnChooseCityAndTemperature.setOnClickListener(new View.OnClickListener() {
             @Override

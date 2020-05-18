@@ -6,18 +6,14 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
-
 import android.os.Handler;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-
 import com.example.weatherbyvolkoks.BaseActivity;
 import com.example.weatherbyvolkoks.BuildConfig;
 import com.example.weatherbyvolkoks.Parcel;
@@ -27,26 +23,23 @@ import com.example.weatherbyvolkoks.data.SocialDataSource;
 import com.example.weatherbyvolkoks.data.WeatherRequest;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.stream.Collectors;
-
 import javax.net.ssl.HttpsURLConnection;
-
 import static com.example.weatherbyvolkoks.R.*;
 
 public class MainActivity extends BaseActivity {
 
-    private static final String WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather?q=moscow&units=metric&lang=ru&appid=";
+    private static final String WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather?moscow&units=metric&lang=ru&appid=";
     private final static int REQUEST_CODE = 1;
     private final static int SETTING_CODE = 2;
-    private static final String TAG = "WEATHER_MY";
 
     private TextView city;
     private TextView temperature;
     private TextView description;
+    private CoordinatorLayout coordinatorLayout;
 
 
     @Override
@@ -66,6 +59,7 @@ public class MainActivity extends BaseActivity {
         city = findViewById(id.City);
         temperature = findViewById(id.Temperature);
         description = findViewById(id.weather_description);
+        coordinatorLayout = findViewById(id.Coordinator_activity_main);
     }
 
     @Override
@@ -100,6 +94,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void refreshWeather() {
+
         try {
             final URL uri = new URL(WEATHER_URL + BuildConfig.WEATHER_API_KEY);
             final Handler handler = new Handler();
@@ -123,7 +118,7 @@ public class MainActivity extends BaseActivity {
                             }
                         });
                     } catch (Exception e) {
-                        Snackbar.make(city, "Ошибка соеденения", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(coordinatorLayout, "Ошибка соеденения", Snackbar.LENGTH_LONG).show();
                         e.printStackTrace();
                     }
                 }
@@ -134,7 +129,7 @@ public class MainActivity extends BaseActivity {
                 }
             }).start();
         } catch (Exception e) {
-            Snackbar.make(city, "Неверный URL", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(coordinatorLayout, "Неверный URL", Snackbar.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }
