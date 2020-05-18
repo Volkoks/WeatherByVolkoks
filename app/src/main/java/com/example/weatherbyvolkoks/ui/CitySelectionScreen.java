@@ -70,6 +70,7 @@ public class CitySelectionScreen extends BaseActivity implements Constants {
     private Parcel createParcel() {
         Parcel parcel = new Parcel();
         parcel.cityName = enterCitySelection.getText().toString();
+        parcel.weatherCityName = enterCitySelection.getText().toString();
         return parcel;
     }
 

@@ -32,7 +32,7 @@ import static com.example.weatherbyvolkoks.R.*;
 
 public class MainActivity extends BaseActivity {
 
-    private static final String WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather?moscow&units=metric&lang=ru&appid=";
+    private static String WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather?q=Москва&units=metric&lang=ru&appid=";
     private final static int REQUEST_CODE = 1;
     private final static int SETTING_CODE = 2;
 
@@ -156,6 +156,8 @@ public class MainActivity extends BaseActivity {
             if (resultCode == RESULT_OK) {
                 Parcel parcel = (Parcel) data.getSerializableExtra("parcel");
                 city.setText(parcel.cityName);
+                WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather?q="+parcel.weatherCityName+"&units=metric&lang=ru&appid=";
+                refreshWeather();
             }
         }
     }
