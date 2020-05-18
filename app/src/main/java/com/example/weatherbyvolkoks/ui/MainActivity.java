@@ -25,6 +25,7 @@ import com.example.weatherbyvolkoks.R;
 import com.example.weatherbyvolkoks.data.SocSourceBuilder;
 import com.example.weatherbyvolkoks.data.SocialDataSource;
 import com.example.weatherbyvolkoks.data.WeatherRequest;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -33,6 +34,8 @@ import java.net.URL;
 import java.util.stream.Collectors;
 
 import javax.net.ssl.HttpsURLConnection;
+
+import static com.example.weatherbyvolkoks.R.*;
 
 public class MainActivity extends BaseActivity {
 
@@ -49,8 +52,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        setContentView(layout.activity_main);
+        Toolbar toolbar = findViewById(id.toolbar);
         setSupportActionBar(toolbar);
 
         SocialDataSource sourceData = new SocSourceBuilder().setResources(getResources()).build();
@@ -60,9 +63,9 @@ public class MainActivity extends BaseActivity {
     }
 
     private void init() {
-        city = findViewById(R.id.City);
-        temperature = findViewById(R.id.Temperature);
-        description = findViewById(R.id.weather_description);
+        city = findViewById(id.City);
+        temperature = findViewById(id.Temperature);
+        description = findViewById(id.weather_description);
     }
 
     @Override
@@ -120,6 +123,7 @@ public class MainActivity extends BaseActivity {
                             }
                         });
                     } catch (Exception e) {
+                        Snackbar.make(city, "Ошибка соеденения", Snackbar.LENGTH_LONG).show();
                         e.printStackTrace();
                     }
                 }
@@ -130,13 +134,14 @@ public class MainActivity extends BaseActivity {
                 }
             }).start();
         } catch (Exception e) {
+            Snackbar.make(city, "Неверный URL", Snackbar.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }
 
     private void initRecyclerView(SocialDataSource data) {
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = findViewById(id.recyclerView);
         recyclerView.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
