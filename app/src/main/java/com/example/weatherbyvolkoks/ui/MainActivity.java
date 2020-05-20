@@ -2,16 +2,13 @@ package com.example.weatherbyvolkoks.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-
 import com.example.weatherbyvolkoks.BaseActivity;
 import com.example.weatherbyvolkoks.data.LoadWeather;
 import com.example.weatherbyvolkoks.data.InterfaceLoaderWeather;
@@ -25,7 +22,6 @@ import static com.example.weatherbyvolkoks.R.*;
 
 public class MainActivity extends BaseActivity implements InterfaceLoaderWeather {
     private static String citys = "Moscow";
-    private static String WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather?q=Москва&units=metric&lang=ru&appid=";
     private final static int REQUEST_CODE = 1;
     private final static int SETTING_CODE = 2;
 
@@ -77,7 +73,6 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
                 break;
             case R.id.refresh_the_weather:
                 initWeatherToAPI();
-//                refreshWeather();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -115,13 +110,6 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
 
             }
         }
-    }
-
-    private void displayWeather(WeatherRequest weatherRequest) {
-        city.setText(weatherRequest.getName());
-        temperature.setText(String.format(String.valueOf(weatherRequest.getMain().getTemp())));
-        description.setText(weatherRequest.getWeathers()[0].getDescription());
-
     }
 
     @Override

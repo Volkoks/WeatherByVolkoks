@@ -66,13 +66,4 @@ public class LoadWeather {
         }
 
     }
-
-    private void displayWeather(View view, WeatherRequest weatherRequest) {
-        TextView city = view.findViewById(R.id.City);
-        TextView temperature = view.findViewById(R.id.Temperature);
-        TextView description = view.findViewById(R.id.weather_description);
-        city.setText(weatherRequest.getName());
-        temperature.setText(String.format(String.valueOf(weatherRequest.getMain().getTemp())));
-        description.setText(weatherRequest.getWeathers()[0].getDescription());
-    }
 }
