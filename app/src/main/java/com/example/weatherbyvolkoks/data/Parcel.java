@@ -1,4 +1,4 @@
-package com.example.weatherbyvolkoks;
+package com.example.weatherbyvolkoks.data;
 
 import java.io.Serializable;
 

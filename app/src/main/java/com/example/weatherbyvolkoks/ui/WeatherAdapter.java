@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 
 import com.example.weatherbyvolkoks.R;
-import com.example.weatherbyvolkoks.data.Soc;
-import com.example.weatherbyvolkoks.data.SocialDataSource;
+import com.example.weatherbyvolkoks.data.Soc.Soc;
+import com.example.weatherbyvolkoks.data.Soc.SocialDataSource;
 
 public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHolder> {
     private SocialDataSource dataSource;

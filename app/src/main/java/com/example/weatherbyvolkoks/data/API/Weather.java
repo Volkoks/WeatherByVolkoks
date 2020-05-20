@@ -1,4 +1,4 @@
-package com.example.weatherbyvolkoks.data;
+package com.example.weatherbyvolkoks.data.API;
 
 public class Weather {
     private String main;

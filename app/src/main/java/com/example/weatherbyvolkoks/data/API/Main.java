@@ -1,4 +1,4 @@
-package com.example.weatherbyvolkoks.data;
+package com.example.weatherbyvolkoks.data.API;
 
 public class Main {
     private float temp;

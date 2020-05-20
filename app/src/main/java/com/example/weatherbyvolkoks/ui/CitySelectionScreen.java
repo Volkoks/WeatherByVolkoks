@@ -15,8 +15,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.weatherbyvolkoks.Constants;
-import com.example.weatherbyvolkoks.Parcel;
+import com.example.weatherbyvolkoks.data.Constants;
+import com.example.weatherbyvolkoks.data.Parcel;
 import com.example.weatherbyvolkoks.R;
 
 import java.util.regex.Pattern;
