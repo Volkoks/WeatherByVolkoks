@@ -2,14 +2,18 @@ package com.example.weatherbyvolkoks.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.weatherbyvolkoks.BaseActivity;
+import com.example.weatherbyvolkoks.data.API.Weather;
 import com.example.weatherbyvolkoks.data.LoadWeather;
 import com.example.weatherbyvolkoks.data.InterfaceLoaderWeather;
 import com.example.weatherbyvolkoks.data.Parcel;
@@ -28,6 +32,7 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
     private TextView city;
     private TextView temperature;
     private TextView description;
+    private ImageView iconWeather;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,7 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
         city = findViewById(id.City);
         temperature = findViewById(id.Temperature);
         description = findViewById(id.weather_description);
+        iconWeather = findViewById(id.iconWeatherView);
     }
 
     @Override
@@ -117,6 +123,12 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
         city.setText(weatherRequest.getName());
         temperature.setText(String.format(String.valueOf(weatherRequest.getMain().getTemp())));
         description.setText(weatherRequest.getWeathers()[0].getDescription());
+        if (weatherRequest.getWeathers()[0].getMain().equals("Clouds")){
+            iconWeather.setImageDrawable(getDrawable(drawable.sun));
+        }else{
+            iconWeather.setImageDrawable(getDrawable(drawable.rain));
+        }
+
     }
 
 }
