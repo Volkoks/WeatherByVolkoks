@@ -12,8 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.example.weatherbyvolkoks.BaseActivity;
-import com.example.weatherbyvolkoks.data.API.Weather;
 import com.example.weatherbyvolkoks.data.LoadWeather;
 import com.example.weatherbyvolkoks.data.InterfaceLoaderWeather;
 import com.example.weatherbyvolkoks.data.Parcel;
@@ -123,12 +123,24 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
         city.setText(weatherRequest.getName());
         temperature.setText(String.format(String.valueOf(weatherRequest.getMain().getTemp())));
         description.setText(weatherRequest.getWeathers()[0].getDescription());
-        if (weatherRequest.getWeathers()[0].getMain().equals("Clouds")){
-            iconWeather.setImageDrawable(getDrawable(drawable.sun));
-        }else{
-            iconWeather.setImageDrawable(getDrawable(drawable.rain));
-        }
-
+        InitWeatherImage(weatherRequest);
     }
 
+    private void InitWeatherImage(WeatherRequest weatherRequest) {
+        if (weatherRequest.getWeathers()[0].getMain().equals("Clouds")) {
+            iconWeather.setImageDrawable(getDrawable(drawable.overcast));
+        } else if (weatherRequest.getWeathers()[0].getMain().equals("Rain")) {
+            iconWeather.setImageDrawable(getDrawable(drawable.showers));
+        } else if (weatherRequest.getWeathers()[0].getMain().equals("Snow")) {
+            iconWeather.setImageDrawable(getDrawable(drawable.snows));
+        } else if (weatherRequest.getWeathers()[0].getMain().equals("Clear")) {
+            iconWeather.setImageDrawable(getDrawable(drawable.cleare));
+        } else if (weatherRequest.getWeathers()[0].getMain().equals("Drizzle")) {
+            iconWeather.setImageDrawable(getDrawable(drawable.showersscattered));
+        } else if (weatherRequest.getWeathers()[0].getMain().equals("Thunderstorm")) {
+            iconWeather.setImageDrawable(getDrawable(drawable.violentstorm));
+        }else {
+            iconWeather.setImageDrawable(getDrawable(drawable.severealert));
+        }
+    }
 }

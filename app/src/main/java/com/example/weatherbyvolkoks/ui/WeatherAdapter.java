@@ -13,7 +13,8 @@ import com.example.weatherbyvolkoks.R;
 import com.example.weatherbyvolkoks.data.Soc.Soc;
 import com.example.weatherbyvolkoks.data.Soc.SocialDataSource;
 
-public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHolder> {
+public class
+WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHolder> {
     private SocialDataSource dataSource;
 
     public WeatherAdapter(SocialDataSource dataSource) {
