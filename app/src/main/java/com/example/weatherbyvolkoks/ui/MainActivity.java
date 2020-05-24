@@ -40,7 +40,7 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
         setContentView(layout.activity_main);
         Toolbar toolbar = findViewById(id.toolbar);
         setSupportActionBar(toolbar);
-
+        initWeatherToAPI();
         SocialDataSource sourceData = new SocSourceBuilder().setResources(getResources()).build();
         init();
         initRecyclerView(sourceData);
