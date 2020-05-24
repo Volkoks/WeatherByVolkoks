@@ -1,54 +1,87 @@
 package com.example.weatherbyvolkoks.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
 import com.example.weatherbyvolkoks.BaseActivity;
+import com.example.weatherbyvolkoks.CityHistoryAdapter;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
-import com.example.weatherbyvolkoks.Constants;
-import com.example.weatherbyvolkoks.Parcel;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.example.weatherbyvolkoks.data.Constants;
+import com.example.weatherbyvolkoks.data.Parcel;
 import com.example.weatherbyvolkoks.R;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
+import static androidx.recyclerview.widget.LinearLayoutManager.*;
 
 public class CitySelectionScreen extends BaseActivity implements Constants {
 
+    private MaterialButton addCity;
+    private RecyclerView recyclerView;
     private TextInputLayout textInputLayout;
     private TextInputEditText enterCitySelection;
-    private Button btnChooseCityAndTemperature;
+    private MaterialButton btnChooseCityAndTemperature;
     private Pattern checkCity = Pattern.compile("^[A-Z][a-z]{1,}$");
+    private Pattern checkCityRu = Pattern.compile("^[А-ЯЁ][а-яё]{1,}$");
+
+    private List<String> citys = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.city_selection_screen);
 
-        textInputLayout = findViewById(R.id.textInputCitySelection);
-        btnChooseCityAndTemperature = findViewById(R.id.button_choose_a_city_and_temperature);
-        enterCitySelection = findViewById(R.id.enter_city_selection);
+        init();
         validateCity();
         clickToBtnBack();
-        clickToBtnChooseCityAndTemperature();
+        clickToBtnChooseCity();
+
+        enterCitySelection.setOnKeyListener(selectCityListenerMK);
+        addCity.setOnClickListener(addCityToRecyclerView);
+
+        initRecyclerView();
 
     }
 
+    private void initRecyclerView() {
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(CitySelectionScreen.this, VERTICAL, false);
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(CitySelectionScreen.this, LinearLayoutManager.VERTICAL);
+        itemDecoration.setDrawable(getDrawable(R.drawable.separator));
+        recyclerView.addItemDecoration(itemDecoration);
+        recyclerView.setLayoutManager(layoutManager);
+    }
+
+    private void init() {
+        textInputLayout = findViewById(R.id.textInputCitySelection);
+        btnChooseCityAndTemperature = findViewById(R.id.button_choose_a_city_and_temperature);
+        enterCitySelection = findViewById(R.id.enter_city_selection);
+        addCity = findViewById(R.id.btn_add_city);
+        recyclerView = findViewById(R.id.recyclerView_city_selection);
+    }
+
     private void validateCity() {
+
         enterCitySelection.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus) return;
+                if (hasFocus) return;
                 TextView tv = (TextView) v;
                 String value = tv.getText().toString();
-                if (checkCity.matcher(value).matches()){
+                if (checkCity.matcher(value).matches() || checkCityRu.matcher(value).matches()) {
                     showError(textInputLayout, null);
-                }else {
-                    showError(textInputLayout,"Город должен начинаться с заглавной буквы и быть без цифр!");
+                } else {
+                    showError(textInputLayout, "Город должен начинаться с заглавной буквы и быть без цифр!");
                 }
             }
         });
@@ -59,9 +92,10 @@ public class CitySelectionScreen extends BaseActivity implements Constants {
     }
 
 
-    private Parcel createParcel(){
+    private Parcel createParcel() {
         Parcel parcel = new Parcel();
         parcel.cityName = enterCitySelection.getText().toString();
+        parcel.weatherCityName = enterCitySelection.getText().toString();
         return parcel;
     }
 
@@ -74,7 +108,9 @@ public class CitySelectionScreen extends BaseActivity implements Constants {
             }
         });
     }
-    public void clickToBtnChooseCityAndTemperature(){
+
+    public void clickToBtnChooseCity() {
+
         btnChooseCityAndTemperature.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,5 +121,29 @@ public class CitySelectionScreen extends BaseActivity implements Constants {
             }
         });
     }
+
+
+    private View.OnKeyListener selectCityListenerMK = new View.OnKeyListener() {
+        @Override
+        public boolean onKey(View v, int keyCode, KeyEvent event) {
+            boolean result = false;
+            if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                enterCitySelection.clearFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                result = true;
+            }
+            return result;
+        }
+    };
+    private View.OnClickListener addCityToRecyclerView = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            citys.add(enterCitySelection.getText().toString());
+            CityHistoryAdapter cityHistoryAdapter = new CityHistoryAdapter(citys);
+            recyclerView.setAdapter(cityHistoryAdapter);
+
+        }
+    };
 
 }

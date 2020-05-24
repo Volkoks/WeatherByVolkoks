@@ -1,4 +1,4 @@
-package com.example.weatherbyvolkoks.data;
+package com.example.weatherbyvolkoks.data.Soc;
 
 import android.content.res.Resources;
 

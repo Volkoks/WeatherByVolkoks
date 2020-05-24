@@ -10,33 +10,47 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.weatherbyvolkoks.BaseActivity;
-import com.example.weatherbyvolkoks.Parcel;
+import com.example.weatherbyvolkoks.data.LoadWeather;
+import com.example.weatherbyvolkoks.data.InterfaceLoaderWeather;
+import com.example.weatherbyvolkoks.data.Parcel;
 import com.example.weatherbyvolkoks.R;
-import com.example.weatherbyvolkoks.data.SocSourceBuilder;
-import com.example.weatherbyvolkoks.data.SocialDataSource;
+import com.example.weatherbyvolkoks.data.Soc.SocSourceBuilder;
+import com.example.weatherbyvolkoks.data.Soc.SocialDataSource;
+import com.example.weatherbyvolkoks.data.API.WeatherRequest;
 
-public class MainActivity extends BaseActivity {
-    private TextView clickingOnCityView;
+import static com.example.weatherbyvolkoks.R.*;
 
+public class MainActivity extends BaseActivity implements InterfaceLoaderWeather {
+    private static String citys = "Moscow";
     private final static int REQUEST_CODE = 1;
     private final static int SETTING_CODE = 2;
+
+    private TextView city;
+    private TextView temperature;
+    private TextView description;
+    private ImageView iconWeather;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        setContentView(layout.activity_main);
+        Toolbar toolbar = findViewById(id.toolbar);
         setSupportActionBar(toolbar);
 
         SocialDataSource sourceData = new SocSourceBuilder().setResources(getResources()).build();
-
-        clickingOnCityView = findViewById(R.id.City);
-
+        init();
         initRecyclerView(sourceData);
+    }
 
+    private void init() {
+        city = findViewById(id.City);
+        temperature = findViewById(id.Temperature);
+        description = findViewById(id.weather_description);
+        iconWeather = findViewById(id.iconWeatherView);
     }
 
     @Override
@@ -63,13 +77,21 @@ public class MainActivity extends BaseActivity {
                 Intent intent2 = new Intent(getApplicationContext(), CitySelectionScreen.class);
                 startActivityForResult(intent2, REQUEST_CODE);
                 break;
+            case R.id.refresh_the_weather:
+                initWeatherToAPI();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void initWeatherToAPI() {
+        LoadWeather loadWeather = new LoadWeather(this);
+        loadWeather.loadWeather(citys);
+    }
+
     private void initRecyclerView(SocialDataSource data) {
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = findViewById(id.recyclerView);
         recyclerView.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -88,10 +110,37 @@ public class MainActivity extends BaseActivity {
         if (requestCode == REQUEST_CODE && data != null) {
             if (resultCode == RESULT_OK) {
                 Parcel parcel = (Parcel) data.getSerializableExtra("parcel");
-                clickingOnCityView.setText(parcel.cityName);
+                city.setText(parcel.cityName);
+                citys = parcel.weatherCityName;
+                initWeatherToAPI();
+
             }
         }
+    }
 
+    @Override
+    public void activate(WeatherRequest weatherRequest) {
+        city.setText(weatherRequest.getName());
+        temperature.setText(String.format(String.valueOf(weatherRequest.getMain().getTemp())));
+        description.setText(weatherRequest.getWeathers()[0].getDescription());
+        InitWeatherImage(weatherRequest);
+    }
 
+    private void InitWeatherImage(WeatherRequest weatherRequest) {
+        if (weatherRequest.getWeathers()[0].getMain().equals("Clouds")) {
+            iconWeather.setImageDrawable(getDrawable(drawable.overcast));
+        } else if (weatherRequest.getWeathers()[0].getMain().equals("Rain")) {
+            iconWeather.setImageDrawable(getDrawable(drawable.showers));
+        } else if (weatherRequest.getWeathers()[0].getMain().equals("Snow")) {
+            iconWeather.setImageDrawable(getDrawable(drawable.snows));
+        } else if (weatherRequest.getWeathers()[0].getMain().equals("Clear")) {
+            iconWeather.setImageDrawable(getDrawable(drawable.cleare));
+        } else if (weatherRequest.getWeathers()[0].getMain().equals("Drizzle")) {
+            iconWeather.setImageDrawable(getDrawable(drawable.showersscattered));
+        } else if (weatherRequest.getWeathers()[0].getMain().equals("Thunderstorm")) {
+            iconWeather.setImageDrawable(getDrawable(drawable.violentstorm));
+        }else {
+            iconWeather.setImageDrawable(getDrawable(drawable.severealert));
+        }
     }
 }
