@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataStorageSingletone implements Serializable {
-    private static DataStorageSingletone instanse = null;
+    private static DataStorageSingletone instance = null;
     private static final Object synchObj = new Object();
 
 
@@ -15,15 +15,15 @@ public class DataStorageSingletone implements Serializable {
         citys = new ArrayList<>();
     }
 
-    public static DataStorageSingletone getInstanse() {
-        if (instanse == null) {
+    public static DataStorageSingletone getInstance() {
+        if (instance == null) {
             synchronized (synchObj) {
-                if (instanse == null) {
-                    instanse = new DataStorageSingletone();
+                if (instance == null) {
+                    instance = new DataStorageSingletone();
                 }
             }
         }
-        return instanse;
+        return instance;
     }
 
     public List<String> getCitys() {

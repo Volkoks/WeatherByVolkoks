@@ -3,39 +3,31 @@ package com.example.weatherbyvolkoks.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
 import com.example.weatherbyvolkoks.BaseActivity;
 import com.example.weatherbyvolkoks.CityHistoryAdapter;
-import com.example.weatherbyvolkoks.data.Soc.SocialDataSource;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.weatherbyvolkoks.data.Constants;
 import com.example.weatherbyvolkoks.data.Parcel;
 import com.example.weatherbyvolkoks.R;
-
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.regex.Pattern;
-
 import static androidx.recyclerview.widget.LinearLayoutManager.*;
 
 public class CitySelectionScreen extends BaseActivity implements Constants {
+
     private MaterialButton addCity;
     private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManager;
     private TextInputLayout textInputLayout;
     private TextInputEditText enterCitySelection;
     private MaterialButton btnChooseCityAndTemperature;
@@ -57,6 +49,17 @@ public class CitySelectionScreen extends BaseActivity implements Constants {
         enterCitySelection.setOnKeyListener(selectCityListenerMK);
         addCity.setOnClickListener(addCityToRecyclerView);
 
+        initRecyclerView();
+
+    }
+
+    private void initRecyclerView() {
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(CitySelectionScreen.this, VERTICAL, false);
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(CitySelectionScreen.this, LinearLayoutManager.VERTICAL);
+        itemDecoration.setDrawable(getDrawable(R.drawable.separator));
+        recyclerView.addItemDecoration(itemDecoration);
+        recyclerView.setLayoutManager(layoutManager);
     }
 
     private void init() {
@@ -137,11 +140,9 @@ public class CitySelectionScreen extends BaseActivity implements Constants {
         @Override
         public void onClick(View v) {
             citys.add(enterCitySelection.getText().toString());
-            recyclerView.setHasFixedSize(true);
-            layoutManager = new LinearLayoutManager(CitySelectionScreen.this, VERTICAL, false);
-            recyclerView.setLayoutManager(layoutManager);
             CityHistoryAdapter cityHistoryAdapter = new CityHistoryAdapter(citys);
             recyclerView.setAdapter(cityHistoryAdapter);
+
         }
     };
 
