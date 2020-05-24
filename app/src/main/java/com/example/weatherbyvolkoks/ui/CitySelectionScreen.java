@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.example.weatherbyvolkoks.BaseActivity;
 import com.example.weatherbyvolkoks.CityHistoryAdapter;
 import com.example.weatherbyvolkoks.data.Soc.SocialDataSource;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -32,12 +33,12 @@ import java.util.regex.Pattern;
 import static androidx.recyclerview.widget.LinearLayoutManager.*;
 
 public class CitySelectionScreen extends BaseActivity implements Constants {
-    private Button addCity;
+    private MaterialButton addCity;
     private RecyclerView recyclerView;
-    LinearLayoutManager layoutManager;
+    private LinearLayoutManager layoutManager;
     private TextInputLayout textInputLayout;
     private TextInputEditText enterCitySelection;
-    private Button btnChooseCityAndTemperature;
+    private MaterialButton btnChooseCityAndTemperature;
     private Pattern checkCity = Pattern.compile("^[A-Z][a-z]{1,}$");
     private Pattern checkCityRu = Pattern.compile("^[А-ЯЁ][а-яё]{1,}$");
 
