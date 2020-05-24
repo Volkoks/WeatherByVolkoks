@@ -46,7 +46,7 @@
             android:text="@string/temp"
             android:textSize="48sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/iconWeatherView" />
 
         <TextView
             android:id="@+id/celsius"
@@ -59,7 +59,7 @@
             app:layout_constraintTop_toTopOf="@+id/Temperature" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/iconWeatherView"
             android:layout_width="190dp"
             android:layout_height="177dp"
             android:layout_marginStart="30dp"
