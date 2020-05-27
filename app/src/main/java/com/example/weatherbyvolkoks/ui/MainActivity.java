@@ -1,5 +1,7 @@
 package com.example.weatherbyvolkoks.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -12,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.weatherbyvolkoks.BaseActivity;
 import com.example.weatherbyvolkoks.data.LoadWeather;
@@ -82,6 +85,9 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
             case R.id.refresh_the_weather:
                 initWeatherToAPI();
                 break;
+            case R.id.about_app:
+                initAlertDialogAboutApp();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -145,5 +151,19 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
         } else {
             iconWeather.setImageDrawable(getDrawable(drawable.severealert));
         }
+    }
+    private void initAlertDialogAboutApp(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle(string.about_app)
+                .setMessage(string.about_app_message)
+                .setCancelable(false)
+                .setPositiveButton(string.btn_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(),"Спасибо что выбрали нас!)", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }
