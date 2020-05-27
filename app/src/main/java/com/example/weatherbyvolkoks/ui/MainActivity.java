@@ -32,6 +32,7 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
     private TextView city;
     private TextView temperature;
     private TextView description;
+    private TextView temp_max_min;
     private ImageView iconWeather;
 
     @Override
@@ -51,6 +52,7 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
         temperature = findViewById(id.Temperature);
         description = findViewById(id.weather_description);
         iconWeather = findViewById(id.iconWeatherView);
+        temp_max_min = findViewById(id.temp_max_min);
     }
 
     @Override
@@ -121,8 +123,9 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
     @Override
     public void activate(WeatherRequest weatherRequest) {
         city.setText(weatherRequest.getName());
-        temperature.setText(String.format(String.valueOf(weatherRequest.getMain().getTemp())));
+        temperature.setText(String.format((weatherRequest.getMain().getTemp()+ "\u2103")));
         description.setText(weatherRequest.getWeathers()[0].getDescription());
+        temp_max_min.setText(weatherRequest.getMain().getTemp_max() + "/" + weatherRequest.getMain().getTemp_min() + "\u2103");
         InitWeatherImage(weatherRequest);
     }
 
@@ -139,7 +142,7 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
             iconWeather.setImageDrawable(getDrawable(drawable.showersscattered));
         } else if (weatherRequest.getWeathers()[0].getMain().equals("Thunderstorm")) {
             iconWeather.setImageDrawable(getDrawable(drawable.violentstorm));
-        }else {
+        } else {
             iconWeather.setImageDrawable(getDrawable(drawable.severealert));
         }
     }
