@@ -93,8 +93,8 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
     }
 
     private void initWeatherToAPI() {
-        LoadWeather loadWeather = new LoadWeather(this);
-        loadWeather.loadWeather(citys);
+           LoadWeather loadWeather = new LoadWeather(this);
+           loadWeather.loadWeather(citys, MainActivity.this);
     }
 
     private void initRecyclerView(SocialDataSource data) {
