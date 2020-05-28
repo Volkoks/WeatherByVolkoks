@@ -72,11 +72,12 @@ public class LoadWeather {
             ADError(context, e.getMessage());
         }
     }
-public void ADError (Context context, String error){
+
+    public void ADError(Context context, String error) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("ОШИБКА СОЕДЕНЕНИЯ!")
                 .setMessage(error);
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-}
+    }
 }
