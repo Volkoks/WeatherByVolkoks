@@ -58,7 +58,7 @@ public class LoadWeather {
                         });
                     } catch (Exception e) {
                         e.printStackTrace();
-                        ADError(context, e.getMessage());
+                        interfaceLoaderWeather.ADError(e);
                     }
                 }
 
@@ -69,7 +69,7 @@ public class LoadWeather {
             }).start();
         } catch (Exception e) {
             e.printStackTrace();
-            ADError(context, e.getMessage());
+            interfaceLoaderWeather.ADError(e);
         }
     }
 public void ADError (Context context, String error){

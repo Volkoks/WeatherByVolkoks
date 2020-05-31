@@ -135,6 +135,24 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
         InitWeatherImage(weatherRequest);
     }
 
+    @Override
+    public void ADError(final Exception e) {
+        new Thread(){
+            public void run(){
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setTitle("ERROR")
+                                .setMessage(e.getMessage());
+                        AlertDialog alertDialog = builder.create();
+                        alertDialog.show();
+                    }
+                });
+            }
+        }.start();
+    }
+
     private void InitWeatherImage(WeatherRequest weatherRequest) {
         if (weatherRequest.getWeathers()[0].getMain().equals("Clouds")) {
             iconWeather.setImageDrawable(getDrawable(drawable.overcast));
