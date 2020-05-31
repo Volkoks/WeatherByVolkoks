@@ -33,7 +33,7 @@ public class LoadWeather {
         this.interfaceLoaderWeather = interfaceLoaderWeather;
     }
 
-    public void loadWeather(String city, final Context context) {
+    public void loadWeather(String city) {
         try {
             final URL uri = new URL(Constants.WEATHER_URL_START + city + Constants.WEATHER_URL_FINISH + BuildConfig.WEATHER_API_KEY);
             final Handler handler = new Handler();
@@ -72,11 +72,4 @@ public class LoadWeather {
             interfaceLoaderWeather.ADError(e);
         }
     }
-public void ADError (Context context, String error){
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("ОШИБКА СОЕДЕНЕНИЯ!")
-                .setMessage(error);
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-}
 }
