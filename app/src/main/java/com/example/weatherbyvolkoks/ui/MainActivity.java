@@ -94,7 +94,7 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
 
     private void initWeatherToAPI() {
            LoadWeather loadWeather = new LoadWeather(this);
-           loadWeather.loadWeather(citys, MainActivity.this);
+           loadWeather.loadWeather(citys);
     }
 
     private void initRecyclerView(SocialDataSource data) {
@@ -133,6 +133,16 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
         description.setText(weatherRequest.getWeathers()[0].getDescription());
         temp_max_min.setText(weatherRequest.getMain().getTemp_max() + "/" + weatherRequest.getMain().getTemp_min() + "\u2103");
         InitWeatherImage(weatherRequest);
+    }
+
+    @Override
+    public void ADError(Exception e) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("ERROR")
+                .setMessage(e.getMessage());
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
     }
 
     private void InitWeatherImage(WeatherRequest weatherRequest) {
