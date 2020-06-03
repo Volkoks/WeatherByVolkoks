@@ -4,18 +4,15 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.weatherbyvolkoks.BaseActivity;
 import com.example.weatherbyvolkoks.data.LoadWeather;
 import com.example.weatherbyvolkoks.data.InterfaceLoaderWeather;
@@ -136,13 +133,17 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
     }
 
     @Override
-    public void ADError(Exception e) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("ERROR")
-                .setMessage(e.getMessage());
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-
+    public void ADError(final Exception e) {
+        MainActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("ERROR")
+                        .setMessage(e.getMessage());
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
     }
 
     private void InitWeatherImage(WeatherRequest weatherRequest) {
@@ -162,6 +163,7 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
             iconWeather.setImageDrawable(getDrawable(drawable.severealert));
         }
     }
+
     private void initAlertDialogAboutApp(){
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(string.about_app)

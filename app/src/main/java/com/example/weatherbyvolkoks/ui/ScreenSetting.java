@@ -2,11 +2,9 @@ package com.example.weatherbyvolkoks.ui;
 
 import android.os.Bundle;
 import androidx.appcompat.widget.SwitchCompat;
-
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
-
 import com.example.weatherbyvolkoks.BaseActivity;
 import com.example.weatherbyvolkoks.R;
 

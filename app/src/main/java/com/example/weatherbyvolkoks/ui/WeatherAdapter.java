@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-
 import com.example.weatherbyvolkoks.R;
 import com.example.weatherbyvolkoks.data.Soc.Soc;
 import com.example.weatherbyvolkoks.data.Soc.SocialDataSource;
