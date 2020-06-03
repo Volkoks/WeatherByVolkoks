@@ -1,28 +1,15 @@
 package com.example.weatherbyvolkoks.data;
 
-import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
-
 import com.example.weatherbyvolkoks.BuildConfig;
-import com.example.weatherbyvolkoks.R;
-import com.example.weatherbyvolkoks.data.API.Main;
 import com.example.weatherbyvolkoks.data.API.WeatherRequest;
-
-import com.example.weatherbyvolkoks.ui.MainActivity;
 import com.google.gson.Gson;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.stream.Collectors;
-
 import javax.net.ssl.HttpsURLConnection;
 
 public class LoadWeather {
