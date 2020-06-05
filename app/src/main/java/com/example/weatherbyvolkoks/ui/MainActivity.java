@@ -17,8 +17,6 @@ import android.widget.Toast;
 import com.example.weatherbyvolkoks.BaseActivity;
 import com.example.weatherbyvolkoks.BuildConfig;
 import com.example.weatherbyvolkoks.MyApplicationForRetrofit;
-import com.example.weatherbyvolkoks.data.LoadWeather;
-import com.example.weatherbyvolkoks.data.InterfaceLoaderWeather;
 import com.example.weatherbyvolkoks.data.LoaderWeatherRetrofit;
 import com.example.weatherbyvolkoks.data.Parcel;
 import com.example.weatherbyvolkoks.R;
@@ -30,17 +28,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.weatherbyvolkoks.R.*;
 
-public class MainActivity extends BaseActivity implements InterfaceLoaderWeather {
+public class MainActivity extends BaseActivity {
     private static String citys = "Moscow";
     private final static int REQUEST_CODE = 1;
     private final static int SETTING_CODE = 2;
 
     private LoaderWeatherRetrofit loaderWeatherRetrofit;
-    private SharedPreferences sharedPreferences;
     private TextView city;
     private TextView temperature;
     private TextView description;
@@ -53,7 +49,6 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
         setContentView(layout.activity_main);
         Toolbar toolbar = findViewById(id.toolbar);
         setSupportActionBar(toolbar);
-//        initWeatherToAPI();
         SocialDataSource sourceData = new SocSourceBuilder().setResources(getResources()).build();
         initGUI();
         initRecyclerView(sourceData);
@@ -89,12 +84,37 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
                         temperature.setText(String.format(valueTemperature + "\u2103"));
                         description.setText(valueDescription);
                         temp_max_min.setText(String.format("%d/%d", valueTempMax, valueTempMin));
-                        InitWeatherImage(response.body());
+
+
+                        if (response.body().getWeathers()[0].getMain().equals("Clouds")) {
+                            iconWeather.setImageDrawable(getDrawable(drawable.overcast));
+                        } else if (response.body().getWeathers()[0].getMain().equals("Rain")) {
+                            iconWeather.setImageDrawable(getDrawable(drawable.showers));
+                        } else if (response.body().getWeathers()[0].getMain().equals("Snow")) {
+                            iconWeather.setImageDrawable(getDrawable(drawable.snows));
+                        } else if (response.body().getWeathers()[0].getMain().equals("Clear")) {
+                            iconWeather.setImageDrawable(getDrawable(drawable.cleare));
+                        } else if (response.body().getWeathers()[0].getMain().equals("Drizzle")) {
+                            iconWeather.setImageDrawable(getDrawable(drawable.showersscattered));
+                        } else if (response.body().getWeathers()[0].getMain().equals("Thunderstorm")) {
+                            iconWeather.setImageDrawable(getDrawable(drawable.violentstorm));
+                        } else {
+                            iconWeather.setImageDrawable(getDrawable(drawable.severealert));
+                        }
                     }
 
                     @Override
                     public void onFailure(Call<WeatherRequest> call, final Throwable t) {
-
+                        MainActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                                builder.setTitle("ERROR")
+                                        .setMessage(t.getMessage());
+                                AlertDialog alertDialog = builder.create();
+                                alertDialog.show();
+                            }
+                        });
                     }
                 });
     }
@@ -124,18 +144,13 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
                 startActivityForResult(intent2, REQUEST_CODE);
                 break;
             case R.id.refresh_the_weather:
-                initWeatherToAPI();
+                requestRetrofit(citys, BuildConfig.WEATHER_API_KEY);
                 break;
             case R.id.about_app:
                 initAlertDialogAboutApp();
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void initWeatherToAPI() {
-           LoadWeather loadWeather = new LoadWeather(this);
-           loadWeather.loadWeather(citys);
     }
 
     private void initRecyclerView(SocialDataSource data) {
@@ -161,51 +176,9 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
                 Parcel parcel = (Parcel) data.getSerializableExtra("parcel");
                 city.setText(parcel.cityName);
                 citys = parcel.weatherCityName;
-//                initWeatherToAPI();
                 requestRetrofit(citys, BuildConfig.WEATHER_API_KEY);
 
             }
-        }
-    }
-
-    @Override
-    public void activate(WeatherRequest weatherRequest) {
-        city.setText(weatherRequest.getName());
-        temperature.setText(String.format((weatherRequest.getMain().getTemp()+ "\u2103")));
-        description.setText(weatherRequest.getWeathers()[0].getDescription());
-        temp_max_min.setText(weatherRequest.getMain().getTemp_max() + "/" + weatherRequest.getMain().getTemp_min() + "\u2103");
-        InitWeatherImage(weatherRequest);
-    }
-
-    @Override
-    public void ADError(final Exception e) {
-        MainActivity.this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("ERROR")
-                        .setMessage(e.getMessage());
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-            }
-        });
-    }
-
-    private void InitWeatherImage(WeatherRequest weatherRequest) {
-        if (weatherRequest.getWeathers()[0].getMain().equals("Clouds")) {
-            iconWeather.setImageDrawable(getDrawable(drawable.overcast));
-        } else if (weatherRequest.getWeathers()[0].getMain().equals("Rain")) {
-            iconWeather.setImageDrawable(getDrawable(drawable.showers));
-        } else if (weatherRequest.getWeathers()[0].getMain().equals("Snow")) {
-            iconWeather.setImageDrawable(getDrawable(drawable.snows));
-        } else if (weatherRequest.getWeathers()[0].getMain().equals("Clear")) {
-            iconWeather.setImageDrawable(getDrawable(drawable.cleare));
-        } else if (weatherRequest.getWeathers()[0].getMain().equals("Drizzle")) {
-            iconWeather.setImageDrawable(getDrawable(drawable.showersscattered));
-        } else if (weatherRequest.getWeathers()[0].getMain().equals("Thunderstorm")) {
-            iconWeather.setImageDrawable(getDrawable(drawable.violentstorm));
-        } else {
-            iconWeather.setImageDrawable(getDrawable(drawable.severealert));
         }
     }
 
