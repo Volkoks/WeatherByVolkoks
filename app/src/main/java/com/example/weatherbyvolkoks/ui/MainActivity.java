@@ -5,15 +5,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.weatherbyvolkoks.BaseActivity;
 import com.example.weatherbyvolkoks.BuildConfig;
 import com.example.weatherbyvolkoks.MyApplicationForRetrofit;
@@ -23,6 +26,11 @@ import com.example.weatherbyvolkoks.R;
 import com.example.weatherbyvolkoks.data.Soc.SocSourceBuilder;
 import com.example.weatherbyvolkoks.data.Soc.SocialDataSource;
 import com.example.weatherbyvolkoks.data.API.WeatherRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -69,37 +77,50 @@ public class MainActivity extends BaseActivity {
         Retrofit retrofit = MyApplicationForRetrofit.getCreateRetrofit();
         loaderWeatherRetrofit = retrofit.create(LoaderWeatherRetrofit.class);
     }
-    private void requestRetrofit(String cityName, String keyApi){
+
+    private void requestRetrofit(String cityName, String keyApi) {
         loaderWeatherRetrofit.loadWeather(citys, BuildConfig.WEATHER_API_KEY)
                 .enqueue(new Callback<WeatherRequest>() {
                     @Override
                     public void onResponse(Call<WeatherRequest> call, Response<WeatherRequest> response) {
-                        String valueCity = response.body().getName();
-                        int valueTemperature = (int) response.body().getMain().getTemp();
-                        String valueDescription = response.body().getWeathers()[0].getDescription();
-                        int valueTempMax = (int) response.body().getMain().getTemp_max();
-                        int valueTempMin = (int) response.body().getMain().getTemp_min();
+                        if (response.body() != null && response.isSuccessful()) {
+                            String valueCity = response.body().getName();
+                            int valueTemperature = (int) response.body().getMain().getTemp();
+                            String valueDescription = response.body().getWeathers()[0].getDescription();
+                            int valueTempMax = (int) response.body().getMain().getTemp_max();
+                            int valueTempMin = (int) response.body().getMain().getTemp_min();
 
-                        city.setText(valueCity);
-                        temperature.setText(String.format(valueTemperature + "\u2103"));
-                        description.setText(valueDescription);
-                        temp_max_min.setText(String.format("%d/%d", valueTempMax, valueTempMin));
+                            city.setText(valueCity);
+                            temperature.setText(String.format(valueTemperature + "\u2103"));
+                            description.setText(valueDescription);
+                            temp_max_min.setText(String.format("%d/%d", valueTempMax, valueTempMin));
 
-
-                        if (response.body().getWeathers()[0].getMain().equals("Clouds")) {
-                            iconWeather.setImageDrawable(getDrawable(drawable.overcast));
-                        } else if (response.body().getWeathers()[0].getMain().equals("Rain")) {
-                            iconWeather.setImageDrawable(getDrawable(drawable.showers));
-                        } else if (response.body().getWeathers()[0].getMain().equals("Snow")) {
-                            iconWeather.setImageDrawable(getDrawable(drawable.snows));
-                        } else if (response.body().getWeathers()[0].getMain().equals("Clear")) {
-                            iconWeather.setImageDrawable(getDrawable(drawable.cleare));
-                        } else if (response.body().getWeathers()[0].getMain().equals("Drizzle")) {
-                            iconWeather.setImageDrawable(getDrawable(drawable.showersscattered));
-                        } else if (response.body().getWeathers()[0].getMain().equals("Thunderstorm")) {
-                            iconWeather.setImageDrawable(getDrawable(drawable.violentstorm));
-                        } else {
-                            iconWeather.setImageDrawable(getDrawable(drawable.severealert));
+                            if (response.body().getWeathers()[0].getMain().equals("Clouds")) {
+                                iconWeather.setImageDrawable(getDrawable(drawable.overcast));
+                            } else if (response.body().getWeathers()[0].getMain().equals("Rain")) {
+                                iconWeather.setImageDrawable(getDrawable(drawable.showers));
+                            } else if (response.body().getWeathers()[0].getMain().equals("Snow")) {
+                                iconWeather.setImageDrawable(getDrawable(drawable.snows));
+                            } else if (response.body().getWeathers()[0].getMain().equals("Clear")) {
+                                iconWeather.setImageDrawable(getDrawable(drawable.cleare));
+                            } else if (response.body().getWeathers()[0].getMain().equals("Drizzle")) {
+                                iconWeather.setImageDrawable(getDrawable(drawable.showersscattered));
+                            } else if (response.body().getWeathers()[0].getMain().equals("Thunderstorm")) {
+                                iconWeather.setImageDrawable(getDrawable(drawable.violentstorm));
+                            } else {
+                                iconWeather.setImageDrawable(getDrawable(drawable.severealert));
+                            }
+                        }
+                        if (!response.isSuccessful() && response.errorBody() != null) {
+                            try {
+                                JSONObject jsonError = new JSONObject(response.errorBody().string());
+                                String error = jsonError.getString("message");
+                                ADError("Ошибка JSON", error);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
 
@@ -182,7 +203,20 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void initAlertDialogAboutApp(){
+    public void ADError(String title, String e) {
+        MainActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle(title)
+                        .setMessage(e);
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
+    }
+
+    private void initAlertDialogAboutApp() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(string.about_app)
                 .setMessage(string.about_app_message)
@@ -190,7 +224,7 @@ public class MainActivity extends BaseActivity {
                 .setPositiveButton(string.btn_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(),"Спасибо что выбрали нас!)", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Спасибо что выбрали нас!)", Toast.LENGTH_SHORT).show();
                     }
                 });
         AlertDialog alertDialog = builder.create();
