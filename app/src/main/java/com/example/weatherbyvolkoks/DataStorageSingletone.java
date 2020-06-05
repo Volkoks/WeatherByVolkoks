@@ -8,7 +8,6 @@ public class DataStorageSingletone{
     private static DataStorageSingletone instance = null;
     private static final Object synchObj = new Object();
 
-
     private List<String> citys;
 
     private DataStorageSingletone() {
