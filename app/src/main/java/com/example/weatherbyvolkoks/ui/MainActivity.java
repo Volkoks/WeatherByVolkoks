@@ -3,7 +3,6 @@ package com.example.weatherbyvolkoks.ui;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -61,7 +60,7 @@ public class MainActivity extends BaseActivity {
         initGUI();
         initRecyclerView(sourceData);
         initRetrofit();
-        requestRetrofit(citys, BuildConfig.WEATHER_API_KEY);
+        requestRetrofit(citys);
 
     }
 
@@ -78,8 +77,8 @@ public class MainActivity extends BaseActivity {
         loaderWeatherRetrofit = retrofit.create(LoaderWeatherRetrofit.class);
     }
 
-    private void requestRetrofit(String cityName, String keyApi) {
-        loaderWeatherRetrofit.loadWeather(cityName, keyApi)
+    private void requestRetrofit(String cityName) {
+        loaderWeatherRetrofit.loadWeather(cityName, BuildConfig.WEATHER_API_KEY)
                 .enqueue(new Callback<WeatherRequest>() {
                     @Override
                     public void onResponse(Call<WeatherRequest> call, Response<WeatherRequest> response) {
@@ -167,7 +166,7 @@ public class MainActivity extends BaseActivity {
                 startActivityForResult(intent2, REQUEST_CODE);
                 break;
             case R.id.refresh_the_weather:
-                requestRetrofit(citys, BuildConfig.WEATHER_API_KEY);
+                requestRetrofit(citys);
                 break;
             case R.id.about_app:
                 initAlertDialogAboutApp();
@@ -199,7 +198,7 @@ public class MainActivity extends BaseActivity {
                 Parcel parcel = (Parcel) data.getSerializableExtra("parcel");
                 city.setText(parcel.cityName);
                 citys = parcel.weatherCityName;
-                requestRetrofit(citys, BuildConfig.WEATHER_API_KEY);
+                requestRetrofit(citys);
 
             }
         }
