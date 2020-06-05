@@ -30,4 +30,7 @@
     <string name="choose_a_city_tool_bar">choose_a_city_tool_bar</string>
     <string name="description">description</string>
     <string name="refresh">refresh</string>
+    <string name="about_app">About app</string>
+    <string name="about_app_message">Educational application "Weather". Developer - Alexander Volkov.</string>
+    <string name="btn_ok">OK</string>
 </resources>

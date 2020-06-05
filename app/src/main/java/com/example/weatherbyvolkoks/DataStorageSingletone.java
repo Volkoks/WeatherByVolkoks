@@ -1,10 +1,10 @@
 package com.example.weatherbyvolkoks;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataStorageSingletone implements Serializable {
+public class DataStorageSingletone{
+
     private static DataStorageSingletone instance = null;
     private static final Object synchObj = new Object();
 

@@ -2,22 +2,14 @@ package com.example.weatherbyvolkoks.data;
 
 import android.os.Build;
 import android.os.Handler;
-import android.view.View;
-import android.widget.TextView;
-
 import androidx.annotation.RequiresApi;
-
 import com.example.weatherbyvolkoks.BuildConfig;
-import com.example.weatherbyvolkoks.R;
 import com.example.weatherbyvolkoks.data.API.WeatherRequest;
-
 import com.google.gson.Gson;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.stream.Collectors;
-
 import javax.net.ssl.HttpsURLConnection;
 
 public class LoadWeather {
@@ -53,6 +45,7 @@ public class LoadWeather {
                         });
                     } catch (Exception e) {
                         e.printStackTrace();
+                        interfaceLoaderWeather.ADError(e);
                     }
                 }
 
@@ -63,7 +56,7 @@ public class LoadWeather {
             }).start();
         } catch (Exception e) {
             e.printStackTrace();
+            interfaceLoaderWeather.ADError(e);
         }
-
     }
 }

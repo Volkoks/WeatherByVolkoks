@@ -1,18 +1,18 @@
 package com.example.weatherbyvolkoks.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import com.example.weatherbyvolkoks.BaseActivity;
 import com.example.weatherbyvolkoks.data.LoadWeather;
 import com.example.weatherbyvolkoks.data.InterfaceLoaderWeather;
@@ -32,6 +32,7 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
     private TextView city;
     private TextView temperature;
     private TextView description;
+    private TextView temp_max_min;
     private ImageView iconWeather;
 
     @Override
@@ -51,6 +52,7 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
         temperature = findViewById(id.Temperature);
         description = findViewById(id.weather_description);
         iconWeather = findViewById(id.iconWeatherView);
+        temp_max_min = findViewById(id.temp_max_min);
     }
 
     @Override
@@ -80,13 +82,16 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
             case R.id.refresh_the_weather:
                 initWeatherToAPI();
                 break;
+            case R.id.about_app:
+                initAlertDialogAboutApp();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void initWeatherToAPI() {
-        LoadWeather loadWeather = new LoadWeather(this);
-        loadWeather.loadWeather(citys);
+           LoadWeather loadWeather = new LoadWeather(this);
+           loadWeather.loadWeather(citys);
     }
 
     private void initRecyclerView(SocialDataSource data) {
@@ -121,9 +126,24 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
     @Override
     public void activate(WeatherRequest weatherRequest) {
         city.setText(weatherRequest.getName());
-        temperature.setText(String.format(String.valueOf(weatherRequest.getMain().getTemp())));
+        temperature.setText(String.format((weatherRequest.getMain().getTemp()+ "\u2103")));
         description.setText(weatherRequest.getWeathers()[0].getDescription());
+        temp_max_min.setText(weatherRequest.getMain().getTemp_max() + "/" + weatherRequest.getMain().getTemp_min() + "\u2103");
         InitWeatherImage(weatherRequest);
+    }
+
+    @Override
+    public void ADError(final Exception e) {
+        MainActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("ERROR")
+                        .setMessage(e.getMessage());
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
     }
 
     private void InitWeatherImage(WeatherRequest weatherRequest) {
@@ -139,8 +159,23 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
             iconWeather.setImageDrawable(getDrawable(drawable.showersscattered));
         } else if (weatherRequest.getWeathers()[0].getMain().equals("Thunderstorm")) {
             iconWeather.setImageDrawable(getDrawable(drawable.violentstorm));
-        }else {
+        } else {
             iconWeather.setImageDrawable(getDrawable(drawable.severealert));
         }
+    }
+
+    private void initAlertDialogAboutApp(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle(string.about_app)
+                .setMessage(string.about_app_message)
+                .setCancelable(false)
+                .setPositiveButton(string.btn_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(),"Спасибо что выбрали нас!)", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }
