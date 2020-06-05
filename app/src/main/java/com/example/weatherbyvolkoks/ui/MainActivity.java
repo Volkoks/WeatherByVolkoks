@@ -3,6 +3,7 @@ package com.example.weatherbyvolkoks.ui;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,13 +15,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.weatherbyvolkoks.BaseActivity;
+import com.example.weatherbyvolkoks.BuildConfig;
+import com.example.weatherbyvolkoks.MyApplicationForRetrofit;
 import com.example.weatherbyvolkoks.data.LoadWeather;
 import com.example.weatherbyvolkoks.data.InterfaceLoaderWeather;
+import com.example.weatherbyvolkoks.data.LoaderWeatherRetrofit;
 import com.example.weatherbyvolkoks.data.Parcel;
 import com.example.weatherbyvolkoks.R;
 import com.example.weatherbyvolkoks.data.Soc.SocSourceBuilder;
 import com.example.weatherbyvolkoks.data.Soc.SocialDataSource;
 import com.example.weatherbyvolkoks.data.API.WeatherRequest;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.weatherbyvolkoks.R.*;
 
@@ -29,6 +39,8 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
     private final static int REQUEST_CODE = 1;
     private final static int SETTING_CODE = 2;
 
+    private LoaderWeatherRetrofit loaderWeatherRetrofit;
+    private SharedPreferences sharedPreferences;
     private TextView city;
     private TextView temperature;
     private TextView description;
@@ -41,18 +53,50 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
         setContentView(layout.activity_main);
         Toolbar toolbar = findViewById(id.toolbar);
         setSupportActionBar(toolbar);
-        initWeatherToAPI();
+//        initWeatherToAPI();
         SocialDataSource sourceData = new SocSourceBuilder().setResources(getResources()).build();
-        init();
+        initGUI();
         initRecyclerView(sourceData);
+        initRetrofit();
+        requestRetrofit(citys, BuildConfig.WEATHER_API_KEY);
+
     }
 
-    private void init() {
+    private void initGUI() {
         city = findViewById(id.City);
         temperature = findViewById(id.Temperature);
         description = findViewById(id.weather_description);
         iconWeather = findViewById(id.iconWeatherView);
         temp_max_min = findViewById(id.temp_max_min);
+    }
+
+    private void initRetrofit() {
+        Retrofit retrofit = MyApplicationForRetrofit.getCreateRetrofit();
+        loaderWeatherRetrofit = retrofit.create(LoaderWeatherRetrofit.class);
+    }
+    private void requestRetrofit(String cityName, String keyApi){
+        loaderWeatherRetrofit.loadWeather(citys, BuildConfig.WEATHER_API_KEY)
+                .enqueue(new Callback<WeatherRequest>() {
+                    @Override
+                    public void onResponse(Call<WeatherRequest> call, Response<WeatherRequest> response) {
+                        String valueCity = response.body().getName();
+                        int valueTemperature = (int) response.body().getMain().getTemp();
+                        String valueDescription = response.body().getWeathers()[0].getDescription();
+                        int valueTempMax = (int) response.body().getMain().getTemp_max();
+                        int valueTempMin = (int) response.body().getMain().getTemp_min();
+
+                        city.setText(valueCity);
+                        temperature.setText(String.format(valueTemperature + "\u2103"));
+                        description.setText(valueDescription);
+                        temp_max_min.setText(String.format("%d/%d", valueTempMax, valueTempMin));
+                        InitWeatherImage(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<WeatherRequest> call, final Throwable t) {
+
+                    }
+                });
     }
 
     @Override
@@ -117,7 +161,8 @@ public class MainActivity extends BaseActivity implements InterfaceLoaderWeather
                 Parcel parcel = (Parcel) data.getSerializableExtra("parcel");
                 city.setText(parcel.cityName);
                 citys = parcel.weatherCityName;
-                initWeatherToAPI();
+//                initWeatherToAPI();
+                requestRetrofit(citys, BuildConfig.WEATHER_API_KEY);
 
             }
         }
