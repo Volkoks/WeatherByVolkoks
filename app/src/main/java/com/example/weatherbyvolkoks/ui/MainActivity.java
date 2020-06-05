@@ -127,16 +127,7 @@ public class MainActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(Call<WeatherRequest> call, final Throwable t) {
-                        MainActivity.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                                builder.setTitle("ERROR")
-                                        .setMessage(t.getMessage());
-                                AlertDialog alertDialog = builder.create();
-                                alertDialog.show();
-                            }
-                        });
+                        ADError("ERROR onFailure", t.getMessage());
                     }
                 });
     }
