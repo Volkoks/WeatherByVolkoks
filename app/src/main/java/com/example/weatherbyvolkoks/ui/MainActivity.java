@@ -79,16 +79,16 @@ public class MainActivity extends BaseActivity {
     }
 
     private void requestRetrofit(String cityName, String keyApi) {
-        loaderWeatherRetrofit.loadWeather(citys, BuildConfig.WEATHER_API_KEY)
+        loaderWeatherRetrofit.loadWeather(cityName, keyApi)
                 .enqueue(new Callback<WeatherRequest>() {
                     @Override
                     public void onResponse(Call<WeatherRequest> call, Response<WeatherRequest> response) {
                         if (response.body() != null && response.isSuccessful()) {
                             String valueCity = response.body().getName();
-                            int valueTemperature = (int) response.body().getMain().getTemp();
+                            float valueTemperature = response.body().getMain().getTemp();
                             String valueDescription = response.body().getWeathers()[0].getDescription();
-                            int valueTempMax = (int) response.body().getMain().getTemp_max();
-                            int valueTempMin = (int) response.body().getMain().getTemp_min();
+                            float valueTempMax = response.body().getMain().getTemp_max();
+                            float valueTempMin =  response.body().getMain().getTemp_min();
 
                             city.setText(valueCity);
                             temperature.setText(String.format(valueTemperature + "\u2103"));
@@ -118,8 +118,10 @@ public class MainActivity extends BaseActivity {
                                 ADError("Ошибка JSON", error);
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                                ADError("Ошибка JSON JSONException", e.getMessage());
                             } catch (IOException e) {
                                 e.printStackTrace();
+                                ADError("Ошибка JSON IOException", e.getMessage());
                             }
                         }
                     }
