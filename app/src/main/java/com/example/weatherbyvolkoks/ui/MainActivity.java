@@ -19,7 +19,8 @@ import android.widget.Toast;
 import com.example.weatherbyvolkoks.BaseActivity;
 import com.example.weatherbyvolkoks.BuildConfig;
 import com.example.weatherbyvolkoks.MyApplicationForRetrofit;
-import com.example.weatherbyvolkoks.data.Constants;
+import com.example.weatherbyvolkoks.data.ILoaderWeather;
+import com.example.weatherbyvolkoks.data.LoaderWeather;
 import com.example.weatherbyvolkoks.data.LoaderWeatherRetrofit;
 import com.example.weatherbyvolkoks.data.Parcel;
 import com.example.weatherbyvolkoks.R;
@@ -40,12 +41,11 @@ import retrofit2.Retrofit;
 
 import static com.example.weatherbyvolkoks.R.*;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements ILoaderWeather {
     private static String citys = "Moscow";
     private final static int REQUEST_CODE = 1;
     private final static int SETTING_CODE = 2;
 
-    private LoaderWeatherRetrofit loaderWeatherRetrofit;
     private TextView city;
     private TextView temperature;
     private TextView description;
@@ -61,9 +61,13 @@ public class MainActivity extends BaseActivity {
         SocialDataSource sourceData = new SocSourceBuilder().setResources(getResources()).build();
         initGUI();
         initRecyclerView(sourceData);
-        initRetrofit();
-        requestRetrofit(citys);
+        initWeatherToAPI();
 
+    }
+
+    private void initWeatherToAPI() {
+        LoaderWeather loaderWeather = new LoaderWeather(this);
+        loaderWeather.downloadWeather(citys);
     }
 
     private void initGUI() {
@@ -72,66 +76,6 @@ public class MainActivity extends BaseActivity {
         description = findViewById(id.weather_description);
         iconWeather = findViewById(id.iconWeatherView);
         temp_max_min = findViewById(id.temp_max_min);
-    }
-
-    private void initRetrofit() {
-        Retrofit retrofit = MyApplicationForRetrofit.getCreateRetrofit();
-        loaderWeatherRetrofit = retrofit.create(LoaderWeatherRetrofit.class);
-    }
-
-    private void requestRetrofit(String cityName) {
-        loaderWeatherRetrofit.loadWeather(cityName, "metric", "ru", BuildConfig.WEATHER_API_KEY)
-                .enqueue(new Callback<WeatherRequest>() {
-                    @Override
-                    public void onResponse(Call<WeatherRequest> call, Response<WeatherRequest> response) {
-                        if (response.body() != null && response.isSuccessful()) {
-                            String valueCity = response.body().getName();
-                            int valueTemperature = (int) response.body().getMain().getTemp();
-                            String valueDescription = response.body().getWeathers()[0].getDescription();
-                            int valueTempMax = (int) response.body().getMain().getTemp_max();
-                            int valueTempMin = (int) response.body().getMain().getTemp_min();
-
-                            city.setText(valueCity);
-                            temperature.setText(String.format(valueTemperature + "\u2103"));
-                            description.setText(valueDescription);
-                            temp_max_min.setText(String.format("%d/%d"+"\u2103", valueTempMax, valueTempMin));
-
-                            if (response.body().getWeathers()[0].getMain().equals("Clouds")) {
-                                Picasso.get().load(drawable.overcast).into(iconWeather);
-                            } else if (response.body().getWeathers()[0].getMain().equals("Rain")) {
-                                Picasso.get().load(drawable.showers).into(iconWeather);
-                            } else if (response.body().getWeathers()[0].getMain().equals("Snow")) {
-                                Picasso.get().load(drawable.snows).into(iconWeather);
-                            } else if (response.body().getWeathers()[0].getMain().equals("Clear")) {
-                                Picasso.get().load(drawable.cleare).into(iconWeather);
-                            } else if (response.body().getWeathers()[0].getMain().equals("Drizzle")) {
-                                Picasso.get().load(drawable.showersscattered).into(iconWeather);
-                            } else if (response.body().getWeathers()[0].getMain().equals("Thunderstorm")) {
-                                Picasso.get().load(drawable.violentstorm).into(iconWeather);
-                            } else {
-                                Picasso.get().load(drawable.severealert).into(iconWeather);
-                            }
-                        }
-                        if (!response.isSuccessful() && response.errorBody() != null) {
-                            try {
-                                JSONObject jsonError = new JSONObject(response.errorBody().string());
-                                String error = jsonError.getString("message");
-                                ADError("Ошибка JSON", error);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                ADError("Ошибка JSON JSONException", e.getMessage());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                                ADError("Ошибка JSON IOException", e.getMessage());
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<WeatherRequest> call, final Throwable t) {
-                        ADError("ERROR onFailure", t.getMessage());
-                    }
-                });
     }
 
     @Override
@@ -159,7 +103,7 @@ public class MainActivity extends BaseActivity {
                 startActivityForResult(intent2, REQUEST_CODE);
                 break;
             case R.id.refresh_the_weather:
-                requestRetrofit(citys);
+                initWeatherToAPI();
                 break;
             case R.id.about_app:
                 initAlertDialogAboutApp();
@@ -191,19 +135,48 @@ public class MainActivity extends BaseActivity {
                 Parcel parcel = (Parcel) data.getSerializableExtra("parcel");
                 city.setText(parcel.cityName);
                 citys = parcel.weatherCityName;
-                requestRetrofit(citys);
+                initWeatherToAPI();
 
             }
         }
     }
 
-    public void ADError(String title, String e) {
+    @Override
+    public void activate(Response<WeatherRequest> response) {
+        int valueTemperature = (int) response.body().getMain().getTemp();
+        int valueTempMax = (int) response.body().getMain().getTemp_max();
+        int valueTempMin = (int) response.body().getMain().getTemp_min();
+        city.setText(response.body().getName());
+        temperature.setText(String.format(valueTemperature + "\u2103"));
+        description.setText(response.body().getWeathers()[0].getDescription());
+        temp_max_min.setText(String.format("%d/%d" + "\u2103", valueTempMax, valueTempMin));
+
+        if (response.body().getWeathers()[0].getMain().equals("Clouds")) {
+            Picasso.get().load(drawable.overcast).into(iconWeather);
+        } else if (response.body().getWeathers()[0].getMain().equals("Rain")) {
+            Picasso.get().load(drawable.showers).into(iconWeather);
+        } else if (response.body().getWeathers()[0].getMain().equals("Snow")) {
+            Picasso.get().load(drawable.snows).into(iconWeather);
+        } else if (response.body().getWeathers()[0].getMain().equals("Clear")) {
+            Picasso.get().load(drawable.cleare).into(iconWeather);
+        } else if (response.body().getWeathers()[0].getMain().equals("Drizzle")) {
+            Picasso.get().load(drawable.showersscattered).into(iconWeather);
+        } else if (response.body().getWeathers()[0].getMain().equals("Thunderstorm")) {
+            Picasso.get().load(drawable.violentstorm).into(iconWeather);
+        } else {
+            Picasso.get().load(drawable.severealert).into(iconWeather);
+        }
+
+    }
+
+    @Override
+    public void ADError(String title, String error) {
         MainActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle(title)
-                        .setMessage(e);
+                        .setMessage(error);
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
             }
