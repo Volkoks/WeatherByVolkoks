@@ -19,12 +19,14 @@ import android.widget.Toast;
 import com.example.weatherbyvolkoks.BaseActivity;
 import com.example.weatherbyvolkoks.BuildConfig;
 import com.example.weatherbyvolkoks.MyApplicationForRetrofit;
+import com.example.weatherbyvolkoks.data.Constants;
 import com.example.weatherbyvolkoks.data.LoaderWeatherRetrofit;
 import com.example.weatherbyvolkoks.data.Parcel;
 import com.example.weatherbyvolkoks.R;
 import com.example.weatherbyvolkoks.data.Soc.SocSourceBuilder;
 import com.example.weatherbyvolkoks.data.Soc.SocialDataSource;
 import com.example.weatherbyvolkoks.data.API.WeatherRequest;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,36 +80,36 @@ public class MainActivity extends BaseActivity {
     }
 
     private void requestRetrofit(String cityName) {
-        loaderWeatherRetrofit.loadWeather(cityName,"metric","ru",BuildConfig.WEATHER_API_KEY)
+        loaderWeatherRetrofit.loadWeather(cityName, "metric", "ru", BuildConfig.WEATHER_API_KEY)
                 .enqueue(new Callback<WeatherRequest>() {
                     @Override
                     public void onResponse(Call<WeatherRequest> call, Response<WeatherRequest> response) {
                         if (response.body() != null && response.isSuccessful()) {
                             String valueCity = response.body().getName();
-                            int valueTemperature =(int) response.body().getMain().getTemp();
+                            int valueTemperature = (int) response.body().getMain().getTemp();
                             String valueDescription = response.body().getWeathers()[0].getDescription();
-                            int valueTempMax =(int) response.body().getMain().getTemp_max();
-                            int valueTempMin =(int)  response.body().getMain().getTemp_min();
+                            int valueTempMax = (int) response.body().getMain().getTemp_max();
+                            int valueTempMin = (int) response.body().getMain().getTemp_min();
 
                             city.setText(valueCity);
                             temperature.setText(String.format(valueTemperature + "\u2103"));
                             description.setText(valueDescription);
-                            temp_max_min.setText(String.format("%d/%d", valueTempMax, valueTempMin));
+                            temp_max_min.setText(String.format("%d/%d"+"\u2103", valueTempMax, valueTempMin));
 
                             if (response.body().getWeathers()[0].getMain().equals("Clouds")) {
-                                iconWeather.setImageDrawable(getDrawable(drawable.overcast));
+                                Picasso.get().load(drawable.overcast).into(iconWeather);
                             } else if (response.body().getWeathers()[0].getMain().equals("Rain")) {
-                                iconWeather.setImageDrawable(getDrawable(drawable.showers));
+                                Picasso.get().load(drawable.showers).into(iconWeather);
                             } else if (response.body().getWeathers()[0].getMain().equals("Snow")) {
-                                iconWeather.setImageDrawable(getDrawable(drawable.snows));
+                                Picasso.get().load(drawable.snows).into(iconWeather);
                             } else if (response.body().getWeathers()[0].getMain().equals("Clear")) {
-                                iconWeather.setImageDrawable(getDrawable(drawable.cleare));
+                                Picasso.get().load(drawable.cleare).into(iconWeather);
                             } else if (response.body().getWeathers()[0].getMain().equals("Drizzle")) {
-                                iconWeather.setImageDrawable(getDrawable(drawable.showersscattered));
+                                Picasso.get().load(drawable.showersscattered).into(iconWeather);
                             } else if (response.body().getWeathers()[0].getMain().equals("Thunderstorm")) {
-                                iconWeather.setImageDrawable(getDrawable(drawable.violentstorm));
+                                Picasso.get().load(drawable.violentstorm).into(iconWeather);
                             } else {
-                                iconWeather.setImageDrawable(getDrawable(drawable.severealert));
+                                Picasso.get().load(drawable.severealert).into(iconWeather);
                             }
                         }
                         if (!response.isSuccessful() && response.errorBody() != null) {
