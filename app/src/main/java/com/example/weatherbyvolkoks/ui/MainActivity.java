@@ -78,16 +78,16 @@ public class MainActivity extends BaseActivity {
     }
 
     private void requestRetrofit(String cityName) {
-        loaderWeatherRetrofit.loadWeather(cityName, BuildConfig.WEATHER_API_KEY)
+        loaderWeatherRetrofit.loadWeather(cityName,"metric","ru",BuildConfig.WEATHER_API_KEY)
                 .enqueue(new Callback<WeatherRequest>() {
                     @Override
                     public void onResponse(Call<WeatherRequest> call, Response<WeatherRequest> response) {
                         if (response.body() != null && response.isSuccessful()) {
                             String valueCity = response.body().getName();
-                            float valueTemperature = response.body().getMain().getTemp();
+                            int valueTemperature =(int) response.body().getMain().getTemp();
                             String valueDescription = response.body().getWeathers()[0].getDescription();
-                            float valueTempMax = response.body().getMain().getTemp_max();
-                            float valueTempMin =  response.body().getMain().getTemp_min();
+                            int valueTempMax =(int) response.body().getMain().getTemp_max();
+                            int valueTempMin =(int)  response.body().getMain().getTemp_min();
 
                             city.setText(valueCity);
                             temperature.setText(String.format(valueTemperature + "\u2103"));
