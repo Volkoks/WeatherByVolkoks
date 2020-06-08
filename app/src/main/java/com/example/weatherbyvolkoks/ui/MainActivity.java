@@ -17,11 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.weatherbyvolkoks.BaseActivity;
-import com.example.weatherbyvolkoks.BuildConfig;
-import com.example.weatherbyvolkoks.MyApplicationForRetrofit;
+
 import com.example.weatherbyvolkoks.data.ILoaderWeather;
 import com.example.weatherbyvolkoks.data.LoaderWeather;
-import com.example.weatherbyvolkoks.data.LoaderWeatherRetrofit;
+
 import com.example.weatherbyvolkoks.data.Parcel;
 import com.example.weatherbyvolkoks.R;
 import com.example.weatherbyvolkoks.data.Soc.SocSourceBuilder;
@@ -29,17 +28,10 @@ import com.example.weatherbyvolkoks.data.Soc.SocialDataSource;
 import com.example.weatherbyvolkoks.data.API.WeatherRequest;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 import static com.example.weatherbyvolkoks.R.*;
+import static java.lang.String.format;
 
 public class MainActivity extends BaseActivity implements ILoaderWeather {
     private static String citys = "Moscow";
@@ -147,9 +139,9 @@ public class MainActivity extends BaseActivity implements ILoaderWeather {
         int valueTempMax = (int) response.body().getMain().getTemp_max();
         int valueTempMin = (int) response.body().getMain().getTemp_min();
         city.setText(response.body().getName());
-        temperature.setText(String.format(valueTemperature + "\u2103"));
+        temperature.setText(format(valueTemperature + "\u2103"));
         description.setText(response.body().getWeathers()[0].getDescription());
-        temp_max_min.setText(String.format("%d/%d" + "\u2103", valueTempMax, valueTempMin));
+        temp_max_min.setText(format("%d/%d" + "\u2103", valueTempMax, valueTempMin));
 
         if (response.body().getWeathers()[0].getMain().equals("Clouds")) {
             Picasso.get().load(drawable.overcast).into(iconWeather);
