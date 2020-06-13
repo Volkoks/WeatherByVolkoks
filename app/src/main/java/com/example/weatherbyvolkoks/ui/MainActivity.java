@@ -18,8 +18,8 @@ import android.widget.Toast;
 
 import com.example.weatherbyvolkoks.BaseActivity;
 
-import com.example.weatherbyvolkoks.data.ILoaderWeather;
-import com.example.weatherbyvolkoks.data.LoaderWeather;
+import com.example.weatherbyvolkoks.data.loaderWeather.ILoaderWeather;
+import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeather;
 
 import com.example.weatherbyvolkoks.data.Parcel;
 import com.example.weatherbyvolkoks.R;

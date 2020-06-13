@@ -1,7 +1,7 @@
-package com.example.weatherbyvolkoks.data;
+package com.example.weatherbyvolkoks.data.loaderWeather;
 
 import com.example.weatherbyvolkoks.BuildConfig;
-import com.example.weatherbyvolkoks.MyApplicationForRetrofit;
+import com.example.weatherbyvolkoks.MyApp;
 import com.example.weatherbyvolkoks.data.API.WeatherRequest;
 
 import org.json.JSONException;
@@ -27,7 +27,7 @@ public class LoaderWeather {
     }
 
     private void initRetrofit(){
-        Retrofit retrofit = MyApplicationForRetrofit.getCreateRetrofit();
+        Retrofit retrofit = MyApp.getCreateRetrofit();
         loaderWeatherRetrofit = retrofit.create(LoaderWeatherRetrofit.class);
     }
     private void requestRetrofit(String cityName) {
