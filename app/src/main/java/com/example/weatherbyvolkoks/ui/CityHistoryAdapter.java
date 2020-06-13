@@ -1,49 +1,72 @@
 package com.example.weatherbyvolkoks.ui;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weatherbyvolkoks.R;
+import com.example.weatherbyvolkoks.data.EducationSource;
+import com.example.weatherbyvolkoks.data.HistoryCity;
 
 import java.util.List;
 
 
 public class CityHistoryAdapter extends RecyclerView.Adapter<CityHistoryAdapter.ViewHolder> {
 
-    private List<String> citys;
+    private EducationSource database;
+    private Activity activity;
+    private long menuPosition;
 
-    public CityHistoryAdapter(List<String> citys) {
-        this.citys = citys;
+    public CityHistoryAdapter(EducationSource database, Activity activity) {
+        this.database = database;
+        this.activity = activity;
     }
+
 
     @NonNull
     @Override
     public CityHistoryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_city, parent, false);
-        return new CityHistoryAdapter.ViewHolder(v);
+        ViewHolder vh = new ViewHolder(v);
+        return vh;
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull CityHistoryAdapter.ViewHolder holder, int position) {
-        holder.cityAdd.setText(citys.get(position));
+        List<HistoryCity> historyCities = database.getHistoryCities();
+        HistoryCity historyCity = historyCities.get(position);
+        holder.cityAdd.setText(historyCity.cityName);
+        holder.temp.setText(historyCity.temperature);
+        holder.descrpt.setText(historyCity.description);
+
     }
 
     @Override
     public int getItemCount() {
-        return citys.size();
+        return (int) database.getCountCity();
     }
+
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView cityAdd;
+        private TextView temp;
+        private TextView descrpt;
+        View cardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            cardView = itemView;
             cityAdd = itemView.findViewById(R.id.textView_city_add);
+            temp = itemView.findViewById(R.id.temp_cardView);
+            descrpt = itemView.findViewById(R.id.description_cardView);
         }
 
     }

@@ -3,37 +3,53 @@ package com.example.weatherbyvolkoks.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
 import com.example.weatherbyvolkoks.BaseActivity;
+import com.example.weatherbyvolkoks.MyApp;
+import com.example.weatherbyvolkoks.data.API.WeatherRequest;
+import com.example.weatherbyvolkoks.data.EducationDao;
+import com.example.weatherbyvolkoks.data.EducationSource;
+import com.example.weatherbyvolkoks.data.loaderWeather.ILoaderWeather;
+import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeather;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.weatherbyvolkoks.data.Constants;
 import com.example.weatherbyvolkoks.data.Parcel;
 import com.example.weatherbyvolkoks.R;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import retrofit2.Response;
+
 import static androidx.recyclerview.widget.LinearLayoutManager.*;
 
-public class CitySelectionScreen extends BaseActivity implements Constants {
+public class CitySelectionScreen extends BaseActivity implements Constants, ILoaderWeather {
 
+    private static String citys = "Moscow";
+    private CityHistoryAdapter adapter;
     private MaterialButton addCity;
     private RecyclerView recyclerView;
     private TextInputLayout textInputLayout;
     private TextInputEditText enterCitySelection;
     private MaterialButton btnChooseCityAndTemperature;
+    private EducationSource educationSource;
+
     private Pattern checkCity = Pattern.compile("^[A-Z][a-z]{1,}$");
     private Pattern checkCityRu = Pattern.compile("^[А-ЯЁ][а-яё]{1,}$");
-
-    private List<String> citys = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +57,7 @@ public class CitySelectionScreen extends BaseActivity implements Constants {
         setContentView(R.layout.city_selection_screen);
 
         init();
+        initWeatherToAPI();
         validateCity();
         clickToBtnBack();
         clickToBtnChooseCity();
@@ -51,13 +68,21 @@ public class CitySelectionScreen extends BaseActivity implements Constants {
         initRecyclerView();
 
     }
+    private void initWeatherToAPI() {
+        LoaderWeather loaderWeather = new LoaderWeather(this);
+        loaderWeather.downloadWeather(citys);
+    }
 
     private void initRecyclerView() {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(CitySelectionScreen.this, VERTICAL, false);
+        EducationDao educationDao = MyApp.getInstance().getEducationDao();
+        educationSource = new EducationSource(educationDao);
         DividerItemDecoration itemDecoration = new DividerItemDecoration(CitySelectionScreen.this, LinearLayoutManager.VERTICAL);
         itemDecoration.setDrawable(getDrawable(R.drawable.separator));
         recyclerView.addItemDecoration(itemDecoration);
+        adapter = new CityHistoryAdapter(educationSource, this);
+        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);
     }
 
@@ -138,11 +163,20 @@ public class CitySelectionScreen extends BaseActivity implements Constants {
     private View.OnClickListener addCityToRecyclerView = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            citys.add(enterCitySelection.getText().toString());
-            CityHistoryAdapter cityHistoryAdapter = new CityHistoryAdapter(citys);
-            recyclerView.setAdapter(cityHistoryAdapter);
+        educationSource.addCity();
 
         }
     };
 
+    @Override
+    public void activate(Response<WeatherRequest> response) {
+        String city = response.body().getName();
+        int valueTemperature = (int) response.body().getMain().getTemp();
+        String description = response.body().getWeathers()[0].getDescription();
+    }
+
+    @Override
+    public void ADError(String title, String error) {
+
+    }
 }

@@ -16,11 +16,18 @@ public class MyApp extends Application {
     private static MyApp instance;
     private EducationDatabase db;
 
+    public static MyApp getInstance() {
+        return instance;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
-        db = Room.databaseBuilder(getApplicationContext(),EducationDatabase.class,"education_database")
+        db = Room.databaseBuilder(getApplicationContext()
+                ,EducationDatabase.class
+                ,"education_database")
+                .allowMainThreadQueries()
                 .build();
     }
     public EducationDao getEducationDao(){

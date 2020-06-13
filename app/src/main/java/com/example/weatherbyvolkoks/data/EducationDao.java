@@ -4,6 +4,9 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
+
+import java.util.List;
 
 @Dao
 public interface EducationDao {
@@ -13,4 +16,11 @@ public interface EducationDao {
 
     @Delete
     void deleteCity(HistoryCity historyCity);
+
+    @Query("SELECT * FROM historyCity")
+    List<HistoryCity> getAllCity();
+
+    @Query("SELECT COUNT() FROM historyCity")
+    long getCountHistoryCity();
+
 }
