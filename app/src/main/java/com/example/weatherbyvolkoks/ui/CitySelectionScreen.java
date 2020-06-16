@@ -15,12 +15,16 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import android.view.ContextMenu;
 import android.view.KeyEvent;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,9 +41,10 @@ import retrofit2.Response;
 
 import static androidx.recyclerview.widget.LinearLayoutManager.*;
 
-public class CitySelectionScreen extends BaseActivity implements Constants, ILoaderWeather{
+public class CitySelectionScreen extends BaseActivity implements Constants, ILoaderWeather {
 
-    private static String citys = null;
+    private String CITY = "Moscow";
+    private CityHistoryAdapter cityHistoryAdapter;
     private MaterialButton addCity;
     private RecyclerView recyclerView;
     private TextInputLayout textInputLayout;
@@ -59,16 +64,16 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
         validateCity();
         clickToBtnBack();
         clickToBtnChooseCity();
-
+        initWeatherToAPI();
         enterCitySelection.setOnKeyListener(selectCityListenerMK);
         addCity.setOnClickListener(addCityToRecyclerView);
 
         initRecyclerView();
-
     }
+
     private void initWeatherToAPI() {
         LoaderWeather loaderWeather = new LoaderWeather(this);
-        loaderWeather.downloadWeather(citys);
+        loaderWeather.downloadWeather(CITY);
     }
 
     private void initRecyclerView() {
@@ -79,7 +84,9 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
         DividerItemDecoration itemDecoration = new DividerItemDecoration(CitySelectionScreen.this, LinearLayoutManager.VERTICAL);
         itemDecoration.setDrawable(getDrawable(R.drawable.separator));
         recyclerView.addItemDecoration(itemDecoration);
+        cityHistoryAdapter = new CityHistoryAdapter(educationSource, this);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(cityHistoryAdapter);
     }
 
     private void init() {
@@ -159,12 +166,29 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
     private View.OnClickListener addCityToRecyclerView = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            citys = enterCitySelection.getText().toString();
-            initWeatherToAPI();
-            CityHistoryAdapter cityHistoryAdapter = new CityHistoryAdapter(educationSource);
+            CITY = enterCitySelection.getText().toString();
+            cityHistoryAdapter = new CityHistoryAdapter(educationSource, CitySelectionScreen.this);
             recyclerView.setAdapter(cityHistoryAdapter);
         }
     };
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.context_menu_setting_activity, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        switch (id){
+            case R.id.remove_context:
+
+        }
+        return super.onContextItemSelected(item);
+
+    }
 
     @Override
     public void activate(Response<WeatherRequest> response) {

@@ -20,10 +20,12 @@ import java.util.List;
 public class CityHistoryAdapter extends RecyclerView.Adapter<CityHistoryAdapter.ViewHolder> {
 
     private EducationSource database;
+    private Activity activity;
     private long menuPosition;
 
-    public CityHistoryAdapter(EducationSource database) {
+    public CityHistoryAdapter(EducationSource database, Activity activity) {
         this.database = database;
+        this.activity = activity;
     }
 
 
@@ -43,7 +45,16 @@ public class CityHistoryAdapter extends RecyclerView.Adapter<CityHistoryAdapter.
         holder.cityAdd.setText(historyCity.cityName);
         holder.temp.setText(String.format(String.valueOf(historyCity.temperature)));
         holder.descrpt.setText(historyCity.description);
-
+        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                menuPosition = position;
+                return false;
+            }
+        });
+        if (activity != null) {
+            activity.registerForContextMenu(holder.cardView);
+        }
     }
 
     @Override
@@ -51,6 +62,9 @@ public class CityHistoryAdapter extends RecyclerView.Adapter<CityHistoryAdapter.
         return (int) database.getCountCity();
     }
 
+    public long getMenuPosition() {
+        return menuPosition;
+    }
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
