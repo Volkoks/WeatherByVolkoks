@@ -37,10 +37,9 @@ import retrofit2.Response;
 
 import static androidx.recyclerview.widget.LinearLayoutManager.*;
 
-public class CitySelectionScreen extends BaseActivity implements Constants, ILoaderWeather {
+public class CitySelectionScreen extends BaseActivity implements Constants, ILoaderWeather{
 
-    private static String citys = "Moscow";
-    private CityHistoryAdapter adapter;
+    private static String citys = null;
     private MaterialButton addCity;
     private RecyclerView recyclerView;
     private TextInputLayout textInputLayout;
@@ -57,7 +56,6 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
         setContentView(R.layout.city_selection_screen);
 
         init();
-        initWeatherToAPI();
         validateCity();
         clickToBtnBack();
         clickToBtnChooseCity();
@@ -76,13 +74,11 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
     private void initRecyclerView() {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(CitySelectionScreen.this, VERTICAL, false);
-        EducationDao educationDao = MyApp.getInstance().getEducationDao();
+        EducationDao educationDao = MyApp.getEducationDB().getEducationDao();
         educationSource = new EducationSource(educationDao);
         DividerItemDecoration itemDecoration = new DividerItemDecoration(CitySelectionScreen.this, LinearLayoutManager.VERTICAL);
         itemDecoration.setDrawable(getDrawable(R.drawable.separator));
         recyclerView.addItemDecoration(itemDecoration);
-        adapter = new CityHistoryAdapter(educationSource, this);
-        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);
     }
 
@@ -163,16 +159,16 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
     private View.OnClickListener addCityToRecyclerView = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-        educationSource.addCity();
-
+            citys = enterCitySelection.getText().toString();
+            initWeatherToAPI();
+            CityHistoryAdapter cityHistoryAdapter = new CityHistoryAdapter(educationSource);
+            recyclerView.setAdapter(cityHistoryAdapter);
         }
     };
 
     @Override
     public void activate(Response<WeatherRequest> response) {
-        String city = response.body().getName();
-        int valueTemperature = (int) response.body().getMain().getTemp();
-        String description = response.body().getWeathers()[0].getDescription();
+
     }
 
     @Override

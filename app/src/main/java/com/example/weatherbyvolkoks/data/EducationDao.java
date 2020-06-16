@@ -23,4 +23,7 @@ public interface EducationDao {
     @Query("SELECT COUNT() FROM historyCity")
     long getCountHistoryCity();
 
+    @Query("SELECT * FROM historyCity WHERE city_name = :cityName")
+    List<HistoryCity> getCityByName(String cityName);
+
 }

@@ -9,24 +9,34 @@ public class EducationSource {
     public EducationSource(EducationDao educationDao) {
         this.educationDao = educationDao;
     }
-    public void loadHistoryCity(){
+
+    public void loadHistoryCity() {
         historyCities = educationDao.getAllCity();
     }
-    public List<HistoryCity> getHistoryCities(){
+
+    public List<HistoryCity> getHistoryCities() {
         if (historyCities == null) {
             loadHistoryCity();
         }
         return historyCities;
     }
-    public void addCity(HistoryCity historyCity){
+
+    public void addCity(HistoryCity historyCity) {
         educationDao.addCity(historyCity);
         loadHistoryCity();
     }
-    public void deleteCity(HistoryCity historyCity){
+
+    public void deleteCity(HistoryCity historyCity) {
         educationDao.deleteCity(historyCity);
         loadHistoryCity();
     }
-    public long getCountCity(){
+
+    public long getCountCity() {
         return educationDao.getCountHistoryCity();
+    }
+
+    public void getCityByName(String cityName) {
+        educationDao.getCityByName(cityName);
+        loadHistoryCity();
     }
 }

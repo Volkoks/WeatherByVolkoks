@@ -20,12 +20,10 @@ import java.util.List;
 public class CityHistoryAdapter extends RecyclerView.Adapter<CityHistoryAdapter.ViewHolder> {
 
     private EducationSource database;
-    private Activity activity;
     private long menuPosition;
 
-    public CityHistoryAdapter(EducationSource database, Activity activity) {
+    public CityHistoryAdapter(EducationSource database) {
         this.database = database;
-        this.activity = activity;
     }
 
 
@@ -43,7 +41,7 @@ public class CityHistoryAdapter extends RecyclerView.Adapter<CityHistoryAdapter.
         List<HistoryCity> historyCities = database.getHistoryCities();
         HistoryCity historyCity = historyCities.get(position);
         holder.cityAdd.setText(historyCity.cityName);
-        holder.temp.setText(historyCity.temperature);
+        holder.temp.setText(String.format(String.valueOf(historyCity.temperature)));
         holder.descrpt.setText(historyCity.description);
 
     }

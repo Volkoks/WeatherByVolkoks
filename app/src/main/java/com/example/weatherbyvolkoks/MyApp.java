@@ -13,25 +13,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MyApp extends Application {
     private static Retrofit retrofit;
-    private static MyApp instance;
-    private EducationDatabase db;
-
-    public static MyApp getInstance() {
-        return instance;
-    }
+    private static EducationDatabase db;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        instance = this;
         db = Room.databaseBuilder(getApplicationContext()
                 ,EducationDatabase.class
                 ,"education_database")
-                .allowMainThreadQueries()
+                .allowMainThreadQueries() // Сделано для теста
                 .build();
     }
-    public EducationDao getEducationDao(){
-        return db.getEducationDao();
+    public static EducationDatabase getEducationDB(){
+        return db;
     }
 
     public static Retrofit getCreateRetrofit() {

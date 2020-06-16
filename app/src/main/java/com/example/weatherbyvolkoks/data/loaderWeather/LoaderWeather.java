@@ -3,6 +3,8 @@ package com.example.weatherbyvolkoks.data.loaderWeather;
 import com.example.weatherbyvolkoks.BuildConfig;
 import com.example.weatherbyvolkoks.MyApp;
 import com.example.weatherbyvolkoks.data.API.WeatherRequest;
+import com.example.weatherbyvolkoks.data.EducationDao;
+import com.example.weatherbyvolkoks.data.HistoryCity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,15 +23,17 @@ public class LoaderWeather {
     public LoaderWeather(ILoaderWeather iLoaderWeather) {
         this.iLoaderWeather = iLoaderWeather;
     }
-    public void downloadWeather(String cityName){
+
+    public void downloadWeather(String cityName) {
         initRetrofit();
         requestRetrofit(cityName);
     }
 
-    private void initRetrofit(){
+    private void initRetrofit() {
         Retrofit retrofit = MyApp.getCreateRetrofit();
         loaderWeatherRetrofit = retrofit.create(LoaderWeatherRetrofit.class);
     }
+
     private void requestRetrofit(String cityName) {
         loaderWeatherRetrofit.loadWeather(cityName, "metric", "ru", BuildConfig.WEATHER_API_KEY)
                 .enqueue(new Callback<WeatherRequest>() {
@@ -37,6 +41,19 @@ public class LoaderWeather {
                     public void onResponse(Call<WeatherRequest> call, Response<WeatherRequest> response) {
                         if (response.body() != null && response.isSuccessful()) {
                             iLoaderWeather.activate(response);
+                            EducationDao educationDao = MyApp.getEducationDB().getEducationDao();
+                            HistoryCity historyCity = new HistoryCity();
+                            historyCity.cityName = response.body().getName();
+                            historyCity.description = response.body().getWeathers()[0].getDescription();
+                            historyCity.temperature = (int) response.body().getMain().getTemp();
+
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    educationDao.addCity(historyCity);
+                                }
+                            }).start();
+
                         }
                         if (!response.isSuccessful() && response.errorBody() != null) {
                             try {
