@@ -1,4 +1,4 @@
-package com.example.weatherbyvolkoks.data;
+package com.example.weatherbyvolkoks.data.dataRoom;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -9,7 +9,7 @@ import androidx.room.Query;
 import java.util.List;
 
 @Dao
-public interface EducationDao {
+public interface WeatherDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addCity(HistoryCity historyCity);

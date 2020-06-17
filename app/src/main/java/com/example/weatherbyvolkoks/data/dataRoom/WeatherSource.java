@@ -1,17 +1,17 @@
-package com.example.weatherbyvolkoks.data;
+package com.example.weatherbyvolkoks.data.dataRoom;
 
 import java.util.List;
 
-public class EducationSource {
-    private EducationDao educationDao;
+public class WeatherSource {
+    private WeatherDao weatherDao;
     private List<HistoryCity> historyCities;
 
-    public EducationSource(EducationDao educationDao) {
-        this.educationDao = educationDao;
+    public WeatherSource(WeatherDao weatherDao) {
+        this.weatherDao = weatherDao;
     }
 
     public void loadHistoryCity() {
-        historyCities = educationDao.getAllCity();
+        historyCities = weatherDao.getAllCity();
     }
 
     public List<HistoryCity> getHistoryCities() {
@@ -22,21 +22,21 @@ public class EducationSource {
     }
 
     public void addCity(HistoryCity historyCity) {
-        educationDao.addCity(historyCity);
+        weatherDao.addCity(historyCity);
         loadHistoryCity();
     }
 
     public void deleteCity(HistoryCity historyCity) {
-        educationDao.deleteCity(historyCity);
+        weatherDao.deleteCity(historyCity);
         loadHistoryCity();
     }
 
     public long getCountCity() {
-        return educationDao.getCountHistoryCity();
+        return weatherDao.getCountHistoryCity();
     }
 
     public void getCityByName(String cityName) {
-        educationDao.getCityByName(cityName);
+        weatherDao.getCityByName(cityName);
         loadHistoryCity();
     }
 }

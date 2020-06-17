@@ -3,8 +3,8 @@ package com.example.weatherbyvolkoks.data.loaderWeather;
 import com.example.weatherbyvolkoks.BuildConfig;
 import com.example.weatherbyvolkoks.MyApp;
 import com.example.weatherbyvolkoks.data.API.WeatherRequest;
-import com.example.weatherbyvolkoks.data.EducationDao;
-import com.example.weatherbyvolkoks.data.HistoryCity;
+import com.example.weatherbyvolkoks.data.dataRoom.WeatherDao;
+import com.example.weatherbyvolkoks.data.dataRoom.HistoryCity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,7 +41,7 @@ public class LoaderWeather {
                     public void onResponse(Call<WeatherRequest> call, Response<WeatherRequest> response) {
                         if (response.body() != null && response.isSuccessful()) {
                             iLoaderWeather.activate(response);
-                            EducationDao educationDao = MyApp.getEducationDB().getEducationDao();
+                            WeatherDao weatherDao = MyApp.getEducationDB().getEducationDao();
                             HistoryCity historyCity = new HistoryCity();
                             historyCity.cityName = response.body().getName();
                             historyCity.description = response.body().getWeathers()[0].getDescription();
@@ -50,7 +50,7 @@ public class LoaderWeather {
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    educationDao.addCity(historyCity);
+                                    weatherDao.addCity(historyCity);
                                 }
                             }).start();
 

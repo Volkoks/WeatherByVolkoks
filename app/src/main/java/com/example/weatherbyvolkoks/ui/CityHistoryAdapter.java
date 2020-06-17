@@ -7,23 +7,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weatherbyvolkoks.R;
-import com.example.weatherbyvolkoks.data.EducationSource;
-import com.example.weatherbyvolkoks.data.HistoryCity;
+import com.example.weatherbyvolkoks.data.dataRoom.WeatherSource;
+import com.example.weatherbyvolkoks.data.dataRoom.HistoryCity;
 
 import java.util.List;
 
 
 public class CityHistoryAdapter extends RecyclerView.Adapter<CityHistoryAdapter.ViewHolder> {
 
-    private EducationSource database;
+    private WeatherSource database;
     private Activity activity;
     private long menuPosition;
 
-    public CityHistoryAdapter(EducationSource database, Activity activity) {
+    public CityHistoryAdapter(WeatherSource database, Activity activity) {
         this.database = database;
         this.activity = activity;
     }
