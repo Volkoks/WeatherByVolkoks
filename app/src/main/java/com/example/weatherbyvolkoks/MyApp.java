@@ -5,8 +5,7 @@ import android.app.Application;
 import androidx.room.Room;
 
 import com.example.weatherbyvolkoks.data.Constants;
-import com.example.weatherbyvolkoks.data.EducationDao;
-import com.example.weatherbyvolkoks.data.EducationDatabase;
+import com.example.weatherbyvolkoks.data.dataRoom.EducationDatabase;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

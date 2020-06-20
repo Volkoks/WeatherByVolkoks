@@ -7,8 +7,10 @@ import android.os.Bundle;
 import com.example.weatherbyvolkoks.BaseActivity;
 import com.example.weatherbyvolkoks.MyApp;
 import com.example.weatherbyvolkoks.data.API.WeatherRequest;
-import com.example.weatherbyvolkoks.data.EducationDao;
-import com.example.weatherbyvolkoks.data.EducationSource;
+import com.example.weatherbyvolkoks.data.dataRoom.HistoryCity;
+import com.example.weatherbyvolkoks.data.dataRoom.LoaderWeatherDB;
+import com.example.weatherbyvolkoks.data.dataRoom.WeatherDao;
+import com.example.weatherbyvolkoks.data.dataRoom.WeatherSource;
 import com.example.weatherbyvolkoks.data.loaderWeather.ILoaderWeather;
 import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeather;
 import com.google.android.material.button.MaterialButton;
@@ -48,7 +50,8 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
     private TextInputLayout textInputLayout;
     private TextInputEditText enterCitySelection;
     private MaterialButton btnChooseCityAndTemperature;
-    private EducationSource educationSource;
+//    private WeatherSource weatherSource;
+    private LoaderWeatherDB loaderWeatherDB;
 
     private Pattern checkCity = Pattern.compile("^[A-Z][a-z]{1,}$");
     private Pattern checkCityRu = Pattern.compile("^[А-ЯЁ][а-яё]{1,}$");
@@ -77,12 +80,13 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
     private void initRecyclerView() {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(CitySelectionScreen.this, VERTICAL, false);
-        EducationDao educationDao = MyApp.getEducationDB().getEducationDao();
-        educationSource = new EducationSource(educationDao);
+        WeatherDao weatherDao = MyApp.getEducationDB().getEducationDao();
+//        weatherSource = new WeatherSource(weatherDao);
+        loaderWeatherDB = new LoaderWeatherDB(weatherDao);
         DividerItemDecoration itemDecoration = new DividerItemDecoration(CitySelectionScreen.this, LinearLayoutManager.VERTICAL);
         itemDecoration.setDrawable(getDrawable(R.drawable.separator));
         recyclerView.addItemDecoration(itemDecoration);
-        cityHistoryAdapter = new CityHistoryAdapter(educationSource, this);
+        cityHistoryAdapter = new CityHistoryAdapter(loaderWeatherDB, this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(cityHistoryAdapter);
     }
@@ -165,8 +169,12 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
         @Override
         public void onClick(View v) {
             CITY = enterCitySelection.getText().toString();
-            cityHistoryAdapter = new CityHistoryAdapter(educationSource, CitySelectionScreen.this);
-            recyclerView.setAdapter(cityHistoryAdapter);
+            HistoryCity historyCity = new HistoryCity();
+            loaderWeatherDB.addCity(CITY, historyCity);
+//            cityHistoryAdapter = new CityHistoryAdapter(weatherSource, CitySelectionScreen.this);
+//            recyclerView.setAdapter(cityHistoryAdapter);
+
+
         }
     };
 

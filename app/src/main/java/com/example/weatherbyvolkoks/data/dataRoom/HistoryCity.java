@@ -1,4 +1,4 @@
-package com.example.weatherbyvolkoks.data;
+package com.example.weatherbyvolkoks.data.dataRoom;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
