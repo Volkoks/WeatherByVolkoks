@@ -33,8 +33,6 @@ import com.example.weatherbyvolkoks.data.Constants;
 import com.example.weatherbyvolkoks.data.Parcel;
 import com.example.weatherbyvolkoks.R;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import retrofit2.Response;
