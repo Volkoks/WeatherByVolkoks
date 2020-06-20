@@ -34,4 +34,5 @@
     <string name="about_app">О приложении</string>
     <string name="about_app_message">Учебное приложение "Погода". Разработчик - Александр Волков.</string>
     <string name="btn_ok">OK</string>
+    <string name="delete">удалить</string>
 </resources>
