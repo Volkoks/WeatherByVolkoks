@@ -1,10 +1,44 @@
 package com.example.weatherbyvolkoks.data.API;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class WeatherRequest {
+    @SerializedName("weather")
+    @Expose
     private Weather[] weather;
+    @SerializedName("main")
     private Main main;
+    @SerializedName("coord")
+    @Expose
+    private Coord coord;
+    @SerializedName("rain")
+    @Expose
+    private Rain rain;
+    @SerializedName("sys")
+    @Expose
+    private Sys sys;
+    @SerializedName("wind")
+    @Expose
+    private Wind wind;
+    @SerializedName("name")
+    @Expose
     private String name;
+    @SerializedName("timezone")
+    @Expose
     private float timezone;
+    @SerializedName("visibility")
+    @Expose
+    private float visibility;
+    @SerializedName("dt")
+    @Expose
+    private float dt;
+   @SerializedName("id")
+   @Expose
+    private float id;
+    @SerializedName("cod")
+    @Expose
+    private float cod;
 
     public Weather[] getWeathers() {
         return weather;
