@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weatherbyvolkoks.R;
+import com.example.weatherbyvolkoks.data.dataRoom.LoaderWeatherDB;
 import com.example.weatherbyvolkoks.data.dataRoom.WeatherSource;
 import com.example.weatherbyvolkoks.data.dataRoom.HistoryCity;
 
@@ -18,12 +19,14 @@ import java.util.List;
 
 public class CityHistoryAdapter extends RecyclerView.Adapter<CityHistoryAdapter.ViewHolder> {
 
-    private WeatherSource database;
+    private LoaderWeatherDB db;
+//    private WeatherSource database;
     private Activity activity;
     private long menuPosition;
 
-    public CityHistoryAdapter(WeatherSource database, Activity activity) {
-        this.database = database;
+    public CityHistoryAdapter(LoaderWeatherDB db, Activity activity) {
+//        this.database = database;
+        this.db = db;
         this.activity = activity;
     }
 
@@ -39,7 +42,7 @@ public class CityHistoryAdapter extends RecyclerView.Adapter<CityHistoryAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull CityHistoryAdapter.ViewHolder holder, int position) {
-        List<HistoryCity> historyCities = database.getHistoryCities();
+        List<HistoryCity> historyCities = db.getHistoryCities();
         HistoryCity historyCity = historyCities.get(position);
         holder.cityAdd.setText(historyCity.cityName);
         holder.temp.setText(String.format(String.valueOf(historyCity.temperature)));
@@ -58,7 +61,7 @@ public class CityHistoryAdapter extends RecyclerView.Adapter<CityHistoryAdapter.
 
     @Override
     public int getItemCount() {
-        return (int) database.getCountCity();
+        return (int) db.getCountCity();
     }
 
     public long getMenuPosition() {

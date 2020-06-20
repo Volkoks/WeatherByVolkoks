@@ -15,10 +15,12 @@ public class LoaderWeatherDB implements ILoaderWeather {
     private int temperature;
     private WeatherDao weatherDao;
     private List<HistoryCity> historyCities;
-    private HistoryCity historyCity;
 
+    public LoaderWeatherDB(WeatherDao weatherDao) {
+        this.weatherDao = weatherDao;
+    }
 
-    public void initWeatherToAPI(String citys) {
+    private void initWeatherToAPI(String citys) {
         LoaderWeather loaderWeather = new LoaderWeather(this);
         loaderWeather.downloadWeather(citys);
     }
@@ -35,12 +37,34 @@ public class LoaderWeatherDB implements ILoaderWeather {
 
     }
 
-    public HistoryCity historyCity(){
+    private HistoryCity addNewHhistoryCity() {
+        HistoryCity historyCity = new HistoryCity();
         historyCity.temperature = temperature;
         historyCity.description = description;
         historyCity.cityName = cityNameDB;
         return historyCity;
     }
 
+    public long getCountCity() {
+        return weatherDao.getCountHistoryCity();
+    }
+
+    public List<HistoryCity> getHistoryCities() {
+        if (historyCities == null) {
+            loadHistoryCity();
+        }
+        return historyCities;
+    }
+
+    public void loadHistoryCity() {
+        historyCities = weatherDao.getAllCity();
+    }
+
+    public void addCity(String city, HistoryCity historyCity) {
+        initWeatherToAPI(city);
+        addNewHhistoryCity();
+        weatherDao.addCity(historyCity);
+        loadHistoryCity();
+    }
 
 }
