@@ -38,6 +38,7 @@ public class MainActivity extends BaseActivity implements ILoaderWeather {
     private final static int REQUEST_CODE = 1;
     private final static int SETTING_CODE = 2;
 
+
     private TextView city;
     private TextView temperature;
     private TextView description;
