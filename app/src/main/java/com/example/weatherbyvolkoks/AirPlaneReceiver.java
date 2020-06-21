@@ -13,7 +13,7 @@ public class AirPlaneReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Constants.CHANNEL_ID)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Constants.CHANNEL_ID_AIRPLANE_MODE)
                 .setSmallIcon(R.drawable.ic_airplane_mode)
                 .setContentTitle("WeatherByVolkoks")
                 .setContentText("Включен режим самолёта!");
