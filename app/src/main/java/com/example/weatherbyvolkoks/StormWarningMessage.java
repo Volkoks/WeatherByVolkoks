@@ -38,7 +38,7 @@ public class StormWarningMessage extends FirebaseMessagingService {
 
     @Override
     public void onNewToken(String token) {
-        Log.d("[TOKEN]",  token);
+        Log.w("[TOKEN]",  token);
         sendRegistrationToServer(token);
 
     }

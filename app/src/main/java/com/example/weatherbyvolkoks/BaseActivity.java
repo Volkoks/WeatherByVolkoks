@@ -8,11 +8,17 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.weatherbyvolkoks.data.Constants;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 public class BaseActivity extends AppCompatActivity {
     private static final String NSP = "LOGIN";
@@ -41,7 +47,26 @@ public class BaseActivity extends AppCompatActivity {
         registerReceiver(airplaneReceiver, new IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED));
         registerReceiver(batteryLevel, ifilter);
 
+        initToken();
 
+    }
+
+    private void initToken() {
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            // Не удалось получить токен, произошла ошибка
+                            Log.w("TAG", "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Получить токен
+                        String token = task.getResult().getToken();
+                        Log.w("[TOKEN]", token);
+                    }
+                });
     }
 
     private void initChanel(String ID, String name) {
