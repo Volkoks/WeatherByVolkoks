@@ -12,13 +12,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service
+            android:name=".StormWarningMessage"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <receiver
             android:name=".BatteryLevelReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.ACTION_BATTERY_LOW"/>
-                <action android:name="android.intent.action.ACTION_BATTERY_OKAY"/>
+                <action android:name="android.intent.action.ACTION_BATTERY_LOW" />
+                <action android:name="android.intent.action.ACTION_BATTERY_OKAY" />
             </intent-filter>
         </receiver>
 
@@ -31,8 +40,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.CitySelectionScreen"></activity>
-        <activity android:name=".ui.ScreenSetting"></activity>
+        <activity android:name=".ui.CitySelectionScreen" />
+        <activity android:name=".ui.ScreenSetting" />
     </application>
 
 </manifest>

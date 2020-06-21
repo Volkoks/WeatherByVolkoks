@@ -18,6 +18,6 @@ public class AirPlaneReceiver extends BroadcastReceiver {
                 .setContentTitle("WeatherByVolkoks")
                 .setContentText("Включен режим самолёта!");
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(1,builder.build());
+        notificationManager.notify(Constants.ID_CHANNEL_AIRPLANE_MODE,builder.build());
     }
 }

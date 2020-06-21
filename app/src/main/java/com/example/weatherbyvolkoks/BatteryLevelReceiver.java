@@ -19,10 +19,11 @@ initNotification(context,"НИЗКИЙ ЗАРЯД", "Низкий заряд б�
     }
     private void initNotification(Context context, String title, String text){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Constants.CHANNEL_ID_BATTERY)
-                .setSmallIcon(R.drawable.ic_airplane_mode)
+                .setSmallIcon(R.drawable.ic_battery_warning)
                 .setContentTitle(title)
                 .setContentText(text);
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(2,builder.build());
+        notificationManager.notify(Constants.ID_CHANNEL_BATTERY,builder.build());
+
     }
 }
