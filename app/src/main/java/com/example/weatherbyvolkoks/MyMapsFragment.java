@@ -4,11 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.weatherbyvolkoks.data.Parcel;
+import com.example.weatherbyvolkoks.ui.MainActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -16,8 +20,11 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MyMapsFragment extends Fragment {
+import java.util.List;
 
+public class MyMapsFragment extends Fragment {
+    private GoogleMap myMap;
+    private String city;
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         /**
@@ -31,6 +38,7 @@ public class MyMapsFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
+            myMap = googleMap;
             LatLng sydney = new LatLng(-34, 151);
             googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
@@ -53,5 +61,18 @@ public class MyMapsFragment extends Fragment {
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
+        city = getActivity().rdass;
+    }
+
+    private void searchCityOnMap() {
+        final Geocoder geocoder = new Geocoder(getContext());
+
+        final String city = getActivity().findViewById(R.id.City).getText
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<Address> addresses = geocoder.getFromLocationName()
+            }
+        }).start();
     }
 }
