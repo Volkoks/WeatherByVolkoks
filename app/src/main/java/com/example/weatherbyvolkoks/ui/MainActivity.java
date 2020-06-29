@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.example.weatherbyvolkoks.BaseActivity;
 
+import com.example.weatherbyvolkoks.GetCityes;
+import com.example.weatherbyvolkoks.MyMapsFragment;
 import com.example.weatherbyvolkoks.data.loaderWeather.ILoaderWeather;
 import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeather;
 
@@ -33,11 +35,10 @@ import retrofit2.Response;
 import static com.example.weatherbyvolkoks.R.*;
 import static java.lang.String.format;
 
-public class MainActivity extends BaseActivity implements ILoaderWeather {
+public class MainActivity extends BaseActivity implements ILoaderWeather, GetCityes {
     private static String citys = "Moscow";
     private final static int REQUEST_CODE = 1;
     private final static int SETTING_CODE = 2;
-
 
     private TextView city;
     private TextView temperature;
@@ -189,5 +190,10 @@ public class MainActivity extends BaseActivity implements ILoaderWeather {
                 });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    @Override
+    public String getCity() {
+        return citys;
     }
 }

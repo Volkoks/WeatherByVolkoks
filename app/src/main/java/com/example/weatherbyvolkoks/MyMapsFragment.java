@@ -4,22 +4,30 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.weatherbyvolkoks.ui.MainActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.util.List;
+
 public class MyMapsFragment extends Fragment {
-
+    private GoogleMap myMap;
+    private String city;
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
-
         /**
          * Manipulates the map once available.
          * This callback is triggered when the map is ready to be used.
@@ -31,11 +39,18 @@ public class MyMapsFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            myMap = googleMap;
+            GetCityes getCityes = (GetCityes) getActivity();
+            city = getCityes.getCity();
+            searchCityOnMap();
         }
     };
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
+        super.onActivityCreated(savedInstanceState);
+    }
 
     @Nullable
     @Override
@@ -53,5 +68,40 @@ public class MyMapsFragment extends Fragment {
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
+    }
+
+    private void searchCityOnMap() {
+        final Geocoder geocoder = new Geocoder(getContext());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // Получаем координаты по адресу
+                    List<Address> addresses = geocoder.getFromLocationName(city, 1);
+                    if (addresses.size() > 0) {
+                        final LatLng location = new LatLng(addresses.get(0).getLatitude(),
+                                addresses.get(0).getLongitude());
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                myMap.addMarker(new MarkerOptions()
+                                        .position(location)
+                                        .title(city));
+                                myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, (float) 15));
+                            }
+                        });
+                    } else {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getContext(), "Не нашли", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 }
