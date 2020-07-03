@@ -20,9 +20,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyMapsFragment extends Fragment {
@@ -42,14 +44,15 @@ public class MyMapsFragment extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             myMap = googleMap;
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));GetCityes getCityes = (GetCityes) getActivity();
+            GetCityes getCityes = (GetCityes) getActivity();
+            city = getCityes.getCity();
+            searchCityOnMap(city);
             myMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                 @Override
                 public void onMapLongClick(LatLng latLng) {
-                    city = getCityes.getCity().toString();
-                    searchCityOnMap(city);
+                   city = getCityes.getCity();
+                   searchCityOnMap(city);
+
                     Toast.makeText(getContext(), "Город:"+city, Toast.LENGTH_SHORT).show();
                 }
             });
@@ -96,7 +99,7 @@ public class MyMapsFragment extends Fragment {
                                 myMap.addMarker(new MarkerOptions()
                                         .position(location)
                                         .title(cities));
-                                myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, (float) 18));
+                                myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, (float) 7));
                             }
                         });
                     } else {
