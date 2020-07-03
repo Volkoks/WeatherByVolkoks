@@ -45,12 +45,12 @@ public class MyMapsFragment extends Fragment {
             LatLng sydney = new LatLng(-34, 151);
             googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));GetCityes getCityes = (GetCityes) getActivity();
-            city = getCityes.getCity().toString();
             myMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                 @Override
                 public void onMapLongClick(LatLng latLng) {
-
+                    city = getCityes.getCity().toString();
                     searchCityOnMap(city);
+                    Toast.makeText(getContext(), "Город:"+city, Toast.LENGTH_SHORT).show();
                 }
             });
         }
