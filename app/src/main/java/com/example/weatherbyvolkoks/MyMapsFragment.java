@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.weatherbyvolkoks.ui.MainActivity;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class MyMapsFragment extends Fragment {
+
     private GoogleMap myMap;
     private String city;
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
@@ -40,9 +42,17 @@ public class MyMapsFragment extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             myMap = googleMap;
-            GetCityes getCityes = (GetCityes) getActivity();
-            city = getCityes.getCity();
-            searchCityOnMap();
+            LatLng sydney = new LatLng(-34, 151);
+            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));GetCityes getCityes = (GetCityes) getActivity();
+            city = getCityes.getCity().toString();
+            myMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+                @Override
+                public void onMapLongClick(LatLng latLng) {
+
+                    searchCityOnMap(city);
+                }
+            });
         }
     };
 
@@ -70,14 +80,13 @@ public class MyMapsFragment extends Fragment {
         }
     }
 
-    private void searchCityOnMap() {
+    private void searchCityOnMap(String cities) {
         final Geocoder geocoder = new Geocoder(getContext());
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    // Получаем координаты по адресу
-                    List<Address> addresses = geocoder.getFromLocationName(city, 1);
+                    List<Address> addresses = geocoder.getFromLocationName(cities, 1);
                     if (addresses.size() > 0) {
                         final LatLng location = new LatLng(addresses.get(0).getLatitude(),
                                 addresses.get(0).getLongitude());
@@ -86,8 +95,8 @@ public class MyMapsFragment extends Fragment {
                             public void run() {
                                 myMap.addMarker(new MarkerOptions()
                                         .position(location)
-                                        .title(city));
-                                myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, (float) 15));
+                                        .title(cities));
+                                myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, (float) 18));
                             }
                         });
                     } else {
