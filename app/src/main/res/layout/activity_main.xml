@@ -84,7 +84,7 @@
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_map" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment2" />
 
         <TextView
             android:id="@+id/weather_description"
@@ -109,7 +109,7 @@
             app:layout_constraintTop_toTopOf="@+id/weather_description" />
 
         <fragment
-            android:id="@+id/fragment_map"
+            android:id="@+id/fragment2"
             android:name="com.example.weatherbyvolkoks.MyMapsFragment"
             android:layout_width="wrap_content"
             android:layout_height="250dp"
