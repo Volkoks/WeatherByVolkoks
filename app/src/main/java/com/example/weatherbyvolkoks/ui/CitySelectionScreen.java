@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.example.weatherbyvolkoks.BaseActivity;
 import com.example.weatherbyvolkoks.MyApp;
-import com.example.weatherbyvolkoks.data.API.WeatherRequest;
+import com.example.weatherbyvolkoks.data.WeatherAPI.WeatherRequest;
 import com.example.weatherbyvolkoks.data.dataRoom.WeatherDao;
 import com.example.weatherbyvolkoks.data.dataRoom.WeatherSource;
 import com.example.weatherbyvolkoks.data.loaderWeather.ILoaderWeather;

@@ -34,4 +34,9 @@
     <string name="about_app_message">Educational application "Weather". Developer - Alexander Volkov.</string>
     <string name="btn_ok">OK</string>
     <string name="delete">delete</string>
+    <string name="humidity">humidity</string>
+    <string name="wind">Wind:</string>
+    <string name="m_s">m/s</string>
+    <string name="air_humidity">Air humidity:</string>
+    <string name="pressure">Pressure:</string>
 </resources>
