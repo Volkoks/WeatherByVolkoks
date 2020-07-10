@@ -11,7 +11,7 @@
     </style>
 
     <style name="AppDarkTheme" parent="Theme.MaterialComponents.NoActionBar">
-<item name="android:textColor">@color/colorTextDarkTheme</item>
+
     </style>
     
 </resources>
