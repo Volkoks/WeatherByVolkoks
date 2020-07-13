@@ -39,10 +39,11 @@ import static java.lang.String.format;
 
 public class MainActivity extends BaseActivity implements ILoaderWeather, GetCityes {
     private static String mainCity = "Moscow";
+
     private final static int REQUEST_CODE = 1;
     private final static int SETTING_CODE = 2;
-
     private TextView city;
+
     private TextView temperature;
     private TextView description;
     private TextView temp_max_min;
@@ -52,7 +53,6 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
     private TextView pressure, pressure2;
     private ImageView imageHumidity, imageWind, imagePressure;
     private Button testVisibleBtn;
-
 
 
 
@@ -70,15 +70,7 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
         testVisibleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                humidity.setVisibility(View.VISIBLE);
-                humidity2.setVisibility(View.VISIBLE);
-                wind.setVisibility(View.VISIBLE);
-                wind2.setVisibility(View.VISIBLE);
-                pressure.setVisibility(View.VISIBLE);
-                pressure2.setVisibility(View.VISIBLE);
-                imageHumidity.setVisibility(View.VISIBLE);
-                imagePressure.setVisibility(View.VISIBLE);
-                imageWind.setVisibility(View.VISIBLE);
+                visibilityOfFAdvancedOptions();
             }
         });
 
@@ -88,7 +80,6 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
         LoaderWeather loaderWeather = new LoaderWeather(this);
         loaderWeather.downloadWeather(mainCity);
     }
-
     private void initGUI() {
         city = findViewById(id.City);
         temperature = findViewById(id.Temperature);
@@ -108,7 +99,6 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
 
 
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -126,12 +116,10 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
         //noinspection SimplifiableIfStatement
         switch (id) {
             case R.id.action_settings:
-                Intent intent = new Intent(getApplicationContext(), ScreenSetting.class);
-                startActivityForResult(intent, SETTING_CODE);
+                activityTransitionIntent(ScreenSetting.class, SETTING_CODE);
                 break;
             case R.id.enter_city_selection2:
-                Intent intent2 = new Intent(getApplicationContext(), CitySelectionScreen.class);
-                startActivityForResult(intent2, REQUEST_CODE);
+                activityTransitionIntent(CitySelectionScreen.class, REQUEST_CODE);
                 break;
             case R.id.refresh_the_weather:
                 initWeatherToAPI();
@@ -143,8 +131,13 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
         return super.onOptionsItemSelected(item);
     }
 
-    private void initRecyclerView(SocialDataSource data) {
+    private void activityTransitionIntent(Class youClass, int RequestCode) {
+        Intent intent = new Intent(getApplicationContext(), youClass);
+        startActivityForResult(intent, RequestCode);
+        return;
+    }
 
+    private void initRecyclerView(SocialDataSource data) {
         RecyclerView recyclerView = findViewById(id.recyclerView);
         recyclerView.setHasFixedSize(true);
 
@@ -192,6 +185,11 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
         pressure.setText(valuePressure+"hPa");
 
 
+        weatherImageInit(response);
+
+    }
+
+    private void weatherImageInit(Response<WeatherRequest> response) {
         if (responseGetMain(response, "Clouds")) {
             Picasso.get().load(drawable.overcast).into(iconWeather);
         } else if (responseGetMain(response, "Rain")) {
@@ -207,7 +205,6 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
         } else {
             Picasso.get().load(drawable.severealert).into(iconWeather);
         }
-
     }
 
     private boolean responseGetMain(Response<WeatherRequest> response, String clouds) {
@@ -246,5 +243,17 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
     @Override
     public String getCity() {
         return mainCity;
+    }
+
+    private void visibilityOfFAdvancedOptions(){
+        humidity.setVisibility(View.VISIBLE);
+        humidity2.setVisibility(View.VISIBLE);
+        wind.setVisibility(View.VISIBLE);
+        wind2.setVisibility(View.VISIBLE);
+        pressure.setVisibility(View.VISIBLE);
+        pressure2.setVisibility(View.VISIBLE);
+        imageHumidity.setVisibility(View.VISIBLE);
+        imagePressure.setVisibility(View.VISIBLE);
+        imageWind.setVisibility(View.VISIBLE);
     }
 }
