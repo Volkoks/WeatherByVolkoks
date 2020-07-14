@@ -138,7 +138,7 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
 //        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 //        recyclerView.setLayoutManager(layoutManager);
 //
-//        WeatherAdapter adapter = new WeatherAdapter(weatherRequest);
+//        WeatherForecastAdapter adapter = new WeatherForecastAdapter(weatherRequest);
 //        recyclerView.setAdapter(adapter);
 //    }
 
