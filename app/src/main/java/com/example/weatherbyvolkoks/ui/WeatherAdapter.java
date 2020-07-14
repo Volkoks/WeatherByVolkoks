@@ -8,14 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.weatherbyvolkoks.R;
-import com.example.weatherbyvolkoks.data.Soc.Soc;
-import com.example.weatherbyvolkoks.data.Soc.SocialDataSource;
+import com.example.weatherbyvolkoks.data.WeatherAPI.WeatherRequest;
 
 public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHolder> {
-    private SocialDataSource dataSource;
+    private WeatherRequest weatherRequest;
 
-    public WeatherAdapter(SocialDataSource dataSource) {
-        this.dataSource = dataSource;
+    public WeatherAdapter(WeatherRequest weatherRequest) {
+        this.weatherRequest = weatherRequest;
     }
 
 
@@ -28,14 +27,17 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull WeatherAdapter.ViewHolder holder, int position) {
-        Soc soc = dataSource.getSoc(position);
-        holder.setData(soc.getDayOfWeek(),soc.getDateAndMonth(),soc.getIconWeather());
+
+    holder.dateAndMonth.setText((int) weatherRequest.getMain().getTemp());
+    holder.dayOfWeek.setText(weatherRequest.getName());
+
     }
 
     @Override
     public int getItemCount() {
-        return dataSource.size();
+        return 6;
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView dayOfWeek;
@@ -48,10 +50,5 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.ViewHold
             dateAndMonth = itemView.findViewById(R.id.dateAndMonth);
             image = itemView.findViewById(R.id.iconWeather);
         }
-      public void setData(String dayOdWeek, String dateAndMonth, int iconWeather){
-            this.dayOfWeek.setText(dayOdWeek);
-            this.dateAndMonth.setText(dateAndMonth);
-            image.setImageResource(iconWeather);
-      }
     }
 }

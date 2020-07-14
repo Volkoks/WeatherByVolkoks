@@ -9,8 +9,6 @@ import androidx.room.PrimaryKey;
 @Entity(indices = {@Index(value = {"city_name"})})
 public class HistoryCity {
 
-//    @PrimaryKey(autoGenerate = true)
-//    public long id;
     @PrimaryKey
     @ColumnInfo(name = "city_name")
     @NonNull

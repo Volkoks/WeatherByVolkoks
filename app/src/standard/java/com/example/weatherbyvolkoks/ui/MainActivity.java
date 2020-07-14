@@ -27,8 +27,6 @@ import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeather;
 
 import com.example.weatherbyvolkoks.data.Parcel;
 import com.example.weatherbyvolkoks.R;
-import com.example.weatherbyvolkoks.data.Soc.SocSourceBuilder;
-import com.example.weatherbyvolkoks.data.Soc.SocialDataSource;
 import com.example.weatherbyvolkoks.data.WeatherAPI.WeatherRequest;
 import com.squareup.picasso.Picasso;
 
@@ -63,10 +61,9 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
         setContentView(layout.activity_main);
         Toolbar toolbar = findViewById(id.toolbar);
         setSupportActionBar(toolbar);
-        SocialDataSource sourceData = new SocSourceBuilder().setResources(getResources()).build();
         initGUI();
-        initRecyclerView(sourceData);
         initWeatherToAPI();
+
         testVisibleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,7 +93,6 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
         imageWind = findViewById(id.wind_imageView);
         imagePressure = findViewById(id.pressure_image);
         testVisibleBtn = findViewById(id.test_visible_btn);
-
 
     }
     @Override
@@ -137,16 +133,16 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
         return;
     }
 
-    private void initRecyclerView(SocialDataSource data) {
-        RecyclerView recyclerView = findViewById(id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-
-        WeatherAdapter adapter = new WeatherAdapter(data);
-        recyclerView.setAdapter(adapter);
-    }
+//    private void initRecyclerView(WeatherRequest weatherRequest) {
+//        RecyclerView recyclerView = findViewById(id.recyclerView);
+//        recyclerView.setHasFixedSize(true);
+//
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+//        recyclerView.setLayoutManager(layoutManager);
+//
+//        WeatherAdapter adapter = new WeatherAdapter(weatherRequest);
+//        recyclerView.setAdapter(adapter);
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -183,7 +179,6 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
         humidity.setText(valueHumidity+"%");
         wind.setText(valueWind+"m/s");
         pressure.setText(valuePressure+"hPa");
-
 
         weatherImageInit(response);
 
