@@ -80,7 +80,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Temperature"
-            tools:listitem="@layout/item" />
+            tools:listitem="@layout/card_view_for_weather_forecast_5_day" />
 
         <TextView
             android:id="@+id/Update_time"

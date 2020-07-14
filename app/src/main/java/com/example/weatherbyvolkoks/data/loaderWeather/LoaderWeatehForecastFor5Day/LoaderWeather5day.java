@@ -1,4 +1,4 @@
-package com.example.weatherbyvolkoks.data.loaderWeather;
+package com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeatehForecastFor5Day;
 
 import com.example.weatherbyvolkoks.BuildConfig;
 import com.example.weatherbyvolkoks.MyApp;

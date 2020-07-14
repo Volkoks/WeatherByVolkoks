@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
@@ -22,12 +20,12 @@ import android.widget.Toast;
 import com.example.weatherbyvolkoks.BaseActivity;
 
 import com.example.weatherbyvolkoks.GetCityes;
-import com.example.weatherbyvolkoks.data.loaderWeather.ILoaderWeather;
-import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeather;
+import com.example.weatherbyvolkoks.data.loaderWeather.loaderWeather1day.ILoaderWeather;
+import com.example.weatherbyvolkoks.data.loaderWeather.loaderWeather1day.LoaderWeather;
 
 import com.example.weatherbyvolkoks.data.Parcel;
 import com.example.weatherbyvolkoks.R;
-import com.example.weatherbyvolkoks.data.WeatherAPI.WeatherRequest;
+import com.example.weatherbyvolkoks.data.WeatherAPI_1day.WeatherRequest;
 import com.squareup.picasso.Picasso;
 
 import retrofit2.Response;
@@ -104,7 +102,7 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
+        // Handle action bar card_view_for_weather_forecast_5_day clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
