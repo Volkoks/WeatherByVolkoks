@@ -1,14 +1,17 @@
 package com.example.weatherbyvolkoks.data.dataWeatherHistoryFor5Day;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
+import androidx.room.PrimaryKey;
 
 @Entity(indices = {@Index(value = "date")})
 public class WeatherForecastFor5Day {
-
+    @PrimaryKey
     @ColumnInfo(name = "date")
-    private String date;
+    @NonNull
+    public String date;
 
     @ColumnInfo(name = "temperature")
     public int temperature;
