@@ -55,8 +55,6 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
     private Button testVisibleBtn;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +78,7 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
         LoaderWeather loaderWeather = new LoaderWeather(this);
         loaderWeather.downloadWeather(mainCity);
     }
+
     private void initGUI() {
         city = findViewById(id.City);
         temperature = findViewById(id.Temperature);
@@ -92,13 +91,14 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
         humidity2 = findViewById(id.humidity_textView2);
         wind2 = findViewById(id.wind_textView2);
         pressure2 = findViewById(id.pressure_textView2);
-        imageHumidity =findViewById(id.humidity_imageView);
+        imageHumidity = findViewById(id.humidity_imageView);
         imageWind = findViewById(id.wind_imageView);
         imagePressure = findViewById(id.pressure_image);
         testVisibleBtn = findViewById(id.test_visible_btn);
 
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -180,9 +180,9 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
         temperature.setText(valueTemperature + "\u2103");
         description.setText(response.body().getWeathers()[0].getDescription());
         temp_max_min.setText(format("%d/%d" + "\u2103", valueTempMax, valueTempMin));
-        humidity.setText(valueHumidity+"%");
-        wind.setText(valueWind+"m/s");
-        pressure.setText(valuePressure+"hPa");
+        humidity.setText(valueHumidity + "%");
+        wind.setText(valueWind + "m/s");
+        pressure.setText(valuePressure + "hPa");
 
 
         weatherImageInit(response);
@@ -190,25 +190,30 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
     }
 
     private void weatherImageInit(Response<WeatherRequest> response) {
-        if (responseGetMain(response, "Clouds")) {
-            Picasso.get().load(drawable.overcast).into(iconWeather);
-        } else if (responseGetMain(response, "Rain")) {
-            Picasso.get().load(drawable.showers).into(iconWeather);
-        } else if (responseGetMain(response, "Snow")) {
-            Picasso.get().load(drawable.snows).into(iconWeather);
-        } else if (responseGetMain(response, "Clear")) {
-            Picasso.get().load(drawable.cleare).into(iconWeather);
-        } else if (responseGetMain(response, "Drizzle")) {
-            Picasso.get().load(drawable.showersscattered).into(iconWeather);
-        } else if (responseGetMain(response, "Thunderstorm")) {
-            Picasso.get().load(drawable.violentstorm).into(iconWeather);
-        } else {
-            Picasso.get().load(drawable.severealert).into(iconWeather);
+        String main = response.body().getWeathers()[0].getMain();
+        switch (main) {
+            case "Clouds":
+                Picasso.get().load(drawable.overcast).into(iconWeather);
+                break;
+            case "Rain":
+                Picasso.get().load(drawable.showers).into(iconWeather);
+                break;
+            case "Snow":
+                Picasso.get().load(drawable.snows).into(iconWeather);
+                break;
+            case "Clear":
+                Picasso.get().load(drawable.cleare).into(iconWeather);
+                break;
+            case "Drizzle":
+                Picasso.get().load(drawable.showersscattered).into(iconWeather);
+                break;
+            case "Thunderstorm":
+                Picasso.get().load(drawable.violentstorm).into(iconWeather);
+                break;
+            default:
+                Picasso.get().load(drawable.severealert).into(iconWeather);
+                break;
         }
-    }
-
-    private boolean responseGetMain(Response<WeatherRequest> response, String clouds) {
-        return response.body().getWeathers()[0].getMain().equals(clouds);
     }
 
     @Override
@@ -245,7 +250,7 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
         return mainCity;
     }
 
-    private void visibilityOfFAdvancedOptions(){
+    private void visibilityOfFAdvancedOptions() {
         humidity.setVisibility(View.VISIBLE);
         humidity2.setVisibility(View.VISIBLE);
         wind.setVisibility(View.VISIBLE);
