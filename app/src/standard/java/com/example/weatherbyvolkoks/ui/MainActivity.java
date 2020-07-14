@@ -190,25 +190,30 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
     }
 
     private void weatherImageInit(Response<WeatherRequest> response) {
-        if (responseGetMain(response, "Clouds")) {
-            Picasso.get().load(drawable.overcast).into(iconWeather);
-        } else if (responseGetMain(response, "Rain")) {
-            Picasso.get().load(drawable.showers).into(iconWeather);
-        } else if (responseGetMain(response, "Snow")) {
-            Picasso.get().load(drawable.snows).into(iconWeather);
-        } else if (responseGetMain(response, "Clear")) {
-            Picasso.get().load(drawable.cleare).into(iconWeather);
-        } else if (responseGetMain(response, "Drizzle")) {
-            Picasso.get().load(drawable.showersscattered).into(iconWeather);
-        } else if (responseGetMain(response, "Thunderstorm")) {
-            Picasso.get().load(drawable.violentstorm).into(iconWeather);
-        } else {
-            Picasso.get().load(drawable.severealert).into(iconWeather);
+        String main = response.body().getWeathers()[0].getMain();
+        switch (main) {
+            case "Clouds":
+                Picasso.get().load(drawable.overcast).into(iconWeather);
+                break;
+            case "Rain":
+                Picasso.get().load(drawable.showers).into(iconWeather);
+                break;
+            case "Snow":
+                Picasso.get().load(drawable.snows).into(iconWeather);
+                break;
+            case "Clear":
+                Picasso.get().load(drawable.cleare).into(iconWeather);
+                break;
+            case "Drizzle":
+                Picasso.get().load(drawable.showersscattered).into(iconWeather);
+                break;
+            case "Thunderstorm":
+                Picasso.get().load(drawable.violentstorm).into(iconWeather);
+                break;
+            default:
+                Picasso.get().load(drawable.severealert).into(iconWeather);
+                break;
         }
-    }
-
-    private boolean responseGetMain(Response<WeatherRequest> response, String clouds) {
-        return response.body().getWeathers()[0].getMain().equals(clouds);
     }
 
     @Override
