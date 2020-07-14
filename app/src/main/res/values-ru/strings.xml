@@ -35,4 +35,9 @@
     <string name="about_app_message">Учебное приложение "Погода". Разработчик - Александр Волков.</string>
     <string name="btn_ok">OK</string>
     <string name="delete">удалить</string>
+    <string name="humidity">влажность</string>
+    <string name="wind">Ветер:</string>
+    <string name="m_s">м/с</string>
+    <string name="air_humidity">Влажность воздуха:</string>
+    <string name="pressure">Давление:</string>
 </resources>

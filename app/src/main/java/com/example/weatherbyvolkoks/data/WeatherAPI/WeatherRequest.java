@@ -1,4 +1,4 @@
-package com.example.weatherbyvolkoks.data.API;
+package com.example.weatherbyvolkoks.data.WeatherAPI;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -18,9 +18,11 @@ public class WeatherRequest {
     @SerializedName("sys")
     @Expose
     private Sys sys;
+
     @SerializedName("wind")
     @Expose
     private Wind wind;
+
     @SerializedName("name")
     @Expose
     private String name;
@@ -33,13 +35,12 @@ public class WeatherRequest {
     @SerializedName("dt")
     @Expose
     private float dt;
-   @SerializedName("id")
+    @SerializedName("id")
    @Expose
     private float id;
     @SerializedName("cod")
     @Expose
     private float cod;
-
     public Weather[] getWeathers() {
         return weather;
     }
@@ -70,5 +71,13 @@ public class WeatherRequest {
 
     public void setTimezone(float timezone) {
         this.timezone = timezone;
+    }
+
+    public Wind getWind() {
+        return wind;
+    }
+
+    public void setWind(Wind wind) {
+        this.wind = wind;
     }
 }

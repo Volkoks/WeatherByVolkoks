@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.example.weatherbyvolkoks.BaseActivity;
 import com.example.weatherbyvolkoks.MyApp;
-import com.example.weatherbyvolkoks.data.API.WeatherRequest;
+import com.example.weatherbyvolkoks.data.WeatherAPI.WeatherRequest;
 import com.example.weatherbyvolkoks.data.dataRoom.WeatherDao;
 import com.example.weatherbyvolkoks.data.dataRoom.WeatherSource;
 import com.example.weatherbyvolkoks.data.loaderWeather.ILoaderWeather;
@@ -44,7 +44,6 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
 
     private String CITY = "Moscow";
     private CityHistoryAdapter cityHistoryAdapter;
-    private MaterialButton addCity;
     private RecyclerView recyclerView;
     private TextInputLayout textInputLayout;
     private TextInputEditText enterCitySelection;
@@ -65,7 +64,6 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
         clickToBtnChooseCity();
         initWeatherToAPI();
         enterCitySelection.setOnKeyListener(selectCityListenerMK);
-        addCity.setOnClickListener(addCityToRecyclerView);
 
         initRecyclerView();
     }
@@ -92,7 +90,6 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
         textInputLayout = findViewById(R.id.textInputCitySelection);
         btnChooseCityAndTemperature = findViewById(R.id.button_choose_a_city_and_temperature);
         enterCitySelection = findViewById(R.id.enter_city_selection);
-        addCity = findViewById(R.id.btn_add_city);
         recyclerView = findViewById(R.id.recyclerView_city_selection);
     }
 
@@ -160,14 +157,6 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
                 result = true;
             }
             return result;
-        }
-    };
-    private View.OnClickListener addCityToRecyclerView = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            CITY = enterCitySelection.getText().toString();
-            cityHistoryAdapter = new CityHistoryAdapter(weatherSource, CitySelectionScreen.this);
-            recyclerView.setAdapter(cityHistoryAdapter);
         }
     };
 

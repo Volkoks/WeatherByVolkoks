@@ -1,6 +1,6 @@
 package com.example.weatherbyvolkoks.data.loaderWeather;
 
-import com.example.weatherbyvolkoks.data.API.WeatherRequest;
+import com.example.weatherbyvolkoks.data.WeatherAPI.WeatherRequest;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -1,4 +1,4 @@
-package com.example.weatherbyvolkoks.data.API;
+package com.example.weatherbyvolkoks.data.WeatherAPI;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

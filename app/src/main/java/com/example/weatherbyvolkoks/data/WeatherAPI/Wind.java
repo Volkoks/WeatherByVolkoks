@@ -1,4 +1,4 @@
-package com.example.weatherbyvolkoks.data.API;
+package com.example.weatherbyvolkoks.data.WeatherAPI;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -10,9 +10,6 @@ public class Wind {
     @SerializedName("deg")
     @Expose
     private float deg;
-    @SerializedName("gust")
-    @Expose
-    private float gust;
 
     public float getSpeed() {
         return speed;
@@ -30,11 +27,4 @@ public class Wind {
         this.deg = deg;
     }
 
-    public float getGust() {
-        return gust;
-    }
-
-    public void setGust(float gust) {
-        this.gust = gust;
-    }
 }

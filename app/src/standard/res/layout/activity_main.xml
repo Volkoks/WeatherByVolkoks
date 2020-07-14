@@ -31,6 +31,7 @@
             android:layout_height="12dp"
             android:text="@string/pressure"
             android:textSize="8sp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/pressure_image"
             app:layout_constraintStart_toStartOf="@+id/pressure_image" />
 
@@ -129,6 +130,7 @@
             android:layout_width="50dp"
             android:layout_height="25dp"
             android:text="@string/humidity"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/humidity_imageView"
             app:layout_constraintStart_toEndOf="@+id/humidity_imageView"
             app:layout_constraintTop_toTopOf="@+id/humidity_imageView" />
@@ -139,7 +141,7 @@
             android:layout_height="25dp"
             android:layout_marginTop="120dp"
             android:layout_marginEnd="60dp"
-            android:visibility="visible"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/humidity" />
@@ -150,6 +152,7 @@
             android:layout_height="25dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="60dp"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/humidity_imageView"
             app:srcCompat="@drawable/wind" />
@@ -159,6 +162,7 @@
             android:layout_width="50dp"
             android:layout_height="25dp"
             android:text="@string/wind"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/wind_imageView"
             app:layout_constraintStart_toEndOf="@+id/wind_imageView"
             app:layout_constraintTop_toTopOf="@+id/wind_imageView" />
@@ -169,6 +173,7 @@
             android:layout_height="12dp"
             android:text="@string/air_humidity"
             android:textSize="8sp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/humidity_imageView"
             app:layout_constraintStart_toStartOf="@+id/humidity_imageView" />
 
@@ -178,6 +183,7 @@
             android:layout_height="12dp"
             android:text="@string/wind"
             android:textSize="8sp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/wind_imageView"
             app:layout_constraintStart_toStartOf="@+id/wind_imageView" />
 
@@ -187,6 +193,7 @@
             android:layout_height="25dp"
             android:text="Pressure:"
             android:textSize="12sp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/pressure_image"
             app:layout_constraintStart_toEndOf="@+id/pressure_image"
             app:layout_constraintTop_toTopOf="@+id/pressure_image" />
@@ -197,9 +204,21 @@
             android:layout_height="25dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="60dp"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/wind_imageView"
             app:srcCompat="@drawable/pressure" />
+
+        <Button
+            android:id="@+id/test_visible_btn"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="18dp"
+            android:text="Test Visible Button"
+            android:textSize="8sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pressure_textView" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

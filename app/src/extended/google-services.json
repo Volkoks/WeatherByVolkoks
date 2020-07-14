@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "483169830772",
+    "firebase_url": "https://weatherbyvolkoks.firebaseio.com",
+    "project_id": "weatherbyvolkoks",
+    "storage_bucket": "weatherbyvolkoks.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:483169830772:android:72f4d442121b52a12c4e21",
+        "android_client_info": {
+          "package_name": "com.example.weatherbyvolkoks.extended"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "483169830772-6cqh8sichngrrpl80es4r3d369f9k6e3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.weatherbyvolkoks",
+            "certificate_hash": "da151cd288236c5c5a52c59b198e85fa9a5b0442"
+          }
+        },
+        {
+          "client_id": "483169830772-sca75luam6vvt4le9h2uq2t2kihnovn9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBd_CoXy6ZLejoXrSTCvAHQNIEfOkQ1rH8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "483169830772-sca75luam6vvt4le9h2uq2t2kihnovn9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
