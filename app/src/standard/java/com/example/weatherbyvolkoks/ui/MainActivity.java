@@ -133,7 +133,7 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
         return;
     }
 
-//    private void initRecyclerView(WeatherRequest weatherRequest) {
+//    private void initRecyclerView(WeatherRequest5Day weatherRequest) {
 //        RecyclerView recyclerView = findViewById(id.recyclerView);
 //        recyclerView.setHasFixedSize(true);
 //
