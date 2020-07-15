@@ -20,5 +20,10 @@ public class WeatherForecastSource {
         weatherForecastDao.deleteWeatherHistory(weatherForecastFor5Day);
         loadWeatherForecast();
     }
-
+    public List<WeatherForecastFor5Day> getWeatherForecastFor5DayList(){
+        if (weatherForecastFor5DayList == null){
+            loadWeatherForecast();
+        }
+        return weatherForecastFor5DayList;
+    }
 }

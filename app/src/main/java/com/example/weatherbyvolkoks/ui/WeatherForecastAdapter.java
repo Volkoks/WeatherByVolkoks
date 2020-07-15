@@ -20,7 +20,6 @@ import java.util.List;
 public class WeatherForecastAdapter extends RecyclerView.Adapter<WeatherForecastAdapter.ViewHolder> {
     private WeatherForecastSource weatherForecast5dayDatabase;
     private Activity activity;
-    private WeatherForecastDao weatherForecastDao;
 
     public WeatherForecastAdapter(WeatherForecastSource weatherForecast5dayDatabase, Activity activity) {
         this.weatherForecast5dayDatabase = weatherForecast5dayDatabase;
@@ -37,7 +36,7 @@ public class WeatherForecastAdapter extends RecyclerView.Adapter<WeatherForecast
 
     @Override
     public void onBindViewHolder(@NonNull WeatherForecastAdapter.ViewHolder holder, int position) {
-        List<WeatherForecastFor5Day> weatherForecast = weatherForecastDao.getAllWeatherForecast();
+        List<WeatherForecastFor5Day> weatherForecast = weatherForecast5dayDatabase.getWeatherForecastFor5DayList();
         WeatherForecastFor5Day weatherForecastFor5Day = weatherForecast.get(position);
         holder.dateAndMonth.setText(weatherForecastFor5Day.date);
         holder.description.setText(weatherForecastFor5Day.description);
@@ -47,7 +46,7 @@ public class WeatherForecastAdapter extends RecyclerView.Adapter<WeatherForecast
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 6;
     }
 
 

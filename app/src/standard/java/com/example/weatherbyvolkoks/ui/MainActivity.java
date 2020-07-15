@@ -22,7 +22,9 @@ import android.widget.Toast;
 import com.example.weatherbyvolkoks.BaseActivity;
 
 import com.example.weatherbyvolkoks.GetCityes;
+import com.example.weatherbyvolkoks.MyApp;
 import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.WeatherRequest5Day;
+import com.example.weatherbyvolkoks.data.dataWeatherHistoryFor5Day.WeatherForecastDao;
 import com.example.weatherbyvolkoks.data.dataWeatherHistoryFor5Day.WeatherForecastSource;
 import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeatehForecastFor5Day.ILoaderWeather5Day;
 import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeatehForecastFor5Day.LoaderWeather5day;
@@ -145,6 +147,9 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
     private void initRecyclerView() {
         RecyclerView recyclerView = findViewById(id.recyclerView);
         recyclerView.setHasFixedSize(true);
+
+        WeatherForecastDao weatherForecastDao = MyApp.getWeatherForecastDB().getWeatherForecast();
+        weatherForecastSource = new WeatherForecastSource(weatherForecastDao);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
