@@ -18,7 +18,7 @@ public interface WeatherForecastDao {
     @Delete
     void deleteWeatherHistory(WeatherForecastFor5Day weatherForecastFor5Day);
 
-    @Query("SELECT COUNT() FROM weatherForecastFor5Day")
+    @Query("SELECT * FROM weatherForecastFor5Day")
     List<WeatherForecastFor5Day> getAllWeatherForecast();
 
 }
