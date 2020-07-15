@@ -4,6 +4,9 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
+
+import java.util.List;
 
 
 @Dao
@@ -14,5 +17,8 @@ public interface WeatherForecastDao {
 
     @Delete
     void deleteWeatherHistory(WeatherForecastFor5Day weatherForecastFor5Day);
+
+    @Query("SELECT COUNT() FROM weatherForecastFor5Day")
+    List<WeatherForecastFor5Day> getAllWeatherForecast();
 
 }

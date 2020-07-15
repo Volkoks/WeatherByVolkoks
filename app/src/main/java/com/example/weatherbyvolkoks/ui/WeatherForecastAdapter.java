@@ -9,18 +9,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.example.weatherbyvolkoks.R;
-import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.WeatherRequest5Day;
-import com.example.weatherbyvolkoks.data.dataWeatherHistoryFor5Day.WeatherForecast5dayDatabase;
+import com.example.weatherbyvolkoks.data.dataWeatherHistoryFor5Day.WeatherForecastDao;
 import com.example.weatherbyvolkoks.data.dataWeatherHistoryFor5Day.WeatherForecastFor5Day;
+import com.example.weatherbyvolkoks.data.dataWeatherHistoryFor5Day.WeatherForecastSource;
 
 import java.util.List;
 
 public class WeatherForecastAdapter extends RecyclerView.Adapter<WeatherForecastAdapter.ViewHolder> {
-    private WeatherForecast5dayDatabase weatherForecast5dayDatabase;
+    private WeatherForecastSource weatherForecast5dayDatabase;
     private Activity activity;
+    private WeatherForecastDao weatherForecastDao;
 
-    public WeatherForecastAdapter(WeatherForecast5dayDatabase weatherForecast5dayDatabase, Activity activity) {
+    public WeatherForecastAdapter(WeatherForecastSource weatherForecast5dayDatabase, Activity activity) {
         this.weatherForecast5dayDatabase = weatherForecast5dayDatabase;
         this.activity = activity;
     }
@@ -35,12 +37,17 @@ public class WeatherForecastAdapter extends RecyclerView.Adapter<WeatherForecast
 
     @Override
     public void onBindViewHolder(@NonNull WeatherForecastAdapter.ViewHolder holder, int position) {
+        List<WeatherForecastFor5Day> weatherForecast = weatherForecastDao.getAllWeatherForecast();
+        WeatherForecastFor5Day weatherForecastFor5Day = weatherForecast.get(position);
+        holder.dateAndMonth.setText(weatherForecastFor5Day.date);
+        holder.description.setText(weatherForecastFor5Day.description);
+        holder.dateAndMonth.setText(weatherForecastFor5Day.temperature);
 
     }
 
     @Override
     public int getItemCount() {
-        return 6;
+        return 5;
     }
 
 

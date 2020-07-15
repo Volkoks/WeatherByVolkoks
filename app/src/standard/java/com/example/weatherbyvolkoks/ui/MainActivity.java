@@ -8,6 +8,8 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 import com.example.weatherbyvolkoks.BaseActivity;
 
 import com.example.weatherbyvolkoks.GetCityes;
+import com.example.weatherbyvolkoks.data.dataWeatherHistoryFor5Day.WeatherForecastSource;
 import com.example.weatherbyvolkoks.data.loaderWeather.loaderWeather1day.ILoaderWeather;
 import com.example.weatherbyvolkoks.data.loaderWeather.loaderWeather1day.LoaderWeather;
 
@@ -38,8 +41,10 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
 
     private final static int REQUEST_CODE = 1;
     private final static int SETTING_CODE = 2;
-    private TextView city;
 
+    private WeatherForecastSource weatherForecastSource;
+
+    private TextView city;
     private TextView temperature;
     private TextView description;
     private TextView temp_max_min;
@@ -61,6 +66,7 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
         setSupportActionBar(toolbar);
         initGUI();
         initWeatherToAPI();
+        initRecyclerView();
 
         testVisibleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,16 +137,16 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
         return;
     }
 
-//    private void initRecyclerView(WeatherRequest5Day weatherRequest) {
-//        RecyclerView recyclerView = findViewById(id.recyclerView);
-//        recyclerView.setHasFixedSize(true);
-//
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-//        recyclerView.setLayoutManager(layoutManager);
-//
-//        WeatherForecastAdapter adapter = new WeatherForecastAdapter(weatherRequest);
-//        recyclerView.setAdapter(adapter);
-//    }
+    private void initRecyclerView() {
+        RecyclerView recyclerView = findViewById(id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+
+        WeatherForecastAdapter adapter = new WeatherForecastAdapter(weatherForecastSource, this);
+        recyclerView.setAdapter(adapter);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
