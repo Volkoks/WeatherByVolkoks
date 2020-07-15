@@ -22,7 +22,10 @@ import android.widget.Toast;
 import com.example.weatherbyvolkoks.BaseActivity;
 
 import com.example.weatherbyvolkoks.GetCityes;
+import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.WeatherRequest5Day;
 import com.example.weatherbyvolkoks.data.dataWeatherHistoryFor5Day.WeatherForecastSource;
+import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeatehForecastFor5Day.ILoaderWeather5Day;
+import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeatehForecastFor5Day.LoaderWeather5day;
 import com.example.weatherbyvolkoks.data.loaderWeather.loaderWeather1day.ILoaderWeather;
 import com.example.weatherbyvolkoks.data.loaderWeather.loaderWeather1day.LoaderWeather;
 
@@ -36,7 +39,7 @@ import retrofit2.Response;
 import static com.example.weatherbyvolkoks.R.*;
 import static java.lang.String.format;
 
-public class MainActivity extends BaseActivity implements ILoaderWeather, GetCityes {
+public class MainActivity extends BaseActivity implements ILoaderWeather, GetCityes, ILoaderWeather5Day {
     private static String mainCity = "Moscow";
 
     private final static int REQUEST_CODE = 1;
@@ -80,6 +83,8 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
     private void initWeatherToAPI() {
         LoaderWeather loaderWeather = new LoaderWeather(this);
         loaderWeather.downloadWeather(mainCity);
+        LoaderWeather5day loaderWeather5day = new LoaderWeather5day(this);
+        loaderWeather5day.downloadWeather(mainCity);
     }
     private void initGUI() {
         city = findViewById(id.City);
@@ -213,6 +218,11 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
                 Picasso.get().load(drawable.severealert).into(iconWeather);
                 break;
         }
+    }
+
+    @Override
+    public void weatherLoadFor5Day(Response<WeatherRequest5Day> response) {
+
     }
 
     @Override
