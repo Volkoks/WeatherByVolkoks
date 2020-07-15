@@ -2,7 +2,10 @@ package com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeatehForecastFor5
 
 import com.example.weatherbyvolkoks.BuildConfig;
 import com.example.weatherbyvolkoks.MyApp;
+import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.ListWeather;
 import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.WeatherRequest5Day;
+import com.example.weatherbyvolkoks.data.dataWeatherHistoryFor5Day.WeatherForecastDao;
+import com.example.weatherbyvolkoks.data.dataWeatherHistoryFor5Day.WeatherForecastFor5Day;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,6 +42,22 @@ public class LoaderWeather5day {
                     public void onResponse(Call<WeatherRequest5Day> call, Response<WeatherRequest5Day> response) {
                         if (response.body() != null && response.isSuccessful()) {
                             iLoaderWeather5Day.weatherLoadFor5Day(response);
+                            WeatherForecastDao weatherForecastDao = MyApp.getWeatherForecastDB().getWeatherForecast();
+                            WeatherForecastFor5Day weatherForecastFor5Day = new WeatherForecastFor5Day();
+                            for (int i = 0; i < 5; i++) {
+                                weatherForecastFor5Day.date = response.body().getListWeathers()[i].getDt_txt();
+                                weatherForecastFor5Day.description = response.body().getListWeathers()[i].getWeather()[i].getDescription();
+                                weatherForecastFor5Day.main = response.body().getListWeathers()[i].getWeather()[i].getMain();
+                                weatherForecastFor5Day.temperature = (int) response.body().getListWeathers()[i].getMain().getTemp();
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                       weatherForecastDao.addWeatherHistory(weatherForecastFor5Day);
+                                    }
+                                }).start();
+                            }
+
+
                         }
                         if (!response.isSuccessful() && response.errorBody() != null) {
                             try {
@@ -57,7 +76,7 @@ public class LoaderWeather5day {
 
                     @Override
                     public void onFailure(Call<WeatherRequest5Day> call, Throwable t) {
-                            iLoaderWeather5Day.ADError("ERROR onFailure 5 day", t.getMessage());
+                        iLoaderWeather5Day.ADError("ERROR onFailure 5 day", t.getMessage());
                     }
                 });
 

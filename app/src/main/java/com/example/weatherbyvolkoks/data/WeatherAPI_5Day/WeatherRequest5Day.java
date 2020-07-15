@@ -17,7 +17,50 @@ public class WeatherRequest5Day {
     private float cnt;
     @SerializedName("list")
     @Expose
-    ArrayList<ListWeather> weatherArrayList = new ArrayList<ListWeather>();
+   ListWeather[] listWeathers;
+
+    public ListWeather[] getListWeathers() {
+        return listWeathers;
+    }
+
+    public void setListWeathers(ListWeather[] listWeathers) {
+        this.listWeathers = listWeathers;
+    }
+
+    public String getCod() {
+        return cod;
+    }
+
+    public void setCod(String cod) {
+        this.cod = cod;
+    }
+
+    public float getMessage() {
+        return message;
+    }
+
+    public void setMessage(float message) {
+        this.message = message;
+    }
+
+    public float getCnt() {
+        return cnt;
+    }
+
+    public void setCnt(float cnt) {
+        this.cnt = cnt;
+    }
+
+
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
     @SerializedName("city")
     @Expose
     City city;
