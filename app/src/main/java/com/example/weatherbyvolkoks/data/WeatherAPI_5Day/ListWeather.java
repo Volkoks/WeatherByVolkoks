@@ -10,6 +10,24 @@ public class ListWeather {
     @SerializedName("main")
     @Expose
     Main main;
+    @SerializedName("weather")
+    @Expose
+    Weather[] weather;
+    @SerializedName("clouds")
+    @Expose
+    Clouds clouds;
+    @SerializedName("wind")
+    @Expose
+    Wind wind;
+    @SerializedName("rain")
+    @Expose
+    Rain rain;
+    @SerializedName("sys")
+    @Expose
+    Sys sys;
+    @SerializedName("dt_txt")
+    @Expose
+    private String dt_txt;
 
     public float getDt() {
         return dt;
@@ -74,23 +92,4 @@ public class ListWeather {
     public void setDt_txt(String dt_txt) {
         this.dt_txt = dt_txt;
     }
-
-    @SerializedName("weather")
-    @Expose
-    Weather[] weather;
-    @SerializedName("clouds")
-    @Expose
-    Clouds clouds;
-    @SerializedName("wind")
-    @Expose
-    Wind wind;
-    @SerializedName("rain")
-    @Expose
-    Rain rain;
-    @SerializedName("sys")
-    @Expose
-    Sys sys;
-    @SerializedName("dt_txt")
-    @Expose
-    private String dt_txt;
 }

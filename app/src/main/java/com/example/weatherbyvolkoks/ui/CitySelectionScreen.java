@@ -76,13 +76,17 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
     private void initRecyclerView() {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(CitySelectionScreen.this, VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+
         WeatherDao educationDao = MyApp.getEducationDB().getEducationDao();
         weatherSource = new WeatherSource(educationDao);
+
         DividerItemDecoration itemDecoration = new DividerItemDecoration(CitySelectionScreen.this, LinearLayoutManager.VERTICAL);
         itemDecoration.setDrawable(getDrawable(R.drawable.separator));
+
         recyclerView.addItemDecoration(itemDecoration);
         cityHistoryAdapter = new CityHistoryAdapter(weatherSource, this);
-        recyclerView.setLayoutManager(layoutManager);
+
         recyclerView.setAdapter(cityHistoryAdapter);
     }
 
