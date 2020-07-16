@@ -26,12 +26,11 @@ import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.ListWeather;
 import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.WeatherRequest5Day;
 import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeatehForecastFor5Day.ILoaderWeather5Day;
 import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeatehForecastFor5Day.LoaderWeather5day;
-import com.example.weatherbyvolkoks.data.loaderWeather.loaderWeather1day.ILoaderWeather;
-import com.example.weatherbyvolkoks.data.loaderWeather.loaderWeather1day.LoaderWeather;
+
 
 import com.example.weatherbyvolkoks.data.Parcel;
 import com.example.weatherbyvolkoks.R;
-import com.example.weatherbyvolkoks.data.WeatherAPI_1day.WeatherRequest;
+
 import com.squareup.picasso.Picasso;
 
 import retrofit2.Response;
@@ -39,7 +38,7 @@ import retrofit2.Response;
 import static com.example.weatherbyvolkoks.R.*;
 import static java.lang.String.format;
 
-public class MainActivity extends BaseActivity implements ILoaderWeather, GetCityes, ILoaderWeather5Day {
+public class MainActivity extends BaseActivity implements GetCityes, ILoaderWeather5Day {
     private static String mainCity = "Moscow";
 
     private final static int REQUEST_CODE = 1;
@@ -78,9 +77,6 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
     }
 
     private void initWeatherToAPI() {
-        LoaderWeather loaderWeather = new LoaderWeather(this);
-        loaderWeather.downloadWeather(mainCity);
-
         LoaderWeather5day loaderWeather5day = new LoaderWeather5day(this);
         loaderWeather5day.downloadWeather(mainCity);
     }
@@ -175,31 +171,30 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
         }
     }
 
-    @SuppressLint({"DefaultLocale", "SetTextI18n"})
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override
-    public void activate(Response<WeatherRequest> response) {
-        int valueTemperature = (int) response.body().getMain().getTemp();
-        int valueTempMax = (int) response.body().getMain().getTemp_max();
-        int valueTempMin = (int) response.body().getMain().getTemp_min();
-        int valueHumidity = response.body().getMain().getHumidity();
-        int valueWind = (int) response.body().getWind().getSpeed();
-        int valuePressure = response.body().getMain().getPressure();
+    public void weatherLoadFor5Day(Response<WeatherRequest5Day> response) {
+        initAdapterAndRecyclerView(response.body().getListWeathers());
 
+        int valueTemperature = (int) response.body().getListWeathers()[0].getMain().getTemp();
+        int valueTempMax = (int) response.body().getListWeathers()[0].getMain().getTemp_max();
+        int valueTempMin = (int) response.body().getListWeathers()[0].getMain().getTemp_min();
+        int valueHumidity = response.body().getListWeathers()[0].getMain().getHumidity();
+        int valueWind = (int) response.body().getListWeathers()[0].getWind().getSpeed();
+        int valuePressure = response.body().getListWeathers()[0].getMain().getPressure();
 
-        city.setText(response.body().getName());
+        city.setText(response.body().getCity().getName());
         temperature.setText(valueTemperature + "\u2103");
-        description.setText(response.body().getWeathers()[0].getDescription());
         temp_max_min.setText(format("%d/%d" + "\u2103", valueTempMax, valueTempMin));
+        description.setText(response.body().getListWeathers()[0].getWeather()[0].getDescription());
         humidity.setText(valueHumidity + "%");
         wind.setText(valueWind + "m/s");
         pressure.setText(valuePressure + "hPa");
-
         weatherImageInit(response);
-
     }
 
-    private void weatherImageInit(Response<WeatherRequest> response) {
-        String main = response.body().getWeathers()[0].getMain();
+    private void weatherImageInit(Response<WeatherRequest5Day> response) {
+        String main = response.body().getListWeathers()[0].getWeather()[0].getMain();
         switch (main) {
             case "Clouds":
                 Picasso.get().load(drawable.overcast).into(iconWeather);
@@ -223,11 +218,6 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
                 Picasso.get().load(drawable.severealert).into(iconWeather);
                 break;
         }
-    }
-
-    @Override
-    public void weatherLoadFor5Day(Response<WeatherRequest5Day> response) {
-        initAdapterAndRecyclerView(response.body().getListWeathers());
     }
 
     @Override
