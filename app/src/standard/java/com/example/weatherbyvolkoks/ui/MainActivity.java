@@ -7,9 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,14 +22,15 @@ import android.widget.Toast;
 import com.example.weatherbyvolkoks.BaseActivity;
 
 import com.example.weatherbyvolkoks.GetCityes;
-import com.example.weatherbyvolkoks.data.loaderWeather.ILoaderWeather;
-import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeather;
+import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.ListWeather;
+import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.WeatherRequest5Day;
+import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeatehForecastFor5Day.ILoaderWeather5Day;
+import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeatehForecastFor5Day.LoaderWeather5day;
+
 
 import com.example.weatherbyvolkoks.data.Parcel;
 import com.example.weatherbyvolkoks.R;
-import com.example.weatherbyvolkoks.data.Soc.SocSourceBuilder;
-import com.example.weatherbyvolkoks.data.Soc.SocialDataSource;
-import com.example.weatherbyvolkoks.data.WeatherAPI.WeatherRequest;
+
 import com.squareup.picasso.Picasso;
 
 import retrofit2.Response;
@@ -37,13 +38,14 @@ import retrofit2.Response;
 import static com.example.weatherbyvolkoks.R.*;
 import static java.lang.String.format;
 
-public class MainActivity extends BaseActivity implements ILoaderWeather, GetCityes {
+public class MainActivity extends BaseActivity implements GetCityes, ILoaderWeather5Day {
     private static String mainCity = "Moscow";
 
     private final static int REQUEST_CODE = 1;
     private final static int SETTING_CODE = 2;
-    private TextView city;
 
+
+    private TextView city;
     private TextView temperature;
     private TextView description;
     private TextView temp_max_min;
@@ -55,18 +57,16 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
     private Button testVisibleBtn;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_main);
         Toolbar toolbar = findViewById(id.toolbar);
         setSupportActionBar(toolbar);
-        SocialDataSource sourceData = new SocSourceBuilder().setResources(getResources()).build();
         initGUI();
-        initRecyclerView(sourceData);
         initWeatherToAPI();
+
+
         testVisibleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,9 +77,10 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
     }
 
     private void initWeatherToAPI() {
-        LoaderWeather loaderWeather = new LoaderWeather(this);
-        loaderWeather.downloadWeather(mainCity);
+        LoaderWeather5day loaderWeather5day = new LoaderWeather5day(this);
+        loaderWeather5day.downloadWeather(mainCity);
     }
+
     private void initGUI() {
         city = findViewById(id.City);
         temperature = findViewById(id.Temperature);
@@ -92,13 +93,14 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
         humidity2 = findViewById(id.humidity_textView2);
         wind2 = findViewById(id.wind_textView2);
         pressure2 = findViewById(id.pressure_textView2);
-        imageHumidity =findViewById(id.humidity_imageView);
+        imageHumidity = findViewById(id.humidity_imageView);
         imageWind = findViewById(id.wind_imageView);
         imagePressure = findViewById(id.pressure_image);
         testVisibleBtn = findViewById(id.test_visible_btn);
 
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -108,7 +110,7 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
+        // Handle action bar card_view_for_weather_forecast_5_day clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
@@ -137,15 +139,19 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
         return;
     }
 
-    private void initRecyclerView(SocialDataSource data) {
+    private void initRecyclerView(WeatherForecastAdapter adapter) {
         RecyclerView recyclerView = findViewById(id.recyclerView);
         recyclerView.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
-        WeatherAdapter adapter = new WeatherAdapter(data);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void initAdapterAndRecyclerView(ListWeather[] listWeather) {
+            WeatherForecastAdapter weatherForecastAdapter = new WeatherForecastAdapter(listWeather);
+            initRecyclerView(weatherForecastAdapter);
     }
 
     @Override
@@ -161,36 +167,34 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
                 city.setText(parcel.cityName);
                 mainCity = parcel.weatherCityName;
                 initWeatherToAPI();
-
             }
         }
     }
 
-    @SuppressLint({"DefaultLocale", "SetTextI18n"})
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override
-    public void activate(Response<WeatherRequest> response) {
-        int valueTemperature = (int) response.body().getMain().getTemp();
-        int valueTempMax = (int) response.body().getMain().getTemp_max();
-        int valueTempMin = (int) response.body().getMain().getTemp_min();
-        int valueHumidity = response.body().getMain().getHumidity();
-        int valueWind = (int) response.body().getWind().getSpeed();
-        int valuePressure = response.body().getMain().getPressure();
+    public void weatherLoadFor5Day(Response<WeatherRequest5Day> response) {
+        initAdapterAndRecyclerView(response.body().getListWeathers());
 
-        city.setText(response.body().getName());
+        int valueTemperature = (int) response.body().getListWeathers()[0].getMain().getTemp();
+        int valueTempMax = (int) response.body().getListWeathers()[0].getMain().getTemp_max();
+        int valueTempMin = (int) response.body().getListWeathers()[0].getMain().getTemp_min();
+        int valueHumidity = response.body().getListWeathers()[0].getMain().getHumidity();
+        int valueWind = (int) response.body().getListWeathers()[0].getWind().getSpeed();
+        int valuePressure = response.body().getListWeathers()[0].getMain().getPressure();
+
+        city.setText(response.body().getCity().getName());
         temperature.setText(valueTemperature + "\u2103");
-        description.setText(response.body().getWeathers()[0].getDescription());
         temp_max_min.setText(format("%d/%d" + "\u2103", valueTempMax, valueTempMin));
-        humidity.setText(valueHumidity+"%");
-        wind.setText(valueWind+"m/s");
-        pressure.setText(valuePressure+"hPa");
-
-
+        description.setText(response.body().getListWeathers()[0].getWeather()[0].getDescription());
+        humidity.setText(valueHumidity + "%");
+        wind.setText(valueWind + "m/s");
+        pressure.setText(valuePressure + "hPa");
         weatherImageInit(response);
-
     }
 
-    private void weatherImageInit(Response<WeatherRequest> response) {
-        String main = response.body().getWeathers()[0].getMain();
+    private void weatherImageInit(Response<WeatherRequest5Day> response) {
+        String main = response.body().getListWeathers()[0].getWeather()[0].getMain();
         switch (main) {
             case "Clouds":
                 Picasso.get().load(drawable.overcast).into(iconWeather);
@@ -250,7 +254,7 @@ public class MainActivity extends BaseActivity implements ILoaderWeather, GetCit
         return mainCity;
     }
 
-    private void visibilityOfFAdvancedOptions(){
+    private void visibilityOfFAdvancedOptions() {
         humidity.setVisibility(View.VISIBLE);
         humidity2.setVisibility(View.VISIBLE);
         wind.setVisibility(View.VISIBLE);

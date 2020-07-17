@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import com.example.weatherbyvolkoks.BaseActivity;
 import com.example.weatherbyvolkoks.MyApp;
-import com.example.weatherbyvolkoks.data.WeatherAPI.WeatherRequest;
+import com.example.weatherbyvolkoks.data.WeatherAPI_1day.WeatherRequest;
 import com.example.weatherbyvolkoks.data.dataRoom.WeatherDao;
 import com.example.weatherbyvolkoks.data.dataRoom.WeatherSource;
-import com.example.weatherbyvolkoks.data.loaderWeather.ILoaderWeather;
-import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeather;
+import com.example.weatherbyvolkoks.data.loaderWeather.loaderWeather1day.ILoaderWeather;
+import com.example.weatherbyvolkoks.data.loaderWeather.loaderWeather1day.LoaderWeather;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -76,13 +76,17 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
     private void initRecyclerView() {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(CitySelectionScreen.this, VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+
         WeatherDao educationDao = MyApp.getEducationDB().getEducationDao();
         weatherSource = new WeatherSource(educationDao);
+
         DividerItemDecoration itemDecoration = new DividerItemDecoration(CitySelectionScreen.this, LinearLayoutManager.VERTICAL);
         itemDecoration.setDrawable(getDrawable(R.drawable.separator));
+
         recyclerView.addItemDecoration(itemDecoration);
         cityHistoryAdapter = new CityHistoryAdapter(weatherSource, this);
-        recyclerView.setLayoutManager(layoutManager);
+
         recyclerView.setAdapter(cityHistoryAdapter);
     }
 

@@ -14,6 +14,7 @@ public class MyApp extends Application {
     private static Retrofit retrofit;
     private static EducationDatabase db;
 
+
     @Override
     public void onCreate() {
         super.onCreate();

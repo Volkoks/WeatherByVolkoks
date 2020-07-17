@@ -1,8 +1,8 @@
-package com.example.weatherbyvolkoks.data.loaderWeather;
+package com.example.weatherbyvolkoks.data.loaderWeather.loaderWeather1day;
 
 import com.example.weatherbyvolkoks.BuildConfig;
 import com.example.weatherbyvolkoks.MyApp;
-import com.example.weatherbyvolkoks.data.WeatherAPI.WeatherRequest;
+import com.example.weatherbyvolkoks.data.WeatherAPI_1day.WeatherRequest;
 import com.example.weatherbyvolkoks.data.dataRoom.WeatherDao;
 import com.example.weatherbyvolkoks.data.dataRoom.HistoryCity;
 
