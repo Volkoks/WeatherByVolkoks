@@ -94,7 +94,6 @@ public class MainActivity extends BaseActivity implements GetCityes, IPresenterF
         int valueTempMax = (int) request5Day.getListWeathers()[0].getMain().getTemp_max();
         int valueTempMin = (int) request5Day.getListWeathers()[0].getMain().getTemp_min();
 
-
         city.setText(request5Day.getCity().getName());
         temperature.setText(((int) request5Day.getListWeathers()[0].getMain().getTemp()) + "\u2103");
         temp_max_min.setText(format("%d/%d" + "\u2103", valueTempMax, valueTempMin));
@@ -102,6 +101,7 @@ public class MainActivity extends BaseActivity implements GetCityes, IPresenterF
         humidity.setText(((int) request5Day.getListWeathers()[0].getMain().getHumidity()) + "%");
         wind.setText(((int) request5Day.getListWeathers()[0].getWind().getSpeed()) + "m/s");
         pressure.setText(request5Day.getListWeathers()[0].getMain().getPressure() + "hPa");
+
         presenter.weatherImageInit(request5Day, iconWeather);
         presenter.initAdapterAndRecyclerView(findViewById(id.recyclerView), request5Day.getListWeathers());
     }
