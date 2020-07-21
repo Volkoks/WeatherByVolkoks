@@ -116,7 +116,6 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
         btnChooseCityAndTemperature.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IMA_ForCityS.getCity(enterCitySelection.getText().toString());
                 Intent intent = new Intent();
                 intent.putExtra("parcel", createParcel());
                 setResult(RESULT_OK, intent);

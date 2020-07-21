@@ -8,8 +8,6 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,29 +20,25 @@ import android.widget.Toast;
 import com.example.weatherbyvolkoks.BaseActivity;
 
 import com.example.weatherbyvolkoks.GetCityes;
-import com.example.weatherbyvolkoks.data.Constants;
-import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.ListWeather;
 import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.WeatherRequest5Day;
-import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeatehForecastFor5Day.ILoaderWeather5Day;
-import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeatehForecastFor5Day.LoaderWeather5day;
 
 
 import com.example.weatherbyvolkoks.data.Parcel;
 import com.example.weatherbyvolkoks.R;
 
-import com.squareup.picasso.Picasso;
-
-import retrofit2.Response;
+import com.example.weatherbyvolkoks.presenter.IPresenterForMainAct;
+import com.example.weatherbyvolkoks.presenter.PresenterForMainActivity;
 
 import static com.example.weatherbyvolkoks.R.*;
 import static java.lang.String.format;
 
-public class MainActivity extends BaseActivity implements GetCityes, ILoaderWeather5Day {
-  private static String mainCity = "Moscow";
+public class MainActivity extends BaseActivity implements GetCityes, IPresenterForMainAct.ForView {
+    private static String mainCity = "Moscow";
 
     private final static int REQUEST_CODE = 1;
     private final static int SETTING_CODE = 2;
 
+    private PresenterForMainActivity presenter;
 
     private TextView city;
     private TextView temperature;
@@ -65,7 +59,8 @@ public class MainActivity extends BaseActivity implements GetCityes, ILoaderWeat
         Toolbar toolbar = findViewById(id.toolbar);
         setSupportActionBar(toolbar);
         initGUI();
-        initWeatherToAPI();
+        presenter = new PresenterForMainActivity(mainCity, this);
+
 
         testVisibleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,11 +69,6 @@ public class MainActivity extends BaseActivity implements GetCityes, ILoaderWeat
             }
         });
 
-    }
-
-    private void initWeatherToAPI() {
-        LoaderWeather5day loaderWeather5day = new LoaderWeather5day(this);
-        loaderWeather5day.downloadWeather(Constants.BASE_CITY);
     }
 
     private void initGUI() {
@@ -99,6 +89,23 @@ public class MainActivity extends BaseActivity implements GetCityes, ILoaderWeat
         testVisibleBtn = findViewById(id.test_visible_btn);
 
 
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void setListView(WeatherRequest5Day request5Day) {
+        int valueTempMax = (int) request5Day.getListWeathers()[0].getMain().getTemp_max();
+        int valueTempMin = (int) request5Day.getListWeathers()[0].getMain().getTemp_min();
+
+
+        city.setText(request5Day.getCity().getName());
+        temperature.setText(((int) request5Day.getListWeathers()[0].getMain().getTemp()) + "\u2103");
+        temp_max_min.setText(format("%d/%d" + "\u2103", valueTempMax, valueTempMin));
+        description.setText(request5Day.getListWeathers()[0].getWeather()[0].getDescription());
+        humidity.setText(((int) request5Day.getListWeathers()[0].getMain().getHumidity()) + "%");
+        wind.setText(((int) request5Day.getListWeathers()[0].getWind().getSpeed()) + "m/s");
+        pressure.setText(request5Day.getListWeathers()[0].getMain().getPressure() + "hPa");
+        presenter.weatherImageInit(request5Day, iconWeather);
     }
 
     @Override
@@ -124,7 +131,7 @@ public class MainActivity extends BaseActivity implements GetCityes, ILoaderWeat
                 activityTransitionIntent(CitySelectionScreen.class, REQUEST_CODE);
                 break;
             case R.id.refresh_the_weather:
-                initWeatherToAPI();
+//                initWeatherToAPI();
                 break;
             case R.id.about_app:
                 initAlertDialogAboutApp();
@@ -138,21 +145,21 @@ public class MainActivity extends BaseActivity implements GetCityes, ILoaderWeat
         startActivityForResult(intent, RequestCode);
         return;
     }
+//    private void initRecyclerView(WeatherForecastAdapter adapter) {
+//        RecyclerView recyclerView = findViewById(id.recyclerView);
+//        recyclerView.setHasFixedSize(true);
+//
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+//        recyclerView.setLayoutManager(layoutManager);
+//
+//        recyclerView.setAdapter(adapter);
+//    }
+//
+//    private void initAdapterAndRecyclerView(ListWeather[] listWeather) {
+//        WeatherForecastAdapter weatherForecastAdapter = new WeatherForecastAdapter(listWeather);
+//        initRecyclerView(weatherForecastAdapter);
 
-    private void initRecyclerView(WeatherForecastAdapter adapter) {
-        RecyclerView recyclerView = findViewById(id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-
-        recyclerView.setAdapter(adapter);
-    }
-
-    private void initAdapterAndRecyclerView(ListWeather[] listWeather) {
-        WeatherForecastAdapter weatherForecastAdapter = new WeatherForecastAdapter(listWeather);
-        initRecyclerView(weatherForecastAdapter);
-    }
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -166,73 +173,73 @@ public class MainActivity extends BaseActivity implements GetCityes, ILoaderWeat
                 assert parcel != null;
                 city.setText(parcel.cityName);
                 mainCity = parcel.weatherCityName;
-                initWeatherToAPI();
+                presenter = new PresenterForMainActivity(mainCity, this);
             }
         }
     }
+//    @SuppressLint({"SetTextI18n", "DefaultLocale"})
+//    @Override
+//    public void weatherLoadFor5Day(Response<WeatherRequest5Day> response) {
+//        initAdapterAndRecyclerView(response.body().getListWeathers());
+//
+//        int valueTemperature = (int) response.body().getListWeathers()[0].getMain().getTemp();
+//        int valueTempMax = (int) response.body().getListWeathers()[0].getMain().getTemp_max();
+//        int valueTempMin = (int) response.body().getListWeathers()[0].getMain().getTemp_min();
+//        int valueHumidity = response.body().getListWeathers()[0].getMain().getHumidity();
+//        int valueWind = (int) response.body().getListWeathers()[0].getWind().getSpeed();
+//        int valuePressure = response.body().getListWeathers()[0].getMain().getPressure();
+//
+//        city.setText(response.body().getCity().getName());
+//        temperature.setText(valueTemperature + "\u2103");
+//        temp_max_min.setText(format("%d/%d" + "\u2103", valueTempMax, valueTempMin));
+////        description.setText(response.body().getListWeathers()[0].getWeather()[0].getDescription());
+////        humidity.setText(valueHumidity + "%");
+////        wind.setText(valueWind + "m/s");
+////        pressure.setText(valuePressure + "hPa");
+////        weatherImageInit(response);
 
-    @SuppressLint({"SetTextI18n", "DefaultLocale"})
-    @Override
-    public void weatherLoadFor5Day(Response<WeatherRequest5Day> response) {
-        initAdapterAndRecyclerView(response.body().getListWeathers());
+//    }
+//    private void weatherImageInit(Response<WeatherRequest5Day> response) {
+//        String main = response.body().getListWeathers()[0].getWeather()[0].getMain();
+//        switch (main) {
+//            case "Clouds":
+//                Picasso.get().load(drawable.overcast).into(iconWeather);
+//                break;
+//            case "Rain":
+//                Picasso.get().load(drawable.showers).into(iconWeather);
+//                break;
+//            case "Snow":
+//                Picasso.get().load(drawable.snows).into(iconWeather);
+//                break;
+//            case "Clear":
+//                Picasso.get().load(drawable.cleare).into(iconWeather);
+//                break;
+//            case "Drizzle":
+//                Picasso.get().load(drawable.showersscattered).into(iconWeather);
+//                break;
+//            case "Thunderstorm":
+//                Picasso.get().load(drawable.violentstorm).into(iconWeather);
+//                break;
+//            default:
+//                Picasso.get().load(drawable.severealert).into(iconWeather);
+//                break;
+//        }
 
-        int valueTemperature = (int) response.body().getListWeathers()[0].getMain().getTemp();
-        int valueTempMax = (int) response.body().getListWeathers()[0].getMain().getTemp_max();
-        int valueTempMin = (int) response.body().getListWeathers()[0].getMain().getTemp_min();
-        int valueHumidity = response.body().getListWeathers()[0].getMain().getHumidity();
-        int valueWind = (int) response.body().getListWeathers()[0].getWind().getSpeed();
-        int valuePressure = response.body().getListWeathers()[0].getMain().getPressure();
+//    }
+//    @Override
+//    public void ADError(String title, String error) {
+//        MainActivity.this.runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+//                builder.setTitle(title)
+//                        .setMessage(error);
+//                AlertDialog alertDialog = builder.create();
+//                alertDialog.show();
+//            }
+//        });
 
-        city.setText(response.body().getCity().getName());
-        temperature.setText(valueTemperature + "\u2103");
-        temp_max_min.setText(format("%d/%d" + "\u2103", valueTempMax, valueTempMin));
-        description.setText(response.body().getListWeathers()[0].getWeather()[0].getDescription());
-        humidity.setText(valueHumidity + "%");
-        wind.setText(valueWind + "m/s");
-        pressure.setText(valuePressure + "hPa");
-        weatherImageInit(response);
-    }
-
-    private void weatherImageInit(Response<WeatherRequest5Day> response) {
-        String main = response.body().getListWeathers()[0].getWeather()[0].getMain();
-        switch (main) {
-            case "Clouds":
-                Picasso.get().load(drawable.overcast).into(iconWeather);
-                break;
-            case "Rain":
-                Picasso.get().load(drawable.showers).into(iconWeather);
-                break;
-            case "Snow":
-                Picasso.get().load(drawable.snows).into(iconWeather);
-                break;
-            case "Clear":
-                Picasso.get().load(drawable.cleare).into(iconWeather);
-                break;
-            case "Drizzle":
-                Picasso.get().load(drawable.showersscattered).into(iconWeather);
-                break;
-            case "Thunderstorm":
-                Picasso.get().load(drawable.violentstorm).into(iconWeather);
-                break;
-            default:
-                Picasso.get().load(drawable.severealert).into(iconWeather);
-                break;
-        }
-    }
-
-    @Override
-    public void ADError(String title, String error) {
-        MainActivity.this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle(title)
-                        .setMessage(error);
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-            }
-        });
-    }
+//    }
 
     private void initAlertDialogAboutApp() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
