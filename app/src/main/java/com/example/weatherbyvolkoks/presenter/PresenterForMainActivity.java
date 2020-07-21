@@ -21,10 +21,8 @@ import com.squareup.picasso.Picasso;
 import retrofit2.Response;
 
 public class PresenterForMainActivity implements ILoaderWeather5Day, IPresenterForMainAct.ForPresenter {
-    // - поля:
     private String base_city;
 
-    // - интерфейсы:
     private final IPresenterForMainAct.ForView IForView;
     private final Context context;
 

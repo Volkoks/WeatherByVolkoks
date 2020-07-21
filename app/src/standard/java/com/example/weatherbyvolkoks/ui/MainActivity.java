@@ -59,7 +59,6 @@ public class MainActivity extends BaseActivity implements GetCityes, IPresenterF
         initGUI();
         presenter = new PresenterForMainActivity(mainCity, this, this);
 
-
         testVisibleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,7 +103,7 @@ public class MainActivity extends BaseActivity implements GetCityes, IPresenterF
         wind.setText(((int) request5Day.getListWeathers()[0].getWind().getSpeed()) + "m/s");
         pressure.setText(request5Day.getListWeathers()[0].getMain().getPressure() + "hPa");
         presenter.weatherImageInit(request5Day, iconWeather);
-        presenter.initAdapterAndRecyclerView(findViewById(id.recyclerView),request5Day.getListWeathers());
+        presenter.initAdapterAndRecyclerView(findViewById(id.recyclerView), request5Day.getListWeathers());
     }
 
     @Override
@@ -130,11 +129,10 @@ public class MainActivity extends BaseActivity implements GetCityes, IPresenterF
                 activityTransitionIntent(CitySelectionScreen.class, REQUEST_CODE);
                 break;
             case R.id.refresh_the_weather:
-//                initWeatherToAPI();
+                presenter = new PresenterForMainActivity(mainCity, this, this);
                 break;
             case R.id.about_app:
                 presenter.initAlertDialogAboutApp(this);
-//                initAlertDialogAboutApp();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -161,7 +159,6 @@ public class MainActivity extends BaseActivity implements GetCityes, IPresenterF
             }
         }
     }
-
 
     @Override
     public String getCity() {

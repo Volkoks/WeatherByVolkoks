@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.ListWeather;
 import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.WeatherRequest5Day;
 
-import retrofit2.Response;
-
 public interface IPresenterForMainAct {
     interface ForView {
         void setListView(WeatherRequest5Day request5Day);
