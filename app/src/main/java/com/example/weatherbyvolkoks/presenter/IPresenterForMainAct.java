@@ -1,5 +1,6 @@
 package com.example.weatherbyvolkoks.presenter;
 
+import android.content.Context;
 import android.widget.ImageView;
 
 import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.ListWeather;
@@ -13,8 +14,7 @@ public interface IPresenterForMainAct {
     }
     interface ForPresenter{
 void weatherImageInit(WeatherRequest5Day weatherRequest5Day, ImageView iconWeather);
+        void initAlertDialogAboutApp(Context context);
     }
-    interface ForCitySelection{
-        void getCity(String city);
-    }
+
 }

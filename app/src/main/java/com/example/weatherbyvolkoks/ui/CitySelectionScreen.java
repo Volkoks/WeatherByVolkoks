@@ -47,7 +47,6 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
     private MaterialButton btnChooseCityAndTemperature;
     private WeatherSource weatherSource;
 
-    private IPresenterForMainAct.ForCitySelection IMA_ForCityS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +95,6 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
 
     private Parcel createParcel() {
         Parcel parcel = new Parcel();
-        parcel.cityName = enterCitySelection.getText().toString();
         parcel.weatherCityName = enterCitySelection.getText().toString();
         return parcel;
     }
@@ -123,7 +121,6 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
             }
         });
     }
-
 
     private View.OnKeyListener selectCityListenerMK = new View.OnKeyListener() {
         @Override

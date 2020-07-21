@@ -1,27 +1,33 @@
 package com.example.weatherbyvolkoks.presenter;
 
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.weatherbyvolkoks.R;
-import com.example.weatherbyvolkoks.data.Constants;
 import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.WeatherRequest5Day;
 import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeatehForecastFor5Day.ILoaderWeather5Day;
 import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeatehForecastFor5Day.LoaderWeather5day;
+import com.example.weatherbyvolkoks.ui.MainActivity;
 import com.squareup.picasso.Picasso;
 
 import retrofit2.Response;
 
-public class PresenterForMainActivity implements ILoaderWeather5Day, IPresenterForMainAct.ForCitySelection, IPresenterForMainAct.ForPresenter {
+public class PresenterForMainActivity implements ILoaderWeather5Day, IPresenterForMainAct.ForPresenter {
     // - поля:
     private String base_city;
 
     // - интерфейсы:
     private final IPresenterForMainAct.ForView IForView;
+    private final Context context;
 
-    public PresenterForMainActivity(String city, IPresenterForMainAct.ForView iForView) {
+    public PresenterForMainActivity(String city, IPresenterForMainAct.ForView iForView, Context context) {
         this.base_city = city;
         this.IForView = iForView;
+        this.context = context;
         initWeatherToAPI(base_city);
     }
 
@@ -65,14 +71,26 @@ public class PresenterForMainActivity implements ILoaderWeather5Day, IPresenterF
 
     }
 
+    @Override
+    public void initAlertDialogAboutApp(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(R.string.about_app)
+                .setMessage(R.string.about_app_message)
+                .setCancelable(false)
+                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(context.getApplicationContext(), "Спасибо что выбрали нас!)", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
 
     @Override
     public void ADError(String title, String error) {
 
     }
 
-    @Override
-    public void getCity(String city) {
-        base_city = city;
-    }
 }

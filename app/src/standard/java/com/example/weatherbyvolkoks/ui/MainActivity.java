@@ -59,7 +59,7 @@ public class MainActivity extends BaseActivity implements GetCityes, IPresenterF
         Toolbar toolbar = findViewById(id.toolbar);
         setSupportActionBar(toolbar);
         initGUI();
-        presenter = new PresenterForMainActivity(mainCity, this);
+        presenter = new PresenterForMainActivity(mainCity, this, this);
 
 
         testVisibleBtn.setOnClickListener(new View.OnClickListener() {
@@ -134,7 +134,8 @@ public class MainActivity extends BaseActivity implements GetCityes, IPresenterF
 //                initWeatherToAPI();
                 break;
             case R.id.about_app:
-                initAlertDialogAboutApp();
+                presenter.initAlertDialogAboutApp(this);
+//                initAlertDialogAboutApp();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -171,90 +172,12 @@ public class MainActivity extends BaseActivity implements GetCityes, IPresenterF
             if (resultCode == RESULT_OK) {
                 Parcel parcel = (Parcel) data.getSerializableExtra("parcel");
                 assert parcel != null;
-                city.setText(parcel.cityName);
                 mainCity = parcel.weatherCityName;
-                presenter = new PresenterForMainActivity(mainCity, this);
+                presenter = new PresenterForMainActivity(mainCity, this, this);
             }
         }
     }
-//    @SuppressLint({"SetTextI18n", "DefaultLocale"})
-//    @Override
-//    public void weatherLoadFor5Day(Response<WeatherRequest5Day> response) {
-//        initAdapterAndRecyclerView(response.body().getListWeathers());
-//
-//        int valueTemperature = (int) response.body().getListWeathers()[0].getMain().getTemp();
-//        int valueTempMax = (int) response.body().getListWeathers()[0].getMain().getTemp_max();
-//        int valueTempMin = (int) response.body().getListWeathers()[0].getMain().getTemp_min();
-//        int valueHumidity = response.body().getListWeathers()[0].getMain().getHumidity();
-//        int valueWind = (int) response.body().getListWeathers()[0].getWind().getSpeed();
-//        int valuePressure = response.body().getListWeathers()[0].getMain().getPressure();
-//
-//        city.setText(response.body().getCity().getName());
-//        temperature.setText(valueTemperature + "\u2103");
-//        temp_max_min.setText(format("%d/%d" + "\u2103", valueTempMax, valueTempMin));
-////        description.setText(response.body().getListWeathers()[0].getWeather()[0].getDescription());
-////        humidity.setText(valueHumidity + "%");
-////        wind.setText(valueWind + "m/s");
-////        pressure.setText(valuePressure + "hPa");
-////        weatherImageInit(response);
 
-//    }
-//    private void weatherImageInit(Response<WeatherRequest5Day> response) {
-//        String main = response.body().getListWeathers()[0].getWeather()[0].getMain();
-//        switch (main) {
-//            case "Clouds":
-//                Picasso.get().load(drawable.overcast).into(iconWeather);
-//                break;
-//            case "Rain":
-//                Picasso.get().load(drawable.showers).into(iconWeather);
-//                break;
-//            case "Snow":
-//                Picasso.get().load(drawable.snows).into(iconWeather);
-//                break;
-//            case "Clear":
-//                Picasso.get().load(drawable.cleare).into(iconWeather);
-//                break;
-//            case "Drizzle":
-//                Picasso.get().load(drawable.showersscattered).into(iconWeather);
-//                break;
-//            case "Thunderstorm":
-//                Picasso.get().load(drawable.violentstorm).into(iconWeather);
-//                break;
-//            default:
-//                Picasso.get().load(drawable.severealert).into(iconWeather);
-//                break;
-//        }
-
-//    }
-//    @Override
-//    public void ADError(String title, String error) {
-//        MainActivity.this.runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-//                builder.setTitle(title)
-//                        .setMessage(error);
-//                AlertDialog alertDialog = builder.create();
-//                alertDialog.show();
-//            }
-//        });
-
-//    }
-
-    private void initAlertDialogAboutApp() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle(string.about_app)
-                .setMessage(string.about_app_message)
-                .setCancelable(false)
-                .setPositiveButton(string.btn_ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(), "Спасибо что выбрали нас!)", Toast.LENGTH_SHORT).show();
-                    }
-                });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
 
     @Override
     public String getCity() {
