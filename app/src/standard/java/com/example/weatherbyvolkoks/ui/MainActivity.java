@@ -67,7 +67,6 @@ public class MainActivity extends BaseActivity implements GetCityes, ILoaderWeat
         initGUI();
         initWeatherToAPI();
 
-
         testVisibleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

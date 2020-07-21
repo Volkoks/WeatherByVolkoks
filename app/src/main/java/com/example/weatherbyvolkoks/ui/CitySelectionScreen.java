@@ -11,6 +11,7 @@ import com.example.weatherbyvolkoks.data.dataRoom.WeatherDao;
 import com.example.weatherbyvolkoks.data.dataRoom.WeatherSource;
 import com.example.weatherbyvolkoks.data.loaderWeather.loaderWeather1day.ILoaderWeather;
 import com.example.weatherbyvolkoks.data.loaderWeather.loaderWeather1day.LoaderWeather;
+import com.example.weatherbyvolkoks.presenter.IPresenterForMainAct;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -22,7 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
-import android.widget.TextView;
+
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -32,9 +33,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.weatherbyvolkoks.data.Constants;
 import com.example.weatherbyvolkoks.data.Parcel;
 import com.example.weatherbyvolkoks.R;
-
-
-import java.util.regex.Pattern;
 
 import retrofit2.Response;
 
@@ -48,6 +46,8 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
     private TextInputEditText enterCitySelection;
     private MaterialButton btnChooseCityAndTemperature;
     private WeatherSource weatherSource;
+
+    private IPresenterForMainAct.ForCitySelection IMA_ForCityS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +116,7 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
         btnChooseCityAndTemperature.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                IMA_ForCityS.getCity(enterCitySelection.getText().toString());
                 Intent intent = new Intent();
                 intent.putExtra("parcel", createParcel());
                 setResult(RESULT_OK, intent);
