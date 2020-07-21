@@ -57,7 +57,7 @@ public class MainActivity extends BaseActivity implements GetCityes, IPresenterF
         Toolbar toolbar = findViewById(id.toolbar);
         setSupportActionBar(toolbar);
         initGUI();
-        presenter = new PresenterForMainActivity(mainCity, this, this);
+        presenter = new PresenterForMainActivity(mainCity, this);
 
         testVisibleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +88,7 @@ public class MainActivity extends BaseActivity implements GetCityes, IPresenterF
 
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override
     public void setListView(WeatherRequest5Day request5Day) {
         int valueTempMax = (int) request5Day.getListWeathers()[0].getMain().getTemp_max();
@@ -103,7 +103,7 @@ public class MainActivity extends BaseActivity implements GetCityes, IPresenterF
         pressure.setText(request5Day.getListWeathers()[0].getMain().getPressure() + "hPa");
 
         presenter.weatherImageInit(request5Day, iconWeather);
-        presenter.initAdapterAndRecyclerView(findViewById(id.recyclerView), request5Day.getListWeathers());
+        presenter.initAdapterAndRecyclerView(this,findViewById(id.recyclerView), request5Day.getListWeathers());
     }
 
     @Override
@@ -129,7 +129,7 @@ public class MainActivity extends BaseActivity implements GetCityes, IPresenterF
                 activityTransitionIntent(CitySelectionScreen.class, REQUEST_CODE);
                 break;
             case R.id.refresh_the_weather:
-                presenter = new PresenterForMainActivity(mainCity, this, this);
+                presenter = new PresenterForMainActivity(mainCity, this);
                 break;
             case R.id.about_app:
                 presenter.initAlertDialogAboutApp(this);
@@ -155,7 +155,7 @@ public class MainActivity extends BaseActivity implements GetCityes, IPresenterF
                 Parcel parcel = (Parcel) data.getSerializableExtra("parcel");
                 assert parcel != null;
                 mainCity = parcel.weatherCityName;
-                presenter = new PresenterForMainActivity(mainCity, this, this);
+                presenter = new PresenterForMainActivity(mainCity, this);
             }
         }
     }

@@ -24,12 +24,11 @@ public class PresenterForMainActivity implements ILoaderWeather5Day, IPresenterF
     private String base_city;
 
     private final IPresenterForMainAct.ForView IForView;
-    private final Context context;
 
-    public PresenterForMainActivity(String city, IPresenterForMainAct.ForView iForView, Context context) {
+
+    public PresenterForMainActivity(String city, IPresenterForMainAct.ForView iForView) {
         this.base_city = city;
         this.IForView = iForView;
-        this.context = context;
         initWeatherToAPI(base_city);
     }
 
@@ -91,12 +90,12 @@ public class PresenterForMainActivity implements ILoaderWeather5Day, IPresenterF
     }
 
     @Override
-    public void initAdapterAndRecyclerView(RecyclerView recyclerView, ListWeather[] listWeather) {
+    public void initAdapterAndRecyclerView(Context context,RecyclerView recyclerView, ListWeather[] listWeather) {
         WeatherForecastAdapter weatherForecastAdapter = new WeatherForecastAdapter(listWeather);
-        initRecyclerView(recyclerView,weatherForecastAdapter);
+        initRecyclerView(context,recyclerView,weatherForecastAdapter);
     }
 
-    private void initRecyclerView(RecyclerView thisRecyclerView,WeatherForecastAdapter adapter) {
+    private void initRecyclerView(Context context,RecyclerView thisRecyclerView,WeatherForecastAdapter adapter) {
         RecyclerView recyclerView = thisRecyclerView;
         recyclerView.setHasFixedSize(true);
 

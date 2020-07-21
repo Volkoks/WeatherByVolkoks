@@ -16,7 +16,7 @@ public interface IPresenterForMainAct {
     interface ForPresenter {
         void weatherImageInit(WeatherRequest5Day weatherRequest5Day, ImageView iconWeather);
         void initAlertDialogAboutApp(Context context);
-        void initAdapterAndRecyclerView(RecyclerView recyclerView, ListWeather[] listWeather);
+        void initAdapterAndRecyclerView(Context context,RecyclerView recyclerView, ListWeather[] listWeather);
     }
 
 }
