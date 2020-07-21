@@ -1,10 +1,12 @@
 package com.example.weatherbyvolkoks.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,12 +22,12 @@ public class CityHistoryAdapter extends RecyclerView.Adapter<CityHistoryAdapter.
 
 
     private WeatherSource database;
-    private Activity activity;
+private Context context;
     private long menuPosition;
 
-    public CityHistoryAdapter(WeatherSource database, Activity activity) {
+    public CityHistoryAdapter(WeatherSource database, Context context) {
         this.database = database;
-        this.activity = activity;
+        this.context = context;
     }
 
 
@@ -45,16 +47,8 @@ public class CityHistoryAdapter extends RecyclerView.Adapter<CityHistoryAdapter.
         holder.cityAdd.setText(historyCity.cityName);
         holder.temp.setText(String.format(String.valueOf(historyCity.temperature)));
         holder.descrpt.setText(historyCity.description);
-        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                menuPosition = position;
-                return false;
-            }
-        });
-        if (activity != null) {
-            activity.registerForContextMenu(holder.cardView);
-        }
+
+
     }
 
     @Override
@@ -79,6 +73,7 @@ public class CityHistoryAdapter extends RecyclerView.Adapter<CityHistoryAdapter.
             cityAdd = itemView.findViewById(R.id.textView_city_add);
             temp = itemView.findViewById(R.id.temp_cardView);
             descrpt = itemView.findViewById(R.id.description_cardView);
+
         }
 
     }

@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.weatherbyvolkoks.BaseActivity;
 
 import com.example.weatherbyvolkoks.GetCityes;
+import com.example.weatherbyvolkoks.data.Constants;
 import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.ListWeather;
 import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.WeatherRequest5Day;
 import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeatehForecastFor5Day.ILoaderWeather5Day;
@@ -39,7 +40,7 @@ import static com.example.weatherbyvolkoks.R.*;
 import static java.lang.String.format;
 
 public class MainActivity extends BaseActivity implements GetCityes, ILoaderWeather5Day {
-    private static String mainCity = "Moscow";
+  private static String mainCity = "Moscow";
 
     private final static int REQUEST_CODE = 1;
     private final static int SETTING_CODE = 2;
@@ -78,7 +79,7 @@ public class MainActivity extends BaseActivity implements GetCityes, ILoaderWeat
 
     private void initWeatherToAPI() {
         LoaderWeather5day loaderWeather5day = new LoaderWeather5day(this);
-        loaderWeather5day.downloadWeather(mainCity);
+        loaderWeather5day.downloadWeather(Constants.BASE_CITY);
     }
 
     private void initGUI() {
@@ -150,8 +151,8 @@ public class MainActivity extends BaseActivity implements GetCityes, ILoaderWeat
     }
 
     private void initAdapterAndRecyclerView(ListWeather[] listWeather) {
-            WeatherForecastAdapter weatherForecastAdapter = new WeatherForecastAdapter(listWeather);
-            initRecyclerView(weatherForecastAdapter);
+        WeatherForecastAdapter weatherForecastAdapter = new WeatherForecastAdapter(listWeather);
+        initRecyclerView(weatherForecastAdapter);
     }
 
     @Override

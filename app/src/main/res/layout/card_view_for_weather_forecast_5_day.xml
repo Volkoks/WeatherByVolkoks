@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="80dp"
     android:layout_height="200dp"
-    android:backgroundTintMode="add"
+    android:backgroundTintMode="multiply"
     android:textSize="@dimen/sizeItemList"
-    app:cardBackgroundColor="#B4488C3D"
-    app:cardCornerRadius="15dp"
-    app:cardElevation="1dp"
-    app:cardPreventCornerOverlap="false"
+    android:theme="@style/AppDarkTheme"
+    app:cardBackgroundColor="#39FFFFFF"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="0dp"
     app:cardUseCompatPadding="false">
 
     <LinearLayout
@@ -23,17 +23,9 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="DateAndMonth"
+            android:textAllCaps="false"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/temperature_CV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="@string/temp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -41,7 +33,7 @@
         <ImageView
             android:id="@+id/iconWeather"
             android:layout_width="match_parent"
-            android:layout_height="90dp"
+            android:layout_height="60dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -50,12 +42,23 @@
         </ImageView>
 
         <TextView
+            android:id="@+id/temperature_CV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/temp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/description_card_5day"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="TextView"
-            android:textColor="#000A39"
             android:textSize="12sp" />
     </LinearLayout>
 

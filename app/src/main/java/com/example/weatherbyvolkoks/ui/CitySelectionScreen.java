@@ -38,11 +38,10 @@ import java.util.regex.Pattern;
 
 import retrofit2.Response;
 
-import static androidx.recyclerview.widget.LinearLayoutManager.*;
 
 public class CitySelectionScreen extends BaseActivity implements Constants, ILoaderWeather {
 
-    private String CITY = "Moscow";
+
     private CityHistoryAdapter cityHistoryAdapter;
     private RecyclerView recyclerView;
     private TextInputLayout textInputLayout;
@@ -50,16 +49,12 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
     private MaterialButton btnChooseCityAndTemperature;
     private WeatherSource weatherSource;
 
-    private Pattern checkCity = Pattern.compile("^[A-Z][a-z]{1,}$");
-    private Pattern checkCityRu = Pattern.compile("^[А-ЯЁ][а-яё]{1,}$");
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.city_selection_screen);
 
         init();
-        validateCity();
         clickToBtnBack();
         clickToBtnChooseCity();
         initWeatherToAPI();
@@ -70,12 +65,12 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
 
     private void initWeatherToAPI() {
         LoaderWeather loaderWeather = new LoaderWeather(this);
-        loaderWeather.downloadWeather(CITY);
+        loaderWeather.downloadWeather(Constants.BASE_CITY);
     }
 
     private void initRecyclerView() {
         recyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(CitySelectionScreen.this, VERTICAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(CitySelectionScreen.this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
         WeatherDao educationDao = MyApp.getEducationDB().getEducationDao();
@@ -97,26 +92,6 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
         recyclerView = findViewById(R.id.recyclerView_city_selection);
     }
 
-    private void validateCity() {
-
-        enterCitySelection.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) return;
-                TextView tv = (TextView) v;
-                String value = tv.getText().toString();
-                if (checkCity.matcher(value).matches() || checkCityRu.matcher(value).matches()) {
-                    showError(textInputLayout, null);
-                } else {
-                    showError(textInputLayout, "Город должен начинаться с заглавной буквы и быть без цифр!");
-                }
-            }
-        });
-    }
-
-    private void showError(TextInputLayout textInputLayout, String message) {
-        textInputLayout.setError(message);
-    }
 
 
     private Parcel createParcel() {
