@@ -7,11 +7,15 @@ import android.content.DialogInterface;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.weatherbyvolkoks.R;
+import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.ListWeather;
 import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.WeatherRequest5Day;
 import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeatehForecastFor5Day.ILoaderWeather5Day;
 import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeatehForecastFor5Day.LoaderWeather5day;
-import com.example.weatherbyvolkoks.ui.MainActivity;
+import com.example.weatherbyvolkoks.ui.WeatherForecastAdapter;
 import com.squareup.picasso.Picasso;
 
 import retrofit2.Response;
@@ -40,6 +44,7 @@ public class PresenterForMainActivity implements ILoaderWeather5Day, IPresenterF
     @Override
     public void weatherLoadFor5Day(Response<WeatherRequest5Day> response) {
         IForView.setListView(response.body());
+
     }
 
     @Override
@@ -85,6 +90,22 @@ public class PresenterForMainActivity implements ILoaderWeather5Day, IPresenterF
                 });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    @Override
+    public void initAdapterAndRecyclerView(RecyclerView recyclerView, ListWeather[] listWeather) {
+        WeatherForecastAdapter weatherForecastAdapter = new WeatherForecastAdapter(listWeather);
+        initRecyclerView(recyclerView,weatherForecastAdapter);
+    }
+
+    private void initRecyclerView(RecyclerView thisRecyclerView,WeatherForecastAdapter adapter) {
+        RecyclerView recyclerView = thisRecyclerView;
+        recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+
+        recyclerView.setAdapter(adapter);
     }
 
 
