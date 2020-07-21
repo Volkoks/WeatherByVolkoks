@@ -20,7 +20,7 @@ import com.squareup.picasso.Picasso;
 
 import retrofit2.Response;
 
-public class PresenterForMainActivity implements ILoaderWeather5Day, IPresenterForMainAct.ForPresenter {
+public class PresenterForMainActivity implements ILoaderWeather5Day.Loader, IPresenterForMainAct.ForPresenter {
     private String base_city;
 
     private final IPresenterForMainAct.ForView IForView;
@@ -90,12 +90,12 @@ public class PresenterForMainActivity implements ILoaderWeather5Day, IPresenterF
     }
 
     @Override
-    public void initAdapterAndRecyclerView(Context context,RecyclerView recyclerView, ListWeather[] listWeather) {
+    public void initAdapterAndRecyclerView(Context context, RecyclerView recyclerView, ListWeather[] listWeather) {
         WeatherForecastAdapter weatherForecastAdapter = new WeatherForecastAdapter(listWeather);
-        initRecyclerView(context,recyclerView,weatherForecastAdapter);
+        initRecyclerView(context, recyclerView, weatherForecastAdapter);
     }
 
-    private void initRecyclerView(Context context,RecyclerView thisRecyclerView,WeatherForecastAdapter adapter) {
+    private void initRecyclerView(Context context, RecyclerView thisRecyclerView, WeatherForecastAdapter adapter) {
         RecyclerView recyclerView = thisRecyclerView;
         recyclerView.setHasFixedSize(true);
 
@@ -104,11 +104,4 @@ public class PresenterForMainActivity implements ILoaderWeather5Day, IPresenterF
 
         recyclerView.setAdapter(adapter);
     }
-
-
-    @Override
-    public void ADError(String title, String error) {
-
-    }
-
 }
