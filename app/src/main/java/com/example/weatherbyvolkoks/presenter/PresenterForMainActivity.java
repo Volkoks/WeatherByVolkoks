@@ -86,8 +86,4 @@ public class PresenterForMainActivity implements ILoaderWeather5Day.Loader, IPre
         alertDialog.show();
     }
 
-    @Override
-    public WeatherForecastAdapter initAdapterAndRecyclerView(ListWeather[] listWeather) {
-        return new WeatherForecastAdapter(listWeather);
-    }
 }

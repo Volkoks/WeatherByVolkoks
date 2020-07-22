@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.example.weatherbyvolkoks.BaseActivity;
 
 import com.example.weatherbyvolkoks.GetCityes;
+import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.ListWeather;
 import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.WeatherRequest5Day;
 
 
@@ -63,7 +64,6 @@ public class MainActivity extends BaseActivity implements GetCityes, IPresenterF
         Toolbar toolbar = findViewById(id.toolbar);
         setSupportActionBar(toolbar);
         initGUI();
-        initRecyclerView();
         presenter = new PresenterForMainActivity(mainCity, this);
 
         testVisibleBtn.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +91,7 @@ public class MainActivity extends BaseActivity implements GetCityes, IPresenterF
         imageWind = findViewById(id.wind_imageView);
         imagePressure = findViewById(id.pressure_image);
         testVisibleBtn = findViewById(id.test_visible_btn);
+        recyclerView = findViewById(id.recyclerView);
 
 
     }
@@ -110,20 +111,21 @@ public class MainActivity extends BaseActivity implements GetCityes, IPresenterF
         pressure.setText(request5Day.getListWeathers()[0].getMain().getPressure() + "hPa");
 
         presenter.weatherImageInit(request5Day, iconWeather);
-        recyclerView.setAdapter(presenter.initAdapterAndRecyclerView(request5Day.getListWeathers()));
+        initRecyclerView(request5Day.getListWeathers());
+
     }
 
-    private void initRecyclerView() {
-        recyclerView = findViewById(id.recyclerView);
+    private void initRecyclerView(ListWeather[] listWeathers) {
         recyclerView.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, LinearLayoutManager.HORIZONTAL);
         dividerItemDecoration.setDrawable(Objects.requireNonNull(getDrawable(drawable.litle_separator)));
-
+WeatherForecastAdapter adapter = new WeatherForecastAdapter(listWeathers);
         recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
 
     }
 
