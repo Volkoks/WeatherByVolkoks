@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,6 +29,8 @@ import com.example.weatherbyvolkoks.R;
 
 import com.example.weatherbyvolkoks.presenter.IPresenterForMainAct;
 import com.example.weatherbyvolkoks.presenter.PresenterForMainActivity;
+
+import java.util.Objects;
 
 import static com.example.weatherbyvolkoks.R.*;
 import static java.lang.String.format;
@@ -115,6 +118,11 @@ public class MainActivity extends BaseActivity implements GetCityes, IPresenterF
         recyclerView.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, LinearLayoutManager.HORIZONTAL);
+        dividerItemDecoration.setDrawable(Objects.requireNonNull(getDrawable(drawable.litle_separator)));
+
+        recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setLayoutManager(layoutManager);
 
     }
