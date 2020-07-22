@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.ListWeather;
 import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.WeatherRequest5Day;
+import com.example.weatherbyvolkoks.ui.WeatherForecastAdapter;
 
 public interface IPresenterForMainAct {
     interface ForView {
@@ -16,7 +17,7 @@ public interface IPresenterForMainAct {
     interface ForPresenter {
         void weatherImageInit(WeatherRequest5Day weatherRequest5Day, ImageView iconWeather);
         void initAlertDialogAboutApp(Context context);
-        void initAdapterAndRecyclerView(Context context,RecyclerView recyclerView, ListWeather[] listWeather);
+        WeatherForecastAdapter initAdapterAndRecyclerView(ListWeather[] listWeather);
     }
 
 }

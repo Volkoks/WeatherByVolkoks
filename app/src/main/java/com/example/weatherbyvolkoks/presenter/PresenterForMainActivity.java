@@ -90,18 +90,7 @@ public class PresenterForMainActivity implements ILoaderWeather5Day.Loader, IPre
     }
 
     @Override
-    public void initAdapterAndRecyclerView(Context context, RecyclerView recyclerView, ListWeather[] listWeather) {
-        WeatherForecastAdapter weatherForecastAdapter = new WeatherForecastAdapter(listWeather);
-        initRecyclerView(context, recyclerView, weatherForecastAdapter);
-    }
-
-    private void initRecyclerView(Context context, RecyclerView thisRecyclerView, WeatherForecastAdapter adapter) {
-        RecyclerView recyclerView = thisRecyclerView;
-        recyclerView.setHasFixedSize(true);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-
-        recyclerView.setAdapter(adapter);
+    public WeatherForecastAdapter initAdapterAndRecyclerView(ListWeather[] listWeather) {
+        return new WeatherForecastAdapter(listWeather);
     }
 }

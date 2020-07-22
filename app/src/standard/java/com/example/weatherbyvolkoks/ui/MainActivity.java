@@ -1,11 +1,14 @@
 package com.example.weatherbyvolkoks.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,6 +51,7 @@ public class MainActivity extends BaseActivity implements GetCityes, IPresenterF
     private TextView pressure, pressure2;
     private ImageView imageHumidity, imageWind, imagePressure;
     private Button testVisibleBtn;
+    private RecyclerView recyclerView;
 
 
     @Override
@@ -57,6 +61,7 @@ public class MainActivity extends BaseActivity implements GetCityes, IPresenterF
         Toolbar toolbar = findViewById(id.toolbar);
         setSupportActionBar(toolbar);
         initGUI();
+        initRecyclerView();
         presenter = new PresenterForMainActivity(mainCity, this);
 
         testVisibleBtn.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +108,16 @@ public class MainActivity extends BaseActivity implements GetCityes, IPresenterF
         pressure.setText(request5Day.getListWeathers()[0].getMain().getPressure() + "hPa");
 
         presenter.weatherImageInit(request5Day, iconWeather);
-        presenter.initAdapterAndRecyclerView(this,findViewById(id.recyclerView), request5Day.getListWeathers());
+        recyclerView.setAdapter(presenter.initAdapterAndRecyclerView(request5Day.getListWeathers()));
+    }
+
+    private void initRecyclerView() {
+        recyclerView = findViewById(id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+
     }
 
     @Override
