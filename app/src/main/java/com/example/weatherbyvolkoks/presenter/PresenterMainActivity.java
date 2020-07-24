@@ -56,6 +56,5 @@ public class PresenterMainActivity implements ILoadModel.ForPresenter, IPresentM
     @Override
     public void updateWeather() {
         model.initLoadWeather(base_city);
-
     }
 }
