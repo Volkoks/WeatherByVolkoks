@@ -1,6 +1,9 @@
 package com.example.weatherbyvolkoks.ui;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -16,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.weatherbyvolkoks.BaseActivity;
@@ -28,21 +32,21 @@ import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.WeatherRequest5Day;
 import com.example.weatherbyvolkoks.data.Parcel;
 import com.example.weatherbyvolkoks.R;
 
-import com.example.weatherbyvolkoks.presenter.IPresenterForMainAct;
-import com.example.weatherbyvolkoks.presenter.PresenterForMainActivity;
+import com.example.weatherbyvolkoks.presenter.IPresentMainAct;
+import com.example.weatherbyvolkoks.presenter.PresenterMainActivity;
 
 import java.util.Objects;
 
 import static com.example.weatherbyvolkoks.R.*;
 import static java.lang.String.format;
 
-public class MainActivity extends BaseActivity implements GetCityes, IPresenterForMainAct.ForView {
+public class MainActivity extends BaseActivity implements GetCityes, IPresentMainAct.ForView {
     private static String mainCity = "Moscow";
 
     private final static int REQUEST_CODE = 1;
     private final static int SETTING_CODE = 2;
 
-    private PresenterForMainActivity presenter;
+    private PresenterMainActivity presenter;
 
     private TextView city;
     private TextView temperature;
@@ -64,7 +68,8 @@ public class MainActivity extends BaseActivity implements GetCityes, IPresenterF
         Toolbar toolbar = findViewById(id.toolbar);
         setSupportActionBar(toolbar);
         initGUI();
-        presenter = new PresenterForMainActivity(mainCity, this);
+        initRecyclerView();
+        presenter = new PresenterMainActivity(mainCity, this);
 
         testVisibleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,22 +116,23 @@ public class MainActivity extends BaseActivity implements GetCityes, IPresenterF
         pressure.setText(request5Day.getListWeathers()[0].getMain().getPressure() + "hPa");
 
         presenter.weatherImageInit(request5Day, iconWeather);
-        initRecyclerView(request5Day.getListWeathers());
-
+        initAdapterForRV(request5Day.getListWeathers());
     }
 
-    private void initRecyclerView(ListWeather[] listWeathers) {
+    private void initRecyclerView() {
         recyclerView.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, LinearLayoutManager.HORIZONTAL);
         dividerItemDecoration.setDrawable(Objects.requireNonNull(getDrawable(drawable.litle_separator)));
-WeatherForecastAdapter adapter = new WeatherForecastAdapter(listWeathers);
         recyclerView.addItemDecoration(dividerItemDecoration);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
 
+    }
+    private void initAdapterForRV(ListWeather[] listWeathers){
+        WeatherForecastAdapter adapter = new WeatherForecastAdapter(listWeathers);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -152,10 +158,10 @@ WeatherForecastAdapter adapter = new WeatherForecastAdapter(listWeathers);
                 activityTransitionIntent(CitySelectionScreen.class, REQUEST_CODE);
                 break;
             case R.id.refresh_the_weather:
-                presenter = new PresenterForMainActivity(mainCity, this);
+                presenter.updateWeather();
                 break;
             case R.id.about_app:
-                presenter.initAlertDialogAboutApp(this);
+                initAlertDialogAboutApp(this);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -178,9 +184,24 @@ WeatherForecastAdapter adapter = new WeatherForecastAdapter(listWeathers);
                 Parcel parcel = (Parcel) data.getSerializableExtra("parcel");
                 assert parcel != null;
                 mainCity = parcel.weatherCityName;
-                presenter = new PresenterForMainActivity(mainCity, this);
+                presenter = new PresenterMainActivity(mainCity, this);
             }
         }
+    }
+
+    public void initAlertDialogAboutApp(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(R.string.about_app)
+                .setMessage(R.string.about_app_message)
+                .setCancelable(false)
+                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(context.getApplicationContext(), "Спасибо что выбрали нас!)", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     @Override

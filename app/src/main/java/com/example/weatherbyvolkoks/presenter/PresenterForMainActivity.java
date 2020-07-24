@@ -8,16 +8,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.weatherbyvolkoks.R;
-import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.ListWeather;
 import com.example.weatherbyvolkoks.data.WeatherAPI_5Day.WeatherRequest5Day;
 import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeatehForecastFor5Day.ILoaderWeather5Day;
 import com.example.weatherbyvolkoks.data.loaderWeather.LoaderWeatehForecastFor5Day.LoaderWeather5day;
-import com.example.weatherbyvolkoks.ui.WeatherForecastAdapter;
+
 import com.squareup.picasso.Picasso;
 
 import retrofit2.Response;
 
-public class PresenterForMainActivity implements ILoaderWeather5Day.Loader, IPresenterForMainAct.ForPresenter {
+public class PresenterForMainActivity implements ILoaderWeather5Day.Loader, IPresenterForMainAct.ForPresenter{
     private String base_city;
 
     private final IPresenterForMainAct.ForView IForView;
