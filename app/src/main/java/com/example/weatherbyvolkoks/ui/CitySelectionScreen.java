@@ -22,7 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
-import android.widget.TextView;
+
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -32,9 +32,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.weatherbyvolkoks.data.Constants;
 import com.example.weatherbyvolkoks.data.Parcel;
 import com.example.weatherbyvolkoks.R;
-
-
-import java.util.regex.Pattern;
 
 import retrofit2.Response;
 
@@ -48,6 +45,7 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
     private TextInputEditText enterCitySelection;
     private MaterialButton btnChooseCityAndTemperature;
     private WeatherSource weatherSource;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +94,6 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
 
     private Parcel createParcel() {
         Parcel parcel = new Parcel();
-        parcel.cityName = enterCitySelection.getText().toString();
         parcel.weatherCityName = enterCitySelection.getText().toString();
         return parcel;
     }
@@ -123,7 +120,6 @@ public class CitySelectionScreen extends BaseActivity implements Constants, ILoa
             }
         });
     }
-
 
     private View.OnKeyListener selectCityListenerMK = new View.OnKeyListener() {
         @Override

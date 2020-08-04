@@ -17,10 +17,12 @@ import retrofit2.Retrofit;
 
 public class LoaderWeather5day {
     private LoaderWeatherRetrofitFor5Day loaderWeatherRetrofitFor5Day;
-    private ILoaderWeather5Day iLoaderWeather5Day;
+    private ILoaderWeather5Day.Loader iLoaderWeather5Day;
+    private ILoaderWeather5Day.Error IError;
 
-    public LoaderWeather5day(ILoaderWeather5Day iLoaderWeather5Day) {
+    public LoaderWeather5day(ILoaderWeather5Day.Loader iLoaderWeather5Day) {
         this.iLoaderWeather5Day = iLoaderWeather5Day;
+
     }
 
     public void downloadWeather(String cityName) {
@@ -45,20 +47,20 @@ public class LoaderWeather5day {
                             try {
                                 JSONObject jsonError = new JSONObject(response.errorBody().string());
                                 String error = jsonError.getString("message");
-                                iLoaderWeather5Day.ADError("Ошибка JSON 5 day", error);
+                                IError.ADError("Ошибка JSON 5 day", error);
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                                iLoaderWeather5Day.ADError("Ошибка JSON JSONException 5 day", e.getMessage());
+                                IError.ADError("Ошибка JSON JSONException 5 day", e.getMessage());
                             } catch (IOException e) {
                                 e.printStackTrace();
-                                iLoaderWeather5Day.ADError("Ошибка JSON IOException 5 day", e.getMessage());
+                                IError.ADError("Ошибка JSON IOException 5 day", e.getMessage());
                             }
                         }
                     }
 
                     @Override
                     public void onFailure(Call<WeatherRequest5Day> call, Throwable t) {
-                        iLoaderWeather5Day.ADError("ERROR onFailure 5 day", t.getMessage());
+                        IError.ADError("ERROR onFailure 5 day", t.getMessage());
                     }
                 });
 

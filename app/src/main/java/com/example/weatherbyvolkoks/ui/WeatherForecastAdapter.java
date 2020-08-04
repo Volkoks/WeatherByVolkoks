@@ -42,7 +42,11 @@ public class WeatherForecastAdapter extends RecyclerView.Adapter<WeatherForecast
         holder.dateAndMonth.setText(listWeathers[position].getDt_txt());
         holder.description.setText(listWeathers[position].getWeather()[0].getDescription());
         holder.dayOfWeek.setText(temperature + "\u2103");
-        String main = listWeathers[position].getWeather()[0].getMain();
+        initImageIcon(listWeathers[position]);
+    }
+
+    private void initImageIcon(ListWeather listWeather) {
+        String main = listWeather.getWeather()[0].getMain();
         switch (main) {
             case "Clouds":
                 Picasso.get().load(R.drawable.overcast).into(iconWeather);
